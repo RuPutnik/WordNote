@@ -1,10 +1,12 @@
 package ru.putnik.wordnote.controller;
 
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -16,7 +18,17 @@ import java.util.ResourceBundle;
  * Создано 01.08.2019 в 16:43
  */
 public class MainController extends Application implements Initializable {
+    private AddEditController addEditController=new AddEditController();
     private static Stage stage;
+
+    @FXML
+    private MenuItem addWord;
+    @FXML
+    private MenuItem editWord;
+    @FXML
+    private MenuItem addWordMenuItem;
+    @FXML
+    private MenuItem editWordMenuItem;
     @Override
     public void start(Stage primaryStage) throws Exception {
         stage=primaryStage;
@@ -37,7 +49,10 @@ public class MainController extends Application implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        addWordMenuItem.setOnAction(event -> {addEditController.addWord();});
+        editWordMenuItem.setOnAction(event -> {addEditController.editWord();});
+        addWord.setOnAction(event -> {addEditController.addWord();});
+        editWord.setOnAction(event -> {addEditController.editWord();});
     }
 
     public static void play(){
