@@ -2,9 +2,44 @@
 
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.MenuItem?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="ru.putnik.wordnote.controller.MainController"
             prefHeight="600.0" prefWidth="800.0">
-
+    <top>
+        <MenuBar>
+            <Menu text="Слова">
+                <MenuItem text="Добавить слово"/>
+                <MenuItem text="Удалить слово"/>
+                <MenuItem text="Редактировать слово"/>
+                <MenuItem text="Добавить группу"/>
+                <MenuItem text="Удалить группу"/>
+                <MenuItem text="Редактировать группу"/>
+            </Menu>
+            <Menu text="Тренировка">
+                <MenuItem text="Запустить"/>
+                <MenuItem text="На время"/>
+            </Menu>
+            <Menu text="Настройка">
+                <MenuItem text="Настройки приложения"/>
+            </Menu>
+            <Menu text="Выход">
+                <MenuItem text="Выйти"/>
+            </Menu>
+        </MenuBar>
+    </top>
+    <center>
+        <TableView>
+            <columns>
+                <TableColumn text="Слово"/><!--Добавить далее формат "Язык 1: " далее название языка, который будет указываться при создании словаря-->
+                <TableColumn text="Перевод"/><!--Добавить далее формат "Язык 2: " далее название языка, который будет указываться при создании словаря-->
+                <TableColumn text="Группа"/>
+            </columns>
+        </TableView>
+    </center>
 </BorderPane>
