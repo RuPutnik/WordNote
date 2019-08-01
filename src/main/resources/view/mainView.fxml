@@ -16,18 +16,16 @@
         <MenuBar>
             <Menu text="Слова">
                 <MenuItem text="Добавить слово" fx:id="addWordMenuItem"/>
-                <MenuItem text="Удалить слово" />
+                <MenuItem text="Удалить слово" fx:id="deleteWordMenuItem"/>
                 <MenuItem text="Редактировать слово" fx:id="editWordMenuItem"/>
-                <MenuItem text="Добавить группу"/>
-                <MenuItem text="Удалить группу"/>
-                <MenuItem text="Редактировать группу"/>
+                <MenuItem text="Управление группами" fx:id="manageGroupsMenuItem"/>
             </Menu>
             <Menu text="Тренировка">
-                <MenuItem text="Запустить"/>
+                <MenuItem text="Стандартная"/>
                 <MenuItem text="На время"/>
             </Menu>
             <Menu text="Настройка">
-                <MenuItem text="Настройки приложения"/>
+                <MenuItem text="Настройки приложения" fx:id="settingsMenuItem"/>
             </Menu>
             <Menu text="Выход">
                 <MenuItem text="Выйти"/>

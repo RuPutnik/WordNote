@@ -19,6 +19,8 @@ import java.util.ResourceBundle;
  */
 public class MainController extends Application implements Initializable {
     private AddEditController addEditController=new AddEditController();
+    private GroupManagerController groupManagerController=new GroupManagerController();
+    private SettingController settingController=new SettingController();
     private static Stage stage;
 
     @FXML
@@ -29,6 +31,12 @@ public class MainController extends Application implements Initializable {
     private MenuItem addWordMenuItem;
     @FXML
     private MenuItem editWordMenuItem;
+    @FXML
+    private MenuItem deleteWordMenuItem;
+    @FXML
+    private MenuItem manageGroupsMenuItem;
+    @FXML
+    private MenuItem settingsMenuItem;
     @Override
     public void start(Stage primaryStage) throws Exception {
         stage=primaryStage;
@@ -51,6 +59,8 @@ public class MainController extends Application implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         addWordMenuItem.setOnAction(event -> {addEditController.addWord();});
         editWordMenuItem.setOnAction(event -> {addEditController.editWord();});
+        manageGroupsMenuItem.setOnAction(event -> {groupManagerController.createWindow();});
+        settingsMenuItem.setOnAction(event -> {settingController.createWindow();});
         addWord.setOnAction(event -> {addEditController.addWord();});
         editWord.setOnAction(event -> {addEditController.editWord();});
     }

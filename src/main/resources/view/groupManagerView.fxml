@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<?import javafx.geometry.Insets?>
+<VBox prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ru.putnik.wordnote.controller.GroupManagerController" spacing="10" alignment="CENTER">
+   <children>
+      <ListView prefHeight="240.0" prefWidth="200.0" />
+      <HBox prefHeight="100.0" prefWidth="200.0" spacing="10" alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" text="Создать" />
+            <Button mnemonicParsing="false" text="Изменить" />
+            <Button mnemonicParsing="false" text="Удалить" />
+            <Button mnemonicParsing="false" text="Сохранить" />
+            <Button mnemonicParsing="false" text="Отмена" />
+         </children>
+      </HBox>
+   </children>
+    <padding>
+        <Insets bottom="5" left="10" right="10" top="5" />
+    </padding>
+</VBox>
