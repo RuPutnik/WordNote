@@ -1,15 +1,19 @@
 package ru.putnik.wordnote.controller;
 
 import javafx.application.Application;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import ru.putnik.wordnote.model.MainModel;
 import ru.putnik.wordnote.pojo.Word;
 
@@ -23,7 +27,7 @@ import java.util.ResourceBundle;
 public class MainController extends Application implements Initializable {
     private MainModel mainModel=new MainModel();
 
-    private AddEditController addEditController=new AddEditController(mainModel.getWordList());
+    private AddEditController addEditController=new AddEditController(this);
     private GroupManagerController groupManagerController=new GroupManagerController();
     private SettingController settingController=new SettingController();
 
@@ -72,11 +76,24 @@ public class MainController extends Application implements Initializable {
         addWord.setOnAction(event -> {addEditController.addWord();});
         editWord.setOnAction(event -> {addEditController.editWord();});
 
+        wordTable.getColumns().get(0).setCellValueFactory(value->{
+            return new SimpleObjectProperty(value.getValue().getWord());
+        });
+        wordTable.getColumns().get(1).setCellValueFactory(value->{
+                return new SimpleObjectProperty(value.getValue().getTranslate());
+        });
+        wordTable.getColumns().get(2).setCellValueFactory(value->{
+                return new SimpleObjectProperty(value.getValue().getGroup());
+        });
         mainModel.openWordBook("");
         wordTable.setItems(mainModel.getWordList());
     }
 
     public static void play(){
         launch();
+    }
+
+    public MainModel getMainModel() {
+        return mainModel;
     }
 }

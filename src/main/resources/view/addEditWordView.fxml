@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" prefHeight="200.0" prefWidth="300.0" spacing="10" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.putnik.wordnote.controller.AddEditController">
+<VBox alignment="CENTER" prefHeight="200.0" prefWidth="300.0" spacing="10" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="ru.putnik.wordnote.controller.AddEditController">
    <children>
       <Label fx:id="typeOperationLabel" prefHeight="17.0" prefWidth="250.0" alignment="CENTER" />
        <GridPane hgap="10" vgap="10">
@@ -29,7 +29,7 @@
            <Label text="Перевод" GridPane.columnIndex="0" GridPane.rowIndex="1" />
            <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="translateTextField"/>
            <Label text="Группа" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-           <ComboBox promptText="Название группы" GridPane.columnIndex="1" GridPane.rowIndex="2" fx:id="groupTextField"/>
+           <ComboBox promptText="Название группы" GridPane.columnIndex="1" GridPane.rowIndex="2" fx:id="groupComboBox"/>
        </GridPane>
       <HBox alignment="CENTER" prefHeight="88.0" prefWidth="300.0" spacing="20">
          <children>

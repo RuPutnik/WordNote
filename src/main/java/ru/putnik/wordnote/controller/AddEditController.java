@@ -7,7 +7,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import ru.putnik.wordnote.pojo.Word;
@@ -23,16 +25,23 @@ import java.util.ResourceBundle;
 public class AddEditController implements Initializable {
     private static Stage stage;
     private static String typeOperation;
-    private ObservableList<Word> list;
+    private static MainController mainController;
 
     @FXML
     private Label typeOperationLabel;
     @FXML
     private Button saveWordButton;
+    @FXML
+    private TextField wordTextField;
+    @FXML
+    private TextField translateTextField;
+    @FXML
+    private ComboBox<String> groupComboBox;
 
-    public AddEditController(ObservableList<Word> wordObservableList){
-        list=wordObservableList;
+    public AddEditController(MainController controller){
+        mainController=controller;
     }
+    public AddEditController(){}
 
     private void createWindow(){
         stage=new Stage();
@@ -68,7 +77,12 @@ public class AddEditController implements Initializable {
         typeOperationLabel.setText(typeOperation);
 
         saveWordButton.setOnAction(event -> {
+            if(typeOperation.equals("Добавить новое слово")){
+                System.out.println(wordTextField.getText());
+                mainController.getMainModel().addWord(new Word(wordTextField.getText(),translateTextField.getText(),groupComboBox.getValue()));
+            }else{
 
+            }
         });
     }
 }
