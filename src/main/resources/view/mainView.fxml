@@ -1,43 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
-
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.MenuItem?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ContextMenu?>
-<BorderPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="ru.putnik.wordnote.controller.MainController"
-            prefHeight="600.0" prefWidth="800.0">
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.putnik.wordnote.controller.MainController">
     <top>
         <MenuBar>
             <Menu text="Слова">
-                <MenuItem text="Добавить слово" fx:id="addWordMenuItem"/>
-                <MenuItem text="Удалить слово" fx:id="deleteWordMenuItem"/>
-                <MenuItem text="Редактировать слово" fx:id="editWordMenuItem"/>
-                <MenuItem text="Управление группами" fx:id="manageGroupsMenuItem"/>
+                <MenuItem fx:id="addWordMenuItem" text="Добавить слово" />
+                <MenuItem fx:id="deleteWordMenuItem" text="Удалить слово" />
+                <MenuItem fx:id="editWordMenuItem" text="Редактировать слово" />
+                <MenuItem fx:id="manageGroupsMenuItem" text="Управление группами" />
             </Menu>
             <Menu text="Тренировка">
-                <MenuItem text="Стандартная"/>
-                <MenuItem text="На время"/>
+                <MenuItem text="Стандартная" />
+                <MenuItem text="На время" />
             </Menu>
             <Menu text="Настройка">
-                <MenuItem text="Настройки приложения" fx:id="settingsMenuItem"/>
+                <MenuItem fx:id="settingsMenuItem" text="Настройки приложения" />
             </Menu>
             <Menu text="Выход">
-                <MenuItem text="Выйти"/>
+                <MenuItem text="Выйти" />
             </Menu>
         </MenuBar>
     </top>
     <center>
-        <TableView fx:id="wordTable">
+        <VBox>
+        <TableView fx:id="wordTable" prefHeight="561.0" prefWidth="780.0">
             <columns>
-                <TableColumn text="Слово"/><!--Добавить далее формат "Язык 1: " далее название языка, который будет указываться при создании словаря-->
-                <TableColumn text="Перевод"/><!--Добавить далее формат "Язык 2: " далее название языка, который будет указываться при создании словаря-->
-                <TableColumn text="Группа"/>
+                <TableColumn fx:id="indexColumn" text="Номер" />
+                <TableColumn fx:id="wordColumn" text="Слово" /><!--Добавить далее формат "Язык 1: " далее название языка, который будет указываться при создании словаря-->
+                <TableColumn fx:id="translateColumn" text="Перевод" /><!--Добавить далее формат "Язык 2: " далее название языка, который будет указываться при создании словаря-->
+                <TableColumn fx:id="groupColumn" text="Группа" />
             </columns>
             <contextMenu>
                 <ContextMenu>
@@ -49,5 +50,10 @@
                 </ContextMenu>
             </contextMenu>
         </TableView>
+            <padding>
+                <Insets bottom="5" left="10" right="10" top="5"/>
+            </padding>
+        </VBox>
     </center>
+
 </BorderPane>

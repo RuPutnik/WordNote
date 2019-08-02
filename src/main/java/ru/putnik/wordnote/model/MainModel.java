@@ -16,6 +16,7 @@ public class MainModel {
 
     public void addWord(Word word){
        // if(){//проверка что такое слово с таким же переводом уже есть
+        //TODO
          wordList.add(word);
         //}else{
 

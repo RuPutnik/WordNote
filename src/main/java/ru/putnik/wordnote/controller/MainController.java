@@ -25,11 +25,12 @@ import java.util.ResourceBundle;
  * Создано 01.08.2019 в 16:43
  */
 public class MainController extends Application implements Initializable {
+
     private MainModel mainModel=new MainModel();
 
     private AddEditController addEditController=new AddEditController(this);
-    private GroupManagerController groupManagerController=new GroupManagerController();
-    private SettingController settingController=new SettingController();
+    private GroupManagerController groupManagerController=new GroupManagerController(this);
+    private SettingController settingController=new SettingController(this);
 
     private static Stage stage;
 
@@ -49,6 +50,14 @@ public class MainController extends Application implements Initializable {
     private MenuItem settingsMenuItem;
     @FXML
     private TableView<Word> wordTable;
+    @FXML
+    public TableColumn<Word,Integer> indexColumn;
+    @FXML
+    public TableColumn<Word,String> wordColumn;
+    @FXML
+    public TableColumn<Word,String>  translateColumn;
+    @FXML
+    public TableColumn<Word,String>  groupColumn;
     @Override
     public void start(Stage primaryStage) throws Exception {
         stage=primaryStage;
@@ -67,25 +76,39 @@ public class MainController extends Application implements Initializable {
         primaryStage.show();
     }
 
+    @FXML
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         addWordMenuItem.setOnAction(event -> {addEditController.addWord();});
-        editWordMenuItem.setOnAction(event -> {addEditController.editWord();});
+        editWordMenuItem.setOnAction(event -> {addEditController.editWord(wordTable.getSelectionModel().getSelectedIndex());});
+        deleteWordMenuItem.setOnAction(event -> {
+            int index=wordTable.getSelectionModel().getSelectedIndex();
+            if(index!=-1) {
+                mainModel.getWordList().remove(wordTable.getSelectionModel().getSelectedIndex());
+            }else{
+                //TODO
+                //Сообщить что слово не выбрано
+            }
+        });
         manageGroupsMenuItem.setOnAction(event -> {groupManagerController.createWindow();});
         settingsMenuItem.setOnAction(event -> {settingController.createWindow();});
         addWord.setOnAction(event -> {addEditController.addWord();});
-        editWord.setOnAction(event -> {addEditController.editWord();});
+        editWord.setOnAction(event -> {addEditController.editWord(wordTable.getSelectionModel().getSelectedIndex());});
+        deleteWordMenuItem.setOnAction(event -> {
+            int index=wordTable.getSelectionModel().getSelectedIndex();
+            if(index!=-1) {
+                mainModel.getWordList().remove(wordTable.getSelectionModel().getSelectedIndex());
+            }else{
+                //TODO
+                //Сообщить что слово не выбрано
+            }
+        });
 
-        wordTable.getColumns().get(0).setCellValueFactory(value->{
-            return new SimpleObjectProperty(value.getValue().getWord());
-        });
-        wordTable.getColumns().get(1).setCellValueFactory(value->{
-                return new SimpleObjectProperty(value.getValue().getTranslate());
-        });
-        wordTable.getColumns().get(2).setCellValueFactory(value->{
-                return new SimpleObjectProperty(value.getValue().getGroup());
-        });
-        mainModel.openWordBook("");
+        indexColumn.setCellValueFactory(value-> new SimpleObjectProperty<>(mainModel.getWordList().toArray().length));
+        wordColumn.setCellValueFactory(value-> new SimpleObjectProperty<>(value.getValue().getWord()));
+        translateColumn.setCellValueFactory(value-> new SimpleObjectProperty<>(value.getValue().getTranslate()));
+        groupColumn.setCellValueFactory(value-> new SimpleObjectProperty<>(value.getValue().getGroup()));
+        mainModel.openWordBook("");//TODO
         wordTable.setItems(mainModel.getWordList());
     }
 
@@ -95,5 +118,9 @@ public class MainController extends Application implements Initializable {
 
     public MainModel getMainModel() {
         return mainModel;
+    }
+
+    public Stage getStage() {
+        return stage;
     }
 }

@@ -5,6 +5,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -17,6 +18,12 @@ import java.util.ResourceBundle;
  */
 public class GroupManagerController implements Initializable {
     private static Stage stage;
+    private static MainController mainController;
+
+    public GroupManagerController(MainController controller){
+        mainController=controller;
+    }
+    public GroupManagerController(){}
     public void createWindow(){
         stage=new Stage();
         Parent parent;
@@ -36,6 +43,8 @@ public class GroupManagerController implements Initializable {
         stage.setTitle("Word Note");
         stage.setWidth(430);
         stage.setHeight(330);
+        stage.initOwner(mainController.getStage());
+        stage.initModality(Modality.WINDOW_MODAL);
         stage.show();
     }
     @Override

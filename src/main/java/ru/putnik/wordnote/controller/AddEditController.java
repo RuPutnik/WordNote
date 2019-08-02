@@ -11,6 +11,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ru.putnik.wordnote.pojo.Word;
 
@@ -25,12 +26,15 @@ import java.util.ResourceBundle;
 public class AddEditController implements Initializable {
     private static Stage stage;
     private static String typeOperation;
+    private static int indexWord=-1;
     private static MainController mainController;
 
     @FXML
     private Label typeOperationLabel;
     @FXML
-    private Button saveWordButton;
+    private Button addEditWordButton;
+    @FXML
+    private Button exitButton;
     @FXML
     private TextField wordTextField;
     @FXML
@@ -62,27 +66,48 @@ public class AddEditController implements Initializable {
         stage.setTitle("Word Note");
         stage.setWidth(330);
         stage.setHeight(230);
+        stage.initOwner(mainController.getStage());
+        stage.initModality(Modality.WINDOW_MODAL);
         stage.show();
     }
     public void addWord(){
         typeOperation="Добавить новое слово";
         createWindow();
     }
-    public void editWord(){
-        typeOperation="Редактировать слово";
-        createWindow();
+    public void editWord(int index){
+        if(index!=-1) {
+            typeOperation = "Редактировать слово";
+            indexWord = index;
+            createWindow();
+        }else{
+            //сообщаить, что слово не выбрано
+            //TODO
+        }
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         typeOperationLabel.setText(typeOperation);
 
-        saveWordButton.setOnAction(event -> {
-            if(typeOperation.equals("Добавить новое слово")){
-                System.out.println(wordTextField.getText());
-                mainController.getMainModel().addWord(new Word(wordTextField.getText(),translateTextField.getText(),groupComboBox.getValue()));
-            }else{
+        if(typeOperation.equals("Редактировать слово")){
+            addEditWordButton.setText("Сохранить");
+            Word word=mainController.getMainModel().getWordList().get(indexWord);
+            wordTextField.setText(word.getWord());
+            translateTextField.setText(word.getTranslate());
+            groupComboBox.setPromptText(word.getGroup());
+        }
+        if(typeOperation.equals("Добавить новое слово")){
+            addEditWordButton.setText("Добавить");
+        }
 
+        addEditWordButton.setOnAction(event -> {
+            if(typeOperation.equals("Добавить новое слово")){
+                mainController.getMainModel().addWord(new Word(wordTextField.getText(),translateTextField.getText(),groupComboBox.getValue()));
+            }else if(typeOperation.equals("Редактировать слово")){
+                mainController.getMainModel().editWord(indexWord,new Word(wordTextField.getText(),translateTextField.getText(),groupComboBox.getValue()));
             }
+        });
+        exitButton.setOnAction(event -> {
+            stage.close();
         });
     }
 }
