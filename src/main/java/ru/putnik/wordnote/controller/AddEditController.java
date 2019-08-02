@@ -1,13 +1,16 @@
 package ru.putnik.wordnote.controller;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import ru.putnik.wordnote.pojo.Word;
 
 import java.io.IOException;
 import java.net.URL;
@@ -20,9 +23,17 @@ import java.util.ResourceBundle;
 public class AddEditController implements Initializable {
     private static Stage stage;
     private static String typeOperation;
+    private ObservableList<Word> list;
 
     @FXML
     private Label typeOperationLabel;
+    @FXML
+    private Button saveWordButton;
+
+    public AddEditController(ObservableList<Word> wordObservableList){
+        list=wordObservableList;
+    }
+
     private void createWindow(){
         stage=new Stage();
         Parent parent;
@@ -55,5 +66,9 @@ public class AddEditController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         typeOperationLabel.setText(typeOperation);
+
+        saveWordButton.setOnAction(event -> {
+
+        });
     }
 }

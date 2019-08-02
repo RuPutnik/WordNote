@@ -1,9 +1,11 @@
 package ru.putnik.wordnote.controller;
 
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -17,6 +19,8 @@ import java.util.ResourceBundle;
  */
 public class SettingController implements Initializable {
     private static Stage stage;
+
+
     public void createWindow(){
         stage=new Stage();
         Parent parent;

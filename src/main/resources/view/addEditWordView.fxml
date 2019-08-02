@@ -25,15 +25,15 @@
                <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
            </rowConstraints>
            <Label text="Слово" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-           <TextField GridPane.columnIndex="1" GridPane.rowIndex="0" />
+           <TextField GridPane.columnIndex="1" GridPane.rowIndex="0" fx:id="wordTextField"/>
            <Label text="Перевод" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-           <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-           <Label text="Группа" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-           <ComboBox promptText="Название группы" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+           <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="translateTextField"/>
+           <Label text="Группа" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+           <ComboBox promptText="Название группы" GridPane.columnIndex="1" GridPane.rowIndex="2" fx:id="groupTextField"/>
        </GridPane>
       <HBox alignment="CENTER" prefHeight="88.0" prefWidth="300.0" spacing="20">
          <children>
-            <Button mnemonicParsing="false" text="Сохранить" />
+            <Button mnemonicParsing="false" text="Сохранить" fx:id="saveWordButton"/>
             <Button mnemonicParsing="false" text="Отмена" />
          </children>
       </HBox>

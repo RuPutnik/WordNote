@@ -7,8 +7,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import ru.putnik.wordnote.model.MainModel;
+import ru.putnik.wordnote.pojo.Word;
 
 import java.net.URL;
 import java.util.Objects;
@@ -18,9 +21,12 @@ import java.util.ResourceBundle;
  * Создано 01.08.2019 в 16:43
  */
 public class MainController extends Application implements Initializable {
-    private AddEditController addEditController=new AddEditController();
+    private MainModel mainModel=new MainModel();
+
+    private AddEditController addEditController=new AddEditController(mainModel.getWordList());
     private GroupManagerController groupManagerController=new GroupManagerController();
     private SettingController settingController=new SettingController();
+
     private static Stage stage;
 
     @FXML
@@ -37,6 +43,8 @@ public class MainController extends Application implements Initializable {
     private MenuItem manageGroupsMenuItem;
     @FXML
     private MenuItem settingsMenuItem;
+    @FXML
+    private TableView<Word> wordTable;
     @Override
     public void start(Stage primaryStage) throws Exception {
         stage=primaryStage;
@@ -63,6 +71,9 @@ public class MainController extends Application implements Initializable {
         settingsMenuItem.setOnAction(event -> {settingController.createWindow();});
         addWord.setOnAction(event -> {addEditController.addWord();});
         editWord.setOnAction(event -> {addEditController.editWord();});
+
+        mainModel.openWordBook("");
+        wordTable.setItems(mainModel.getWordList());
     }
 
     public static void play(){
