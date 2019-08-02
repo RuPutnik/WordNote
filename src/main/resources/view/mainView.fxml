@@ -7,12 +7,14 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.putnik.wordnote.controller.MainController">
-    <top>
+<VBox prefHeight="600.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.putnik.wordnote.controller.MainController">
         <MenuBar>
+            <Menu text="Словарь">
+                <MenuItem fx:id="createWordbook" text="Создать словарь" />
+                <MenuItem fx:id="openWordbook" text="Открыть словарь" />
+            </Menu>
             <Menu text="Слова">
                 <MenuItem fx:id="addWordMenuItem" text="Добавить слово" />
                 <MenuItem fx:id="deleteWordMenuItem" text="Удалить слово" />
@@ -23,17 +25,15 @@
                 <MenuItem text="Стандартная" />
                 <MenuItem text="На время" />
             </Menu>
-            <Menu text="Настройка">
+            <Menu text="Настройки">
                 <MenuItem fx:id="settingsMenuItem" text="Настройки приложения" />
             </Menu>
             <Menu text="Выход">
-                <MenuItem text="Выйти" />
+                <MenuItem text="Выйти" fx:id="exitMenuItem"/>
             </Menu>
         </MenuBar>
-    </top>
-    <center>
-        <VBox>
-        <TableView fx:id="wordTable" prefHeight="561.0" prefWidth="780.0">
+
+        <TableView fx:id="wordTable" prefHeight="5000.0">
             <columns>
                 <TableColumn fx:id="indexColumn" text="Номер" />
                 <TableColumn fx:id="wordColumn" text="Слово" /><!--Добавить далее формат "Язык 1: " далее название языка, который будет указываться при создании словаря-->
@@ -49,11 +49,10 @@
                     </items>
                 </ContextMenu>
             </contextMenu>
+            <VBox.margin>
+                <Insets bottom="5" left="10" right="10" top="5" />
+            </VBox.margin>
         </TableView>
-            <padding>
-                <Insets bottom="5" left="10" right="10" top="5"/>
-            </padding>
-        </VBox>
-    </center>
 
-</BorderPane>
+
+</VBox>

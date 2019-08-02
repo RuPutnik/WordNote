@@ -12,11 +12,13 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import ru.putnik.wordnote.model.MainModel;
 import ru.putnik.wordnote.pojo.Word;
 
+import java.io.File;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -25,6 +27,7 @@ import java.util.ResourceBundle;
  * Создано 01.08.2019 в 16:43
  */
 public class MainController extends Application implements Initializable {
+
 
     private MainModel mainModel=new MainModel();
 
@@ -39,6 +42,12 @@ public class MainController extends Application implements Initializable {
     @FXML
     private MenuItem editWord;
     @FXML
+    private MenuItem createWordbook;
+    @FXML
+    public MenuItem openWordbook;
+    @FXML
+    private MenuItem deleteWord;
+    @FXML
     private MenuItem addWordMenuItem;
     @FXML
     private MenuItem editWordMenuItem;
@@ -49,15 +58,17 @@ public class MainController extends Application implements Initializable {
     @FXML
     private MenuItem settingsMenuItem;
     @FXML
+    private MenuItem exitMenuItem;
+    @FXML
     private TableView<Word> wordTable;
     @FXML
-    public TableColumn<Word,Integer> indexColumn;
+    private TableColumn<Word,Integer> indexColumn;
     @FXML
-    public TableColumn<Word,String> wordColumn;
+    private TableColumn<Word,String> wordColumn;
     @FXML
-    public TableColumn<Word,String>  translateColumn;
+    private TableColumn<Word,String> translateColumn;
     @FXML
-    public TableColumn<Word,String>  groupColumn;
+    private TableColumn<Word,String> groupColumn;
     @Override
     public void start(Stage primaryStage) throws Exception {
         stage=primaryStage;
@@ -71,7 +82,7 @@ public class MainController extends Application implements Initializable {
         }
         primaryStage.setResizable(true);
         primaryStage.setTitle("Word Note");
-        primaryStage.setWidth(830);
+        primaryStage.setWidth(730);
         primaryStage.setHeight(630);
         primaryStage.show();
     }
@@ -79,37 +90,81 @@ public class MainController extends Application implements Initializable {
     @FXML
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        addWordMenuItem.setOnAction(event -> {addEditController.addWord();});
+        addWordMenuItem.setOnAction(event -> {
+            addEditController.addWord();
+            if(mainModel.getWordList().size()>0){
+                deleteWord.setDisable(false);
+                editWord.setDisable(false);
+            }
+        });
         editWordMenuItem.setOnAction(event -> {addEditController.editWord(wordTable.getSelectionModel().getSelectedIndex());});
         deleteWordMenuItem.setOnAction(event -> {
             int index=wordTable.getSelectionModel().getSelectedIndex();
             if(index!=-1) {
-                mainModel.getWordList().remove(wordTable.getSelectionModel().getSelectedIndex());
+                mainModel.deleteWord(index);
             }else{
-                //TODO
-                //Сообщить что слово не выбрано
+                //TODO Сообщить что слово не выбрано
+            }
+            if(mainModel.getWordList().size()==0){
+                deleteWord.setDisable(true);
+                editWord.setDisable(true);
             }
         });
         manageGroupsMenuItem.setOnAction(event -> {groupManagerController.createWindow();});
         settingsMenuItem.setOnAction(event -> {settingController.createWindow();});
-        addWord.setOnAction(event -> {addEditController.addWord();});
-        editWord.setOnAction(event -> {addEditController.editWord(wordTable.getSelectionModel().getSelectedIndex());});
-        deleteWordMenuItem.setOnAction(event -> {
-            int index=wordTable.getSelectionModel().getSelectedIndex();
-            if(index!=-1) {
-                mainModel.getWordList().remove(wordTable.getSelectionModel().getSelectedIndex());
-            }else{
-                //TODO
-                //Сообщить что слово не выбрано
-            }
+        addWord.setOnAction(event -> {addWordMenuItem.fire();});
+        editWord.setOnAction(event -> {editWordMenuItem.fire();});
+        deleteWord.setOnAction(event -> {
+            deleteWordMenuItem.fire();
         });
 
-        indexColumn.setCellValueFactory(value-> new SimpleObjectProperty<>(mainModel.getWordList().toArray().length));
+        indexColumn.setCellValueFactory(value-> new SimpleObjectProperty<>(wordTable.getItems().indexOf(value.getValue())+1));
         wordColumn.setCellValueFactory(value-> new SimpleObjectProperty<>(value.getValue().getWord()));
         translateColumn.setCellValueFactory(value-> new SimpleObjectProperty<>(value.getValue().getTranslate()));
         groupColumn.setCellValueFactory(value-> new SimpleObjectProperty<>(value.getValue().getGroup()));
-        mainModel.openWordBook("");//TODO
+        if(settingController.getPathToWordBook()!=null) {
+            mainModel.openWordBook(settingController.getPathToWordBook());
+        }
         wordTable.setItems(mainModel.getWordList());
+        if(mainModel.getWordList().size()>0){
+            deleteWord.setDisable(false);
+            editWord.setDisable(false);
+            addWord.setDisable(false);
+        }
+        createWordbook.setOnAction(event -> {
+            String nameFile="test";
+            //TODO дописать вызов окна с требованием ввести имя файла
+            String path=mainModel.createWordBook(nameFile);
+            if(path!=null) {
+                settingController.setPathToWordBook(path);
+                stage.setTitle(stage.getTitle()+" ["+path+"]");
+                addWord.setDisable(false);
+            }
+
+        });
+        openWordbook.setOnAction(event -> {
+            FileChooser chooser=new FileChooser();
+
+            chooser.setTitle("Выберите файл со словарем");
+            chooser.setInitialDirectory(new File((System.getenv("USERPROFILE") + "\\Desktop\\")));
+            //TODO Установить фильтр на txt файлы
+            String path;
+            File file=chooser.showOpenDialog(new Stage());
+            if(file!=null) {
+                path = file.getPath();
+                    if (mainModel.openWordBook(path)) {
+                        stage.setTitle(stage.getTitle() + " [" + path + "]");
+                        addWord.setDisable(false);
+                        if (mainModel.getWordList().size() > 0) {
+                            deleteWord.setDisable(false);
+                            editWord.setDisable(false);
+                        }
+                    }
+            }
+        });
+        exitMenuItem.setOnAction(event -> {
+            stage.close();
+        });
     }
 
     public static void play(){

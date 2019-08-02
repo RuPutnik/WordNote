@@ -80,30 +80,51 @@ public class AddEditController implements Initializable {
             indexWord = index;
             createWindow();
         }else{
-            //сообщаить, что слово не выбрано
-            //TODO
+            //TODO сообщаить, что слово не выбрано
         }
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         typeOperationLabel.setText(typeOperation);
+        groupComboBox.getItems().add("Общая");
 
         if(typeOperation.equals("Редактировать слово")){
             addEditWordButton.setText("Сохранить");
             Word word=mainController.getMainModel().getWordList().get(indexWord);
-            wordTextField.setText(word.getWord());
-            translateTextField.setText(word.getTranslate());
-            groupComboBox.setPromptText(word.getGroup());
+            if(!word.getWord().equals("-")) {
+                wordTextField.setText(word.getWord());
+            }
+            if(!word.getTranslate().equals("-")) {
+                translateTextField.setText(word.getTranslate());
+            }
+            if(!word.getGroup().equals("-")) {
+                groupComboBox.setPromptText(word.getGroup());
+            }
         }
         if(typeOperation.equals("Добавить новое слово")){
             addEditWordButton.setText("Добавить");
         }
 
         addEditWordButton.setOnAction(event -> {
+            String word="-";
+            String translate="-";
+            String nameGroup="-";
+            if(wordTextField.getText()!=null&&(!wordTextField.getText().equals(""))) word=wordTextField.getText();
+            if(translateTextField.getText()!=null&&(!translateTextField.getText().equals(""))) translate=translateTextField.getText();
+            if(groupComboBox.getValue()!=null&&(!groupComboBox.getValue().equals(""))) nameGroup=groupComboBox.getValue();
+
             if(typeOperation.equals("Добавить новое слово")){
-                mainController.getMainModel().addWord(new Word(wordTextField.getText(),translateTextField.getText(),groupComboBox.getValue()));
+                if(!(word.equals("-")&&translate.equals("-"))){
+                    mainController.getMainModel().addWord(new Word(word,translate,nameGroup));
+                }else{
+                    //TODO нельзя добавить пустое слово без перевода, сообщить
+                }
             }else if(typeOperation.equals("Редактировать слово")){
-                mainController.getMainModel().editWord(indexWord,new Word(wordTextField.getText(),translateTextField.getText(),groupComboBox.getValue()));
+                if(!(word.equals("-")&&translate.equals("-"))) {
+                    mainController.getMainModel().editWord(indexWord, new Word(word, translate, nameGroup));
+                }else {
+                    //TODO нельзя изменить на пустое слово без перевода, сообщить
+                }
             }
         });
         exitButton.setOnAction(event -> {

@@ -4,15 +4,16 @@ package ru.putnik.wordnote.pojo;
  * Создано 01.08.2019 в 17:43
  */
 public class Word {
-    private String word;
-    private String translate;
-    private String group;
+    private String word="";
+    private String translate="";
+    private String group="";
 
     public Word(String word, String translate, String group) {
         this.word = word;
         this.translate = translate;
         this.group = group;
     }
+    public Word(){}
 
     public String getWord() {
         return word;
@@ -36,5 +37,10 @@ public class Word {
 
     public void setGroup(String group) {
         this.group = group;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return this.translate.equals(((Word)obj).translate)&&this.word.equals(((Word)obj).word);
     }
 }

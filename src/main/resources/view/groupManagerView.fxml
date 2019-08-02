@@ -7,7 +7,7 @@
 
 
 <?import javafx.geometry.Insets?>
-<VBox prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"
+<VBox prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="ru.putnik.wordnote.controller.GroupManagerController" spacing="10" alignment="CENTER">
    <children>
       <ListView prefHeight="240.0" prefWidth="200.0" />

@@ -19,13 +19,13 @@
                 <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
             </rowConstraints>
             <Label text="Адрес хранилища" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="0" />
-            <Button text="Указать файл" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+            <TextField GridPane.columnIndex="1" GridPane.rowIndex="0" fx:id="pathToWordbookTextField"/>
+            <Button text="Указать файл" GridPane.columnIndex="2" GridPane.rowIndex="0" fx:id="pickFileButton"/>
         </GridPane>
         <HBox alignment="CENTER" prefHeight="88.0" prefWidth="300.0" spacing="20">
             <children>
-                <Button mnemonicParsing="false" text="Сохранить" />
-                <Button mnemonicParsing="false" text="Отмена" />
+                <Button mnemonicParsing="false" text="Сохранить" fx:id="saveButton"/>
+                <Button mnemonicParsing="false" text="Отмена" fx:id="cancelButton"/>
             </children>
         </HBox>
     </children>
