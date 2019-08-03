@@ -100,7 +100,7 @@ public class AddEditController implements Initializable {
             if(!word.getTranslate().equals("-")) {
                 translateTextField.setText(word.getTranslate());
             }
-            if(!word.getGroup().equals("-")) {
+            if(!(word.getGroup().equals("-")||groupComboBox.getValue().equals("Не выбрано"))) {
                 groupComboBox.setPromptText(word.getGroup());
             }
         }
@@ -114,7 +114,7 @@ public class AddEditController implements Initializable {
             String nameGroup="-";
             if(wordTextField.getText()!=null&&(!wordTextField.getText().equals(""))) word=wordTextField.getText();
             if(translateTextField.getText()!=null&&(!translateTextField.getText().equals(""))) translate=translateTextField.getText();
-            if(groupComboBox.getValue()!=null&&(!groupComboBox.getValue().equals(""))) nameGroup=groupComboBox.getValue();
+            if(groupComboBox.getValue()!=null&&!groupComboBox.getValue().equals("")&&!groupComboBox.getValue().equals("Не выбрано")) nameGroup=groupComboBox.getValue();
 
             if(typeOperation.equals("Добавить новое слово")){
                 if(!(word.equals("-")&&translate.equals("-"))){

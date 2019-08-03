@@ -2,7 +2,6 @@ package ru.putnik.wordnote.controller;
 
 import javafx.application.Application;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -15,7 +14,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import ru.putnik.wordnote.model.MainModel;
 import ru.putnik.wordnote.pojo.Word;
 
@@ -131,10 +129,10 @@ public class MainController extends Application implements Initializable {
         groupColumn.setCellValueFactory(value-> new SimpleObjectProperty<>(value.getValue().getGroup()));
         if(pathToWordFile!=null) {
             if(mainModel.openWordBook(pathToWordFile)){
-                wordTable.setItems(mainModel.getWordList());
                 stage.setTitle(stage.getTitle() + " [" + pathToWordFile + "]");
             }
         }
+        wordTable.setItems(mainModel.getWordList());
         if(mainModel.getWordList().size()>0){
             deleteWord.setDisable(false);
             editWord.setDisable(false);
@@ -147,7 +145,6 @@ public class MainController extends Application implements Initializable {
             String path=mainModel.createWordBook(nameFile);
             if(path!=null) {
                 settingController.setPathToWordBook(path);
-                stage.setTitle("Word Note"+" ["+path+"]");
                 addWord.setDisable(false);
             }
 
@@ -168,6 +165,9 @@ public class MainController extends Application implements Initializable {
                         if (mainModel.getWordList().size() > 0) {
                             deleteWord.setDisable(false);
                             editWord.setDisable(false);
+                        }else{
+                            deleteWord.setDisable(true);
+                            editWord.setDisable(true);
                         }
                     }
             }

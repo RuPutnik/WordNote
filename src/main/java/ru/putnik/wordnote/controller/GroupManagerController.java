@@ -8,7 +8,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -28,17 +27,17 @@ public class GroupManagerController implements Initializable {
     private static MainController mainController;
 
     @FXML
-    public ListView<String> listGroups;
+    private ListView<String> listGroups;
     @FXML
-    public Button createGroupButton;
+    private Button createGroupButton;
     @FXML
-    public Button editGroupButton;
+    private Button editGroupButton;
     @FXML
-    public Button removeGroupButton;
+    private Button removeGroupButton;
     @FXML
-    public Button saveChangesButton;
+    private Button saveChangesButton;
     @FXML
-    public Button exitButton;
+    private Button exitButton;
 
     public GroupManagerController(MainController controller){
         mainController=controller;
