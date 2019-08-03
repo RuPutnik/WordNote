@@ -41,6 +41,6 @@ public class Word {
 
     @Override
     public boolean equals(Object obj) {
-        return this.translate.equals(((Word)obj).translate)&&this.word.equals(((Word)obj).word);
+        return this.translate.toLowerCase().equals(((Word)obj).translate.toLowerCase())&&this.word.toLowerCase().equals(((Word)obj).word.toLowerCase());
     }
 }

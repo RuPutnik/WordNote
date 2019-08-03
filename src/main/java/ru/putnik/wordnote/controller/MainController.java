@@ -27,15 +27,16 @@ import java.util.ResourceBundle;
  * Создано 01.08.2019 в 16:43
  */
 public class MainController extends Application implements Initializable {
-
-
     private MainModel mainModel=new MainModel();
 
+    private SettingController settingController=new SettingController(this);
     private AddEditController addEditController=new AddEditController(this);
     private GroupManagerController groupManagerController=new GroupManagerController(this);
-    private SettingController settingController=new SettingController(this);
+
 
     private static Stage stage;
+    private String pathToWordFile;
+    private String pathToGroupFile;
 
     @FXML
     private MenuItem addWord;
@@ -44,7 +45,7 @@ public class MainController extends Application implements Initializable {
     @FXML
     private MenuItem createWordbook;
     @FXML
-    public MenuItem openWordbook;
+    private MenuItem openWordbook;
     @FXML
     private MenuItem deleteWord;
     @FXML
@@ -76,7 +77,7 @@ public class MainController extends Application implements Initializable {
 
         primaryStage.setScene(new Scene(parent));
         try {
-            primaryStage.getIcons().add(new Image("mainIcon.png"));
+            primaryStage.getIcons().add(new Image("icon/mainIcon.png"));
         }catch (Exception ex){
             System.out.println("Нет иконки главного окна");
         }
@@ -90,6 +91,9 @@ public class MainController extends Application implements Initializable {
     @FXML
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        pathToWordFile=settingController.getPathToWordBook();
+        pathToGroupFile=settingController.getPathToGroupFile();
+
         addWordMenuItem.setOnAction(event -> {
             addEditController.addWord();
             if(mainModel.getWordList().size()>0){
@@ -122,8 +126,8 @@ public class MainController extends Application implements Initializable {
         wordColumn.setCellValueFactory(value-> new SimpleObjectProperty<>(value.getValue().getWord()));
         translateColumn.setCellValueFactory(value-> new SimpleObjectProperty<>(value.getValue().getTranslate()));
         groupColumn.setCellValueFactory(value-> new SimpleObjectProperty<>(value.getValue().getGroup()));
-        if(settingController.getPathToWordBook()!=null) {
-            mainModel.openWordBook(settingController.getPathToWordBook());
+        if(pathToWordFile!=null) {
+            mainModel.openWordBook(pathToWordFile);
         }
         wordTable.setItems(mainModel.getWordList());
         if(mainModel.getWordList().size()>0){
@@ -177,5 +181,21 @@ public class MainController extends Application implements Initializable {
 
     public Stage getStage() {
         return stage;
+    }
+
+    public String getPathToWordFile() {
+        return pathToWordFile;
+    }
+
+    public String getPathToGroupFile() {
+        return pathToGroupFile;
+    }
+
+    public GroupManagerController getGroupManagerController() {
+        return groupManagerController;
+    }
+
+    public void setPathToGroupFile(String pathToGroupFile) {
+        this.pathToGroupFile = pathToGroupFile;
     }
 }

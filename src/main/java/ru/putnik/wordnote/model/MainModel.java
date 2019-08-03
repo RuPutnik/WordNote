@@ -12,6 +12,7 @@ import java.util.GregorianCalendar;
  */
 public class MainModel {
     private static ObservableList<Word> wordList=FXCollections.observableArrayList();
+    private static ObservableList<String> groupList=FXCollections.observableArrayList();
     private String path;
 
     public ObservableList<Word> getWordList() {
@@ -78,7 +79,6 @@ public class MainModel {
             return false;
             //TODO файл не рабочий , сообщить
         }
-        //Чтение из файла
     }
     public String createWordBook(String nameFile){
         File folderProgram=new File("C:\\WordNote");
@@ -114,5 +114,9 @@ public class MainModel {
 
     public void setWordList(ObservableList<Word> list) {
         wordList = list;
+    }
+
+    public ObservableList<String> getGroupList() {
+        return groupList;
     }
 }

@@ -17,10 +17,14 @@
             </columnConstraints>
             <rowConstraints>
                 <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+                <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
             </rowConstraints>
-            <Label text="Адрес хранилища" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <Label text="Адрес файла слов" GridPane.columnIndex="0" GridPane.rowIndex="0" />
             <TextField GridPane.columnIndex="1" GridPane.rowIndex="0" fx:id="pathToWordbookTextField"/>
-            <Button text="Указать файл" GridPane.columnIndex="2" GridPane.rowIndex="0" fx:id="pickFileButton"/>
+            <Button text="Указать файл" GridPane.columnIndex="2" GridPane.rowIndex="0" fx:id="pickWordFileButton"/>
+            <Label text="Адрес файла групп" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="pathToGroupFileTextField"/>
+            <Button text="Указать файл" GridPane.columnIndex="2" GridPane.rowIndex="1" fx:id="pickGroupFileButton"/>
         </GridPane>
         <HBox alignment="CENTER" prefHeight="88.0" prefWidth="300.0" spacing="20">
             <children>

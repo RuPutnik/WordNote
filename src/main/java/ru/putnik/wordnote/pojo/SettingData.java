@@ -7,6 +7,7 @@ import java.io.Serializable;
  */
 public class SettingData implements Serializable {
     private String pathToWordbook;
+    private String pathToGroupFile;
 
     public String getPathToWordbook() {
         return pathToWordbook;
@@ -14,5 +15,13 @@ public class SettingData implements Serializable {
 
     public void setPathToWordbook(String pathToWordbook) {
         this.pathToWordbook = pathToWordbook;
+    }
+
+    public String getPathToGroupFile() {
+        return pathToGroupFile;
+    }
+
+    public void setPathToGroupFile(String pathToGroupFile) {
+        this.pathToGroupFile = pathToGroupFile;
     }
 }

@@ -57,7 +57,7 @@ public class AddEditController implements Initializable {
             return;
         }
         try {
-            stage.getIcons().add(new Image("mainIcon.png"));
+            stage.getIcons().add(new Image("icon/mainIcon.png"));
         }catch (Exception ex){
             System.out.println("Нет иконки окна");
         }
@@ -86,7 +86,10 @@ public class AddEditController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         typeOperationLabel.setText(typeOperation);
-        groupComboBox.getItems().add("Общая");
+        ObservableList<String> groupList=mainController.getGroupManagerController().getManagerModel().openGroupFile(mainController.getPathToGroupFile());
+        if(groupList!=null){
+        groupComboBox.setItems(groupList);
+        }
 
         if(typeOperation.equals("Редактировать слово")){
             addEditWordButton.setText("Сохранить");

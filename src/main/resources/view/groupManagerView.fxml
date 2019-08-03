@@ -7,17 +7,22 @@
 
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <VBox prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="ru.putnik.wordnote.controller.GroupManagerController" spacing="10" alignment="CENTER">
    <children>
-      <ListView prefHeight="240.0" prefWidth="200.0" />
+      <ListView prefHeight="240.0" prefWidth="200.0" fx:id="listGroups">
+          <placeholder>
+              <Label text="Список групп не выбран или группы отсутствуют"/>
+          </placeholder>
+      </ListView>
       <HBox prefHeight="100.0" prefWidth="200.0" spacing="10" alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" text="Создать" />
-            <Button mnemonicParsing="false" text="Изменить" />
-            <Button mnemonicParsing="false" text="Удалить" />
-            <Button mnemonicParsing="false" text="Сохранить" />
-            <Button mnemonicParsing="false" text="Отмена" />
+            <Button mnemonicParsing="false" text="Создать" fx:id="createGroupButton"/>
+            <Button mnemonicParsing="false" text="Редактировать" fx:id="editGroupButton"/>
+            <Button mnemonicParsing="false" text="Удалить" fx:id="removeGroupButton"/>
+            <Button mnemonicParsing="false" text="Сохранить" fx:id="saveChangesButton"/>
+            <Button mnemonicParsing="false" text="Выйти" fx:id="exitButton"/>
          </children>
       </HBox>
    </children>

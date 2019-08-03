@@ -11,7 +11,6 @@ import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,12 +24,18 @@ import java.util.ResourceBundle;
 public class SettingController implements Initializable {
     private static Stage stage;
     private static MainController mainController;
+
     private String pathToWordBook;
+    private String pathToGroupFile="C:\\WordNote\\groupList.txt";
 
     @FXML
     private TextField pathToWordbookTextField;
     @FXML
-    private Button pickFileButton;
+    private Button pickWordFileButton;
+    @FXML
+    private TextField pathToGroupFileTextField;
+    @FXML
+    private Button pickGroupFileButton;
     @FXML
     private Button saveButton;
     @FXML
@@ -52,7 +57,7 @@ public class SettingController implements Initializable {
             return;
         }
         try {
-            stage.getIcons().add(new Image("mainIcon.png"));
+            stage.getIcons().add(new Image("icon/mainIcon.png"));
         }catch (Exception ex){
             System.out.println("Нет иконки окна");
         }
@@ -67,7 +72,7 @@ public class SettingController implements Initializable {
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        pickFileButton.setOnAction(event -> {
+        pickWordFileButton.setOnAction(event -> {
             FileChooser chooser=new FileChooser();
 
             chooser.setTitle("Выберите файл со словарем");
@@ -78,6 +83,9 @@ public class SettingController implements Initializable {
         cancelButton.setOnAction(event -> {
             stage.close();
         });
+        saveButton.setOnAction(event -> {
+
+        });
     }
 
     public String getPathToWordBook() {
@@ -86,5 +94,13 @@ public class SettingController implements Initializable {
 
     public void setPathToWordBook(String pathToWordBook) {
         this.pathToWordBook = pathToWordBook;
+    }
+
+    public String getPathToGroupFile() {
+        return pathToGroupFile;
+    }
+
+    public void setPathToGroupFile(String pathToGroupFile) {
+        this.pathToGroupFile = pathToGroupFile;
     }
 }
