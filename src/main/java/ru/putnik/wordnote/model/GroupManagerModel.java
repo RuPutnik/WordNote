@@ -2,8 +2,6 @@ package ru.putnik.wordnote.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import ru.putnik.wordnote.pojo.Word;
-
 import java.io.*;
 import java.util.GregorianCalendar;
 
@@ -34,6 +32,7 @@ public class GroupManagerModel {
     }
     public ObservableList<String> openGroupFile(String path){
         ObservableList<String> listGroup=FXCollections.observableArrayList();
+        listGroup.add("Не выбрано");
         if(new File(path).exists()) {
             try (BufferedReader reader = new BufferedReader(new FileReader(new File(path)))) {
 
