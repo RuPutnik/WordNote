@@ -11,6 +11,8 @@ import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import ru.putnik.wordnote.model.SettingModel;
+import ru.putnik.wordnote.pojo.SettingData;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,6 +24,7 @@ import java.util.ResourceBundle;
  * Создано 01.08.2019 в 22:04
  */
 public class SettingController implements Initializable {
+    private SettingModel settingModel=new SettingModel();
     private static Stage stage;
     private static MainController mainController;
 
@@ -43,6 +46,11 @@ public class SettingController implements Initializable {
 
     public SettingController(MainController controller){
         mainController=controller;
+        SettingData data=settingModel.loadSettings();
+        if(data!=null) {
+            pathToWordBook = data.getPathToWordbook();
+            pathToGroupFile = data.getPathToGroupFile();
+        }
     }
     public SettingController(){}
 
@@ -72,19 +80,36 @@ public class SettingController implements Initializable {
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        SettingData settingData=settingModel.loadSettings();
+        if(settingData!=null) {
+            pathToWordBook = settingData.getPathToWordbook();
+            pathToGroupFile = settingData.getPathToGroupFile();
+        }
+        pathToWordbookTextField.setText(pathToWordBook);
+        pathToGroupFileTextField.setText(pathToGroupFile);
+        pathToWordbookTextField.setFocusTraversable(false);
+        pathToGroupFileTextField.setFocusTraversable(false);
+        pickWordFileButton.setFocusTraversable(false);
+        pickGroupFileButton.setFocusTraversable(false);
         pickWordFileButton.setOnAction(event -> {
             FileChooser chooser=new FileChooser();
 
             chooser.setTitle("Выберите файл со словарем");
             chooser.setInitialDirectory(new File((System.getenv("USERPROFILE") + "\\Desktop\\")));
             //TODO Установить фильтр на txt файлы
-            chooser.showOpenDialog(new Stage());
+            pathToWordbookTextField.setText(chooser.showOpenDialog(new Stage()).getPath());
         });
         cancelButton.setOnAction(event -> {
             stage.close();
         });
         saveButton.setOnAction(event -> {
-
+            SettingData data=new SettingData();
+            pathToWordBook=pathToWordbookTextField.getText();
+            pathToGroupFile=pathToGroupFileTextField.getText();
+            data.setPathToWordbook(pathToWordBook);
+            data.setPathToGroupFile(pathToGroupFile);
+            settingModel.saveSettings(data);
+            stage.close();
         });
     }
 

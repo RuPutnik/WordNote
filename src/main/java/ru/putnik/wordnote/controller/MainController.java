@@ -8,10 +8,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -28,11 +29,9 @@ import java.util.ResourceBundle;
  */
 public class MainController extends Application implements Initializable {
     private MainModel mainModel=new MainModel();
-
     private SettingController settingController=new SettingController(this);
     private AddEditController addEditController=new AddEditController(this);
     private GroupManagerController groupManagerController=new GroupManagerController(this);
-
 
     private static Stage stage;
     private String pathToWordFile;
@@ -61,6 +60,10 @@ public class MainController extends Application implements Initializable {
     @FXML
     private MenuItem exitMenuItem;
     @FXML
+    private MenuItem deleteWordbook;
+    @FXML
+    private MenuItem deleteAllWordMenuItem;
+    @FXML
     private TableView<Word> wordTable;
     @FXML
     private TableColumn<Word,Integer> indexColumn;
@@ -82,7 +85,6 @@ public class MainController extends Application implements Initializable {
             System.out.println("Нет иконки главного окна");
         }
         primaryStage.setResizable(true);
-        primaryStage.setTitle("Word Note");
         primaryStage.setWidth(730);
         primaryStage.setHeight(630);
         primaryStage.show();
@@ -93,6 +95,7 @@ public class MainController extends Application implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         pathToWordFile=settingController.getPathToWordBook();
         pathToGroupFile=settingController.getPathToGroupFile();
+        stage.setTitle("Word Note");
 
         addWordMenuItem.setOnAction(event -> {
             addEditController.addWord();
@@ -127,21 +130,24 @@ public class MainController extends Application implements Initializable {
         translateColumn.setCellValueFactory(value-> new SimpleObjectProperty<>(value.getValue().getTranslate()));
         groupColumn.setCellValueFactory(value-> new SimpleObjectProperty<>(value.getValue().getGroup()));
         if(pathToWordFile!=null) {
-            mainModel.openWordBook(pathToWordFile);
+            if(mainModel.openWordBook(pathToWordFile)){
+                wordTable.setItems(mainModel.getWordList());
+                stage.setTitle(stage.getTitle() + " [" + pathToWordFile + "]");
+            }
         }
-        wordTable.setItems(mainModel.getWordList());
         if(mainModel.getWordList().size()>0){
             deleteWord.setDisable(false);
             editWord.setDisable(false);
             addWord.setDisable(false);
         }
         createWordbook.setOnAction(event -> {
-            String nameFile="test";
+            String nameFile=createNewWordbook();
             //TODO дописать вызов окна с требованием ввести имя файла
+
             String path=mainModel.createWordBook(nameFile);
             if(path!=null) {
                 settingController.setPathToWordBook(path);
-                stage.setTitle(stage.getTitle()+" ["+path+"]");
+                stage.setTitle("Word Note"+" ["+path+"]");
                 addWord.setDisable(false);
             }
 
@@ -157,7 +163,7 @@ public class MainController extends Application implements Initializable {
             if(file!=null) {
                 path = file.getPath();
                     if (mainModel.openWordBook(path)) {
-                        stage.setTitle(stage.getTitle() + " [" + path + "]");
+                        stage.setTitle("Word Note" + " [" + path + "]");
                         addWord.setDisable(false);
                         if (mainModel.getWordList().size() > 0) {
                             deleteWord.setDisable(false);
@@ -166,9 +172,56 @@ public class MainController extends Application implements Initializable {
                     }
             }
         });
+        deleteWordbook.setOnAction(event -> {
+
+        });
+        deleteAllWordMenuItem.setOnAction(event -> {
+            if(mainModel.getWordList().size()>0){
+                mainModel.getWordList().clear();
+                deleteWord.setDisable(true);
+                editWord.setDisable(true);
+            }
+        });
         exitMenuItem.setOnAction(event -> {
             stage.close();
         });
+    }
+    private String createNewWordbook(){
+        Alert newGroup=new Alert(Alert.AlertType.CONFIRMATION);
+        ((Stage)newGroup.getDialogPane().getScene().getWindow()).getIcons().add(new Image("icon/mainIcon.png"));
+        newGroup.setTitle("Создание словаря");
+        newGroup.setHeaderText(null);
+        VBox box=new VBox();
+        HBox hBox=new HBox();
+        Label infoLabel=new Label("Укажите путь до словаря");
+        TextField nameField=new TextField(System.getenv("USERPROFILE") + "\\Desktop\\"+"wordbook.txt");
+        Button pickFile=new Button("Выбрать папку");
+        hBox.getChildren().add(nameField);
+        hBox.getChildren().add(pickFile);
+        hBox.setSpacing(5);
+
+        box.getChildren().add(infoLabel);
+        box.getChildren().add(hBox);
+
+        nameField.setPrefWidth(250);
+
+        pickFile.setOnAction(event -> {
+            DirectoryChooser chooser=new DirectoryChooser();
+
+            chooser.setTitle("Выберите директорию");
+            chooser.setInitialDirectory(new File((System.getenv("USERPROFILE") + "\\Desktop\\")));
+            //TODO Установить фильтр на txt файлы
+            nameField.setText(chooser.showDialog(new Stage())+"\\wordbook.txt");
+        });
+
+        newGroup.getDialogPane().setContent(box);
+        if(newGroup.showAndWait().get()==ButtonType.OK) {
+            //if() {//TODO проверка что такая группа уже есть и что название не пустое
+            return nameField.getText();
+            //}
+        }else{
+            return null;
+        }
     }
 
     public static void play(){

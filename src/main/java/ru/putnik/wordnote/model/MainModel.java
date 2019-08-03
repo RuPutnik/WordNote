@@ -55,6 +55,7 @@ public class MainModel {
                 //TODO файл не рабочий , сообщить
                 return false;
             }else {
+                wordList.clear();
                 while ((line = reader.readLine()) != null) {
                     Word word=new Word();
 
@@ -82,26 +83,29 @@ public class MainModel {
     }
     public String createWordBook(String nameFile){
         File folderProgram=new File("C:\\WordNote");
-        File bookFile=new File(folderProgram.getPath()+"\\"+nameFile+".txt");
-        if(!folderProgram.exists()){
-            folderProgram.mkdir();
-        }
-
-        if(!bookFile.exists()){
-            try (FileWriter writer=new FileWriter(bookFile)){
-                writer.append("-----Хранилище слов [WordNote] "+new GregorianCalendar().getTime()+"-----");
-                writer.flush();
-
-                path=bookFile.getPath();
-            } catch (IOException e) {
-                e.printStackTrace();
+        if(nameFile!=null) {
+            File bookFile = new File(nameFile);
+            if (!folderProgram.exists()) {
+                folderProgram.mkdir();
             }
-        }else{
-            //TODO сообщить что такой файл уже существует
+
+            if (!bookFile.exists()) {
+                try (FileWriter writer = new FileWriter(bookFile)) {
+                    writer.append("-----Хранилище слов [WordNote] " + new GregorianCalendar().getTime() + "-----");
+                    writer.flush();
+
+                    path = bookFile.getPath();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                //TODO сообщить что такой файл уже существует
+                return null;
+            }
+            return bookFile.getPath();
+        }else {
             return null;
         }
-
-        return bookFile.getPath();
     }
     public void deleteWord(int index){
         wordList.remove(index);

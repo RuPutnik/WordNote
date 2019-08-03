@@ -1,11 +1,9 @@
 package ru.putnik.wordnote.pojo;
 
-import java.io.Serializable;
-
 /**
  * Создано 02.08.2019 в 18:52
  */
-public class SettingData implements Serializable {
+public class SettingData{
     private String pathToWordbook;
     private String pathToGroupFile;
 
