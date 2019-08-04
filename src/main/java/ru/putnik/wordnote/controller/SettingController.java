@@ -96,8 +96,11 @@ public class SettingController implements Initializable {
 
             chooser.setTitle("Выберите файл со словарем");
             chooser.setInitialDirectory(new File((System.getenv("USERPROFILE") + "\\Desktop\\")));
-            //TODO Установить фильтр на txt файлы
-            pathToWordbookTextField.setText(chooser.showOpenDialog(new Stage()).getPath());
+            chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("txt","*.txt"));
+            File pickedFile=chooser.showOpenDialog(new Stage());
+            if(pickedFile!=null){
+            pathToWordbookTextField.setText(pickedFile.getPath());
+            }
         });
         cancelButton.setOnAction(event -> {
             stage.close();

@@ -6,10 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -20,6 +17,7 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+import static ru.putnik.wordnote.AlertCall.*;
 /**
  * Создано 01.08.2019 в 18:01
  */
@@ -80,7 +78,7 @@ public class AddEditController implements Initializable {
             indexWord = index;
             createWindow();
         }else{
-            //TODO сообщаить, что слово не выбрано
+            callAlert(Alert.AlertType.WARNING,"Невозможно отредактировать слово",null,"Редактируемое слово не выбрано");
         }
     }
     @Override
@@ -120,13 +118,13 @@ public class AddEditController implements Initializable {
                 if(!(word.equals("-")&&translate.equals("-"))){
                     mainController.getMainModel().addWord(new Word(word,translate,nameGroup));
                 }else{
-                    //TODO нельзя добавить пустое слово без перевода, сообщить
+                    callAlert(Alert.AlertType.WARNING,"Невозможно добавить слово",null,"Слово и его перевод не определены");
                 }
             }else if(typeOperation.equals("Редактировать слово")){
                 if(!(word.equals("-")&&translate.equals("-"))) {
                     mainController.getMainModel().editWord(indexWord, new Word(word, translate, nameGroup));
                 }else {
-                    //TODO нельзя изменить на пустое слово без перевода, сообщить
+                    callAlert(Alert.AlertType.WARNING,"Невозможно отредактировать слово",null,"Слово и его перевод не могут быть неопределены одновременно");
                 }
             }
         });

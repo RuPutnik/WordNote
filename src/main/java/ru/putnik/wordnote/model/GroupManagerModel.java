@@ -2,8 +2,12 @@ package ru.putnik.wordnote.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+
 import java.io.*;
 import java.util.GregorianCalendar;
+
+import static ru.putnik.wordnote.AlertCall.callAlert;
 
 /**
  * Создано 03.08.2019 в 16:59
@@ -24,7 +28,7 @@ public class GroupManagerModel {
                 e.printStackTrace();
             }
         }else{
-            //TODO сообщить что такой файл уже существует
+            callAlert(Alert.AlertType.WARNING,"Ошибка создания файла",null,"Файл по данному адресу уже сущесвует");
             return null;
         }
 
@@ -39,7 +43,7 @@ public class GroupManagerModel {
                 String line;
                 line = reader.readLine();
                 if (!line.contains("[WordNote]")) {
-                    //TODO файл не рабочий , сообщить
+                    callAlert(Alert.AlertType.ERROR,"Ошибка загрузки",null,"Файл со списком групп поврежден и не был использован");
                 } else {
                     while ((line = reader.readLine()) != null) {
                         listGroup.add(line);
@@ -49,10 +53,10 @@ public class GroupManagerModel {
 
             } catch (IOException e) {
                 e.printStackTrace();
-                //TODO файл не рабочий , сообщить
+                callAlert(Alert.AlertType.ERROR,"Ошибка загрузки",null,"Файл со списком групп поврежден и не был использован");
             }
         }else {
-            //TODO файл отстуствует, сообщить
+            callAlert(Alert.AlertType.WARNING,"Ошибка загрузки",null,"Файл со списком групп отсутствует");
         }
         return null;
     }

@@ -2,10 +2,12 @@ package ru.putnik.wordnote.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 import ru.putnik.wordnote.pojo.SettingData;
 
 import java.io.*;
-import java.util.GregorianCalendar;
+
+import static ru.putnik.wordnote.AlertCall.*;
 
 /**
  * Создано 03.08.2019 в 19:56
@@ -31,7 +33,7 @@ public class SettingModel {
                 String line;
                 line = reader.readLine();
                 if (!line.contains("[WordNote]")) {
-                    //TODO файл не рабочий , сообщить
+                    callAlert(Alert.AlertType.ERROR,"Ошибка загрузки",null,"Файл с настройками поврежден и не был использован");
                     return null;
                 } else {
                     while ((line=reader.readLine())!=null) {
@@ -46,12 +48,13 @@ public class SettingModel {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                //TODO файл не рабочий , сообщить
+                callAlert(Alert.AlertType.ERROR,"Ошибка загрузки",null,"Файл с настройками поврежден и не был использован");
                 return null;
             }
         }else {
+            callAlert(Alert.AlertType.WARNING,"Ошибка загрузки",null,"Файл с настройками отсутствует");
             return null;
-            //TODO файл отстуствует, сообщить
         }
     }
+
 }

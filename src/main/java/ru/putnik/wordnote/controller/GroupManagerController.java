@@ -18,6 +18,8 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+import static ru.putnik.wordnote.AlertCall.callAlert;
+
 /**
  * Создано 01.08.2019 в 22:03
  */
@@ -97,9 +99,15 @@ public class GroupManagerController implements Initializable {
 
             newGroup.getDialogPane().setContent(box);
             if(newGroup.showAndWait().get()==ButtonType.OK) {
-                //if() {//TODO проверка что такая группа уже есть и что название не пустое
-                    listGroups.getItems().add(nameField.getText());
-                //}
+                if(!nameField.getText().equals("")) {
+                    if(!listGroups.getItems().contains(nameField.getText())) {
+                        listGroups.getItems().add(nameField.getText());
+                    }else{
+                        callAlert(Alert.AlertType.WARNING,"Ошибка создания группы",null,"Данная группа уже существует");
+                    }
+                }else{
+                    callAlert(Alert.AlertType.WARNING,"Ошибка создания группы",null,"Название группы не определено");
+                }
             }
         });
         editGroupButton.setOnAction(event -> {
@@ -116,9 +124,15 @@ public class GroupManagerController implements Initializable {
 
             newGroup.getDialogPane().setContent(box);
             if(newGroup.showAndWait().get()==ButtonType.OK) {
-                //if() {//TODO проверка что такая группа уже есть и что название не пустое
-                listGroups.getItems().set(listGroups.getSelectionModel().getSelectedIndex(),nameField.getText());
-                //}
+                if(!nameField.getText().equals("")) {
+                    if(!listGroups.getItems().contains(nameField.getText())) {
+                        listGroups.getItems().set(listGroups.getSelectionModel().getSelectedIndex(),nameField.getText());
+                    }else{
+                        callAlert(Alert.AlertType.WARNING,"Ошибка редактирования группы",null,"Данная группа уже существует");
+                    }
+                }else{
+                    callAlert(Alert.AlertType.WARNING,"Ошибка редактирования группы",null,"Название группы не определено");
+                }
             }
         });
         removeGroupButton.setOnAction(event -> {

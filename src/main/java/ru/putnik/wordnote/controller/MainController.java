@@ -22,6 +22,9 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+import static ru.putnik.wordnote.AlertCall.callAlert;
+import static ru.putnik.wordnote.AlertCall.callConfirmationAlert;
+
 /**
  * Создано 01.08.2019 в 16:43
  */
@@ -34,6 +37,8 @@ public class MainController extends Application implements Initializable {
     private static Stage stage;
     private String pathToWordFile;
     private String pathToGroupFile;
+
+    private String pathOpenWordFile;
 
     @FXML
     private MenuItem addWord;
@@ -61,6 +66,8 @@ public class MainController extends Application implements Initializable {
     private MenuItem deleteWordbook;
     @FXML
     private MenuItem deleteAllWordMenuItem;
+    @FXML
+    private MenuItem findWordMenuItem;
     @FXML
     private TableView<Word> wordTable;
     @FXML
@@ -108,7 +115,7 @@ public class MainController extends Application implements Initializable {
             if(index!=-1) {
                 mainModel.deleteWord(index);
             }else{
-                //TODO Сообщить что слово не выбрано
+                callAlert(Alert.AlertType.WARNING,"Невозможно удалить слово",null,"Слово не выбрано");
             }
             if(mainModel.getWordList().size()==0){
                 deleteWord.setDisable(true);
@@ -130,6 +137,7 @@ public class MainController extends Application implements Initializable {
         if(pathToWordFile!=null) {
             if(mainModel.openWordBook(pathToWordFile)){
                 stage.setTitle(stage.getTitle() + " [" + pathToWordFile + "]");
+                pathOpenWordFile=pathToWordFile;
             }
         }
         wordTable.setItems(mainModel.getWordList());
@@ -140,7 +148,6 @@ public class MainController extends Application implements Initializable {
         }
         createWordbook.setOnAction(event -> {
             String nameFile=createNewWordbook();
-            //TODO дописать вызов окна с требованием ввести имя файла
 
             String path=mainModel.createWordBook(nameFile);
             if(path!=null) {
@@ -154,7 +161,7 @@ public class MainController extends Application implements Initializable {
 
             chooser.setTitle("Выберите файл со словарем");
             chooser.setInitialDirectory(new File((System.getenv("USERPROFILE") + "\\Desktop\\")));
-            //TODO Установить фильтр на txt файлы
+            chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("txt","*.txt"));
             String path;
             File file=chooser.showOpenDialog(new Stage());
             if(file!=null) {
@@ -169,11 +176,19 @@ public class MainController extends Application implements Initializable {
                             deleteWord.setDisable(true);
                             editWord.setDisable(true);
                         }
+                        pathOpenWordFile=path;
                     }
             }
         });
         deleteWordbook.setOnAction(event -> {
-
+            if(pathOpenWordFile!=null&&!pathOpenWordFile.equals("")&&new File(pathOpenWordFile).exists()){
+                if(callConfirmationAlert("Удаление словаря",null,"Вы действительно хотите удалить файл словаря?").get()==ButtonType.OK) {
+                    new File(pathOpenWordFile).delete();
+                    stage.setTitle("Word Note");
+                }
+            }else{
+                callAlert(Alert.AlertType.WARNING,"Невозможно удалить файл словаря",null,"Словарь не выбран или файл не сущесвует");
+            }
         });
         deleteAllWordMenuItem.setOnAction(event -> {
             if(mainModel.getWordList().size()>0){
@@ -182,15 +197,18 @@ public class MainController extends Application implements Initializable {
                 editWord.setDisable(true);
             }
         });
+        findWordMenuItem.setOnAction(event -> {
+
+        });
         exitMenuItem.setOnAction(event -> {
             stage.close();
         });
     }
     private String createNewWordbook(){
-        Alert newGroup=new Alert(Alert.AlertType.CONFIRMATION);
-        ((Stage)newGroup.getDialogPane().getScene().getWindow()).getIcons().add(new Image("icon/mainIcon.png"));
-        newGroup.setTitle("Создание словаря");
-        newGroup.setHeaderText(null);
+        Alert newWordbook=new Alert(Alert.AlertType.CONFIRMATION);
+        ((Stage)newWordbook.getDialogPane().getScene().getWindow()).getIcons().add(new Image("icon/mainIcon.png"));
+        newWordbook.setTitle("Создание словаря");
+        newWordbook.setHeaderText(null);
         VBox box=new VBox();
         HBox hBox=new HBox();
         Label infoLabel=new Label("Укажите путь до словаря");
@@ -210,15 +228,23 @@ public class MainController extends Application implements Initializable {
 
             chooser.setTitle("Выберите директорию");
             chooser.setInitialDirectory(new File((System.getenv("USERPROFILE") + "\\Desktop\\")));
-            //TODO Установить фильтр на txt файлы
+
             nameField.setText(chooser.showDialog(new Stage())+"\\wordbook.txt");
         });
 
-        newGroup.getDialogPane().setContent(box);
-        if(newGroup.showAndWait().get()==ButtonType.OK) {
-            //if() {//TODO проверка что такая группа уже есть и что название не пустое
-            return nameField.getText();
-            //}
+        newWordbook.getDialogPane().setContent(box);
+        if(newWordbook.showAndWait().get()==ButtonType.OK) {
+            if(!nameField.getText().equals("")) {
+                if (!new File(nameField.getText()).exists()) {
+                    return nameField.getText();
+                }else{
+                    callAlert(Alert.AlertType.WARNING,"Невозможно создать словарь",null,"Файл по данному адресу уже сущесвует");
+                    return null;
+                }
+            }else{
+                callAlert(Alert.AlertType.WARNING,"Невозможно создать словарь",null,"Адрес файла не указан");
+                return null;
+            }
         }else{
             return null;
         }

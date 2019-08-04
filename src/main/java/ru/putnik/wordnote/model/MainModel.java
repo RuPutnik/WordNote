@@ -2,11 +2,13 @@ package ru.putnik.wordnote.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 import ru.putnik.wordnote.pojo.Word;
 
 import java.io.*;
 import java.util.GregorianCalendar;
 
+import static ru.putnik.wordnote.AlertCall.*;
 /**
  * Создано 02.08.2019 в 11:02
  */
@@ -25,10 +27,10 @@ public class MainModel {
                 wordList.add(word);
                 rewriteFile();
             }else{
-                //TODO Сообщить что уже есть
+                callAlert(Alert.AlertType.WARNING,"Невозможно добавить слово",null,"Введенное слово слово с аналогичным переводом уже существует");
             }
         }else{
-            //TODO не выбран словарь, сообщить
+            callAlert(Alert.AlertType.WARNING,"Невозможно добавить слово",null,"Словарь не выбран");
         }
     }
     private void rewriteFile(){
@@ -52,7 +54,7 @@ public class MainModel {
             String line;
             line=reader.readLine();
             if(!line.contains("[WordNote]")){
-                //TODO файл не рабочий , сообщить
+                callAlert(Alert.AlertType.ERROR,"Ошибка загрузки",null,"Файл со словарем поврежден и не может быть использован");
                 return false;
             }else {
                 wordList.clear();
@@ -62,8 +64,8 @@ public class MainModel {
                     String partsLine[]=line.split(":");
 
                     if(partsLine.length<3){
+                        callAlert(Alert.AlertType.ERROR,"Ошибка загрузки",null,"Файл со словарем по адресу "+pathFile+" поврежден и не может быть использован");
                         return false;
-                        //TODO файл не рабочий , сообщить
                     }
                     word.setWord(partsLine[0]);
                     word.setTranslate(partsLine[1]);
@@ -77,8 +79,8 @@ public class MainModel {
 
         } catch (IOException e) {
             e.printStackTrace();
+            callAlert(Alert.AlertType.WARNING,"Ошибка загрузки",null,"Файл со словарем по адресу "+pathFile+" отсутствует или поврежден");
             return false;
-            //TODO файл не рабочий , сообщить
         }
     }
     public String createWordBook(String nameFile){
@@ -99,7 +101,7 @@ public class MainModel {
                     e.printStackTrace();
                 }
             } else {
-                //TODO сообщить что такой файл уже существует
+                callAlert(Alert.AlertType.WARNING,"Невозможно создать словарь",null,"Файл по данному адресу уже сущесвует");
                 return null;
             }
             return bookFile.getPath();
