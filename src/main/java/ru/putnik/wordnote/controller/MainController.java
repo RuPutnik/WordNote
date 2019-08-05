@@ -210,7 +210,21 @@ public class MainController extends Application implements Initializable {
             }
         });
         saveWordbook.setOnAction(event -> {
-            //TODO Если файл до этого был удален то при сохранении автоматически открывать сохраненный файл
+                if (pathOpenWordFile != null && !pathOpenWordFile.equals("") && new File(pathOpenWordFile).exists()) {
+                    String path=createNewWordbook();
+                    if(path!=null) {
+                        mainModel.rewriteFile(path);
+                    }
+                }else {
+                    String path=createNewWordbook();
+                    if(path!=null) {
+                        if(mainModel.rewriteFile(path)){
+                            stage.setTitle("Word Note" + " [" + path + "]");
+                            pathOpenWordFile=path;
+                        }
+                    }
+
+                }
         });
         findWordMenuItem.setOnAction(event -> {
             if (pathOpenWordFile != null && !pathOpenWordFile.equals("") && new File(pathOpenWordFile).exists()) {

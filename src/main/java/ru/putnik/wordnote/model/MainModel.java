@@ -34,6 +34,9 @@ public class MainModel {
         }
     }
     private void rewriteFile(){
+        rewriteFile(path);
+    }
+    public boolean rewriteFile(String path){
         try (FileWriter writer=new FileWriter(path)){
             writer.write("");
             writer.append("-----Хранилище слов [WordNote] "+new GregorianCalendar().getTime()+"-----"+"\n");
@@ -41,8 +44,11 @@ public class MainModel {
                 writer.append(word1.getWord()+":"+word1.getTranslate()+":"+word1.getGroup()+"\n");
             }
             writer.flush();
+            this.path=path;//ВОЗМОЖНО вызовет ошибки
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
     }
     public Word getWord(int index){
@@ -109,6 +115,7 @@ public class MainModel {
             return null;
         }
     }
+
     public void deleteWord(int index){
         wordList.remove(index);
         rewriteFile();
