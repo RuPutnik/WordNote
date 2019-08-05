@@ -15,7 +15,7 @@
             <Menu text="Словарь">
                 <MenuItem fx:id="createWordbook" text="Создать словарь" />
                 <MenuItem fx:id="openWordbook" text="Открыть словарь" />
-                <MenuItem fx:id="saveWordbook" text="Сохранить словарь"/><!--Если файл до этого был удален то при сохранении автоматически открывать сохраненный файл-->
+                <MenuItem fx:id="saveWordbook" text="Сохранить словарь"/>
                 <MenuItem fx:id="deleteWordbook" text="Удалить словарь" />
                 <MenuItem fx:id="manageGroupsMenuItem" text="Управление группами" />
             </Menu>
@@ -27,8 +27,8 @@
                 <MenuItem fx:id="findWordMenuItem" text="Найти" />
             </Menu>
             <Menu text="Тренировка">
-                <MenuItem text="Стандартная" />
-                <MenuItem text="На время" />
+                <MenuItem text="Стандартная" fx:id="trainingMenuItem"/>
+                <MenuItem text="На время" fx:id="trainingTimeMenuItem"/>
             </Menu>
             <Menu text="Настройки">
                 <MenuItem fx:id="settingsMenuItem" text="Настройки приложения" />

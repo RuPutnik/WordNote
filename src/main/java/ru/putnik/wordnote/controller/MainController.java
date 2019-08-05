@@ -2,6 +2,7 @@ package ru.putnik.wordnote.controller;
 
 import javafx.application.Application;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -13,17 +14,21 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ru.putnik.wordnote.model.MainModel;
 import ru.putnik.wordnote.pojo.Word;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static ru.putnik.wordnote.AlertCall.callAlert;
 import static ru.putnik.wordnote.AlertCall.callConfirmationAlert;
+import static ru.putnik.wordnote.AlertCall.callWaitAlert;
 
 /**
  * Создано 01.08.2019 в 16:43
@@ -51,6 +56,8 @@ public class MainController extends Application implements Initializable {
     @FXML
     private MenuItem deleteWord;
     @FXML
+    private MenuItem saveWordbook;
+    @FXML
     private MenuItem addWordMenuItem;
     @FXML
     private MenuItem editWordMenuItem;
@@ -68,6 +75,10 @@ public class MainController extends Application implements Initializable {
     private MenuItem deleteAllWordMenuItem;
     @FXML
     private MenuItem findWordMenuItem;
+    @FXML
+    private MenuItem trainingMenuItem;
+    @FXML
+    private MenuItem trainingTimeMenuItem;
     @FXML
     private TableView<Word> wordTable;
     @FXML
@@ -185,9 +196,10 @@ public class MainController extends Application implements Initializable {
                 if(callConfirmationAlert("Удаление словаря",null,"Вы действительно хотите удалить файл словаря?").get()==ButtonType.OK) {
                     new File(pathOpenWordFile).delete();
                     stage.setTitle("Word Note");
+                    pathOpenWordFile=null;
                 }
             }else{
-                callAlert(Alert.AlertType.WARNING,"Невозможно удалить файл словаря",null,"Словарь не выбран или файл не сущесвует");
+                callAlert(Alert.AlertType.WARNING,"Невозможно удалить файл словаря",null,"Словарь не выбран или файл не существует");
             }
         });
         deleteAllWordMenuItem.setOnAction(event -> {
@@ -197,8 +209,141 @@ public class MainController extends Application implements Initializable {
                 editWord.setDisable(true);
             }
         });
+        saveWordbook.setOnAction(event -> {
+            //TODO Если файл до этого был удален то при сохранении автоматически открывать сохраненный файл
+        });
         findWordMenuItem.setOnAction(event -> {
+            if (pathOpenWordFile != null && !pathOpenWordFile.equals("") && new File(pathOpenWordFile).exists()) {
+                int numberWord = -1;
+                String valueCategory="";
+                String typeCategory="";
+                boolean resumeFind=true;
+                double positionAlertX=-1;
+                double positionAlertY=-1;
+                while (true) {
+                    Alert findAlert = new Alert(Alert.AlertType.CONFIRMATION);
+                    findAlert.setTitle("Поиск слова");
+                    findAlert.setHeaderText("Выберите критерий поиска и введите искомое значение:");
+                    findAlert.initModality(Modality.NONE);
+                    findAlert.getDialogPane().toBack();
+                    if(positionAlertX!=-1){
+                        findAlert.setX(positionAlertX);
+                    }
+                    if(positionAlertY!=-1){
+                        findAlert.setY(positionAlertY);
+                    }
+                    ((Stage) findAlert.getDialogPane().getScene().getWindow()).getIcons().add(new Image("icon/mainIcon.png"));
+                    ((Stage) findAlert.getDialogPane().getScene().getWindow()).setAlwaysOnTop(true);
+                    HBox box = new HBox();
+                    box.setSpacing(5);
+                    ComboBox<String> parameterWord = new ComboBox<>(FXCollections.observableArrayList("Свободно", "Слово", "Перевод", "Группа"));
+                    parameterWord.setPromptText("Критерий поиска");
+                    TextField textField = new TextField();
+                    box.getChildren().addAll(parameterWord, textField);
 
+                    findAlert.getDialogPane().setContent(box);
+                    findAlert.getButtonTypes().clear();
+                    findAlert.getButtonTypes().addAll(new ButtonType("Найти далее",ButtonBar.ButtonData.OK_DONE), new ButtonType("Выход",ButtonBar.ButtonData.CANCEL_CLOSE));
+                    if(typeCategory!=null&&!typeCategory.equals("")){
+                        parameterWord.setValue(typeCategory);
+                    }
+                    textField.setText(valueCategory);
+                    ButtonType type = findAlert.showAndWait().get();
+
+                    if (type.getText().equals("Найти далее")) {
+                        positionAlertX=findAlert.getX();
+                        positionAlertY=findAlert.getY();
+                        typeCategory=parameterWord.getValue();
+                        valueCategory=textField.getText();
+
+                        if (!textField.getText().equals("")) {
+                            for (int n = 0; n < wordTable.getItems().size(); n++) {
+                                if(n>numberWord&&resumeFind) {
+                                    String category="";
+                                    if(parameterWord.getValue()!=null){
+                                        category=parameterWord.getValue();
+                                    }
+                                    switch (category) {
+                                        case "Слово": {
+                                            if (wordTable.getItems().get(n).getWord().toLowerCase().equals(textField.getText().toLowerCase())) {
+                                                wordTable.getSelectionModel().select(n);
+                                                numberWord = n;
+                                                resumeFind=false;
+                                            }
+                                            break;
+                                        }
+                                        case "Перевод": {
+                                            if (wordTable.getItems().get(n).getTranslate().toLowerCase().equals(textField.getText().toLowerCase())) {
+                                                wordTable.getSelectionModel().select(n);
+                                                numberWord = n;
+                                                resumeFind=false;
+                                            }
+                                            break;
+                                        }
+                                        case "Группа": {
+                                            if (wordTable.getItems().get(n).getGroup().toLowerCase().equals(textField.getText().toLowerCase())) {
+                                                wordTable.getSelectionModel().select(n);
+                                                numberWord = n;
+                                                resumeFind=false;
+                                            }
+                                            break;
+                                        }
+                                        case "": {
+                                            String word = wordTable.getItems().get(n).getWord();
+                                            String translate = wordTable.getItems().get(n).getTranslate();
+                                            String group = wordTable.getItems().get(n).getGroup();
+                                            if (word.toLowerCase().equals(textField.getText().toLowerCase()) || translate.toLowerCase().equals(textField.getText().toLowerCase()) ||
+                                                    group.toLowerCase().equals(textField.getText().toLowerCase())) {
+                                                wordTable.getSelectionModel().select(n);
+                                                numberWord = n;
+                                                resumeFind=false;
+                                            }
+                                            break;
+                                        }
+                                        case "Свободно": {
+                                            String word = wordTable.getItems().get(n).getWord();
+                                            String translate = wordTable.getItems().get(n).getTranslate();
+                                            String group = wordTable.getItems().get(n).getGroup();
+                                            if (word.toLowerCase().equals(textField.getText().toLowerCase()) || translate.toLowerCase().equals(textField.getText().toLowerCase()) ||
+                                                    group.toLowerCase().equals(textField.getText().toLowerCase())) {
+                                                numberWord = n;
+                                                wordTable.getSelectionModel().select(n);
+                                                resumeFind=false;
+                                            }
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            if(callWaitAlert(Alert.AlertType.WARNING, "Поиск слова", null, "Строка поиска пуста").get()==ButtonType.OK) {
+                                continue;
+                            }
+                        }
+                        if (numberWord == -1) {
+                            if(callWaitAlert(Alert.AlertType.INFORMATION, "Поиск слова", null, "Слово по данному запросу не обнаружено").get()==ButtonType.OK) {
+                                continue;
+                            }
+                        }
+                        resumeFind=true;
+                        if(numberWord==wordTable.getItems().size()-1) {
+                            numberWord = -1;//Что бы бегать по кругу списка
+                        }
+                    } else {
+                        findAlert.close();
+                        break;
+                    }
+                }
+            } else {
+                callAlert(Alert.AlertType.WARNING, "Невозможно найти слово", null, "Словарь не выбран или файл не существует");
+            }
+
+        });
+        trainingMenuItem.setOnAction(event -> {
+            //TODO доделать тренировку
+        });
+        trainingTimeMenuItem.setOnAction(event -> {
+            //TODO доделать тренировку на время
         });
         exitMenuItem.setOnAction(event -> {
             stage.close();
@@ -238,7 +383,7 @@ public class MainController extends Application implements Initializable {
                 if (!new File(nameField.getText()).exists()) {
                     return nameField.getText();
                 }else{
-                    callAlert(Alert.AlertType.WARNING,"Невозможно создать словарь",null,"Файл по данному адресу уже сущесвует");
+                    callAlert(Alert.AlertType.WARNING,"Невозможно создать словарь",null,"Файл по данному адресу уже существует");
                     return null;
                 }
             }else{

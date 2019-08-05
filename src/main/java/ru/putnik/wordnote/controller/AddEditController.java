@@ -60,7 +60,7 @@ public class AddEditController implements Initializable {
             System.out.println("Нет иконки окна");
         }
         stage.setScene(new Scene(parent));
-        stage.setResizable(true);
+        stage.setResizable(false);
         stage.setTitle("Word Note");
         stage.setWidth(330);
         stage.setHeight(230);

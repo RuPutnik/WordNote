@@ -81,6 +81,7 @@ public class GroupManagerController implements Initializable {
                 mainController.setPathToGroupFile("C:\\WordNote\\groupList.txt");
             }else {
                 listGroups.setItems(list);
+                list.remove(0);
                 stage.setTitle("Word Note"+" ["+mainController.getPathToGroupFile()+"]");
             }
         }
@@ -100,7 +101,14 @@ public class GroupManagerController implements Initializable {
             newGroup.getDialogPane().setContent(box);
             if(newGroup.showAndWait().get()==ButtonType.OK) {
                 if(!nameField.getText().equals("")) {
-                    if(!listGroups.getItems().contains(nameField.getText())) {
+                    boolean contain=false;
+                    for (String group:listGroups.getItems()){
+                        if(group.toLowerCase().equals(nameField.getText().toLowerCase())){
+                            contain=true;
+                            break;
+                        }
+                    }
+                    if(!contain) {
                         listGroups.getItems().add(nameField.getText());
                     }else{
                         callAlert(Alert.AlertType.WARNING,"Ошибка создания группы",null,"Данная группа уже существует");
@@ -125,7 +133,14 @@ public class GroupManagerController implements Initializable {
             newGroup.getDialogPane().setContent(box);
             if(newGroup.showAndWait().get()==ButtonType.OK) {
                 if(!nameField.getText().equals("")) {
-                    if(!listGroups.getItems().contains(nameField.getText())) {
+                    boolean contain=false;
+                    for (String group:listGroups.getItems()){
+                        if(group.toLowerCase().equals(nameField.getText().toLowerCase())){
+                            contain=true;
+                            break;
+                        }
+                    }
+                    if(!contain) {
                         listGroups.getItems().set(listGroups.getSelectionModel().getSelectedIndex(),nameField.getText());
                     }else{
                         callAlert(Alert.AlertType.WARNING,"Ошибка редактирования группы",null,"Данная группа уже существует");

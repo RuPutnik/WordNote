@@ -18,10 +18,21 @@ public class AlertCall {
         alert.setContentText(content);
 
         ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(new Image("icon/mainIcon.png"));
-        ((Stage) alert.getDialogPane().getScene().getWindow()).setAlwaysOnTop(true);
+        ((Stage)alert.getDialogPane().getScene().getWindow()).setAlwaysOnTop(true);
 
         alert.show();
 
+    }
+    public static Optional<ButtonType> callWaitAlert(Alert.AlertType type,String title,String header,String content){
+        Alert alert=new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+
+        ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(new Image("icon/mainIcon.png"));
+        ((Stage)alert.getDialogPane().getScene().getWindow()).setAlwaysOnTop(true);
+
+        return alert.showAndWait();
     }
     public static Optional<ButtonType> callConfirmationAlert(String title, String header, String content){
         Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
