@@ -15,6 +15,7 @@ public class SettingTrainingData {
         this.fromUntilIgnore = fromUntilIgnore;
         this.typeQueue = typeQueue;
     }
+    public SettingTrainingData(){}
 
     public String getTypeTraining() {
         return typeTraining;
