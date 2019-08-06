@@ -60,7 +60,7 @@ public class GroupManagerController implements Initializable {
             System.out.println("Нет иконки окна");
         }
         stage.setScene(new Scene(parent));
-        stage.setResizable(true);
+        stage.setResizable(false);
         stage.setWidth(430);
         stage.setHeight(330);
         stage.initOwner(mainController.getStage());

@@ -27,8 +27,8 @@
                 <MenuItem fx:id="findWordMenuItem" text="Найти" />
             </Menu>
             <Menu text="Тренировка">
-                <MenuItem text="Стандартная" fx:id="trainingMenuItem"/>
-                <MenuItem text="На время" fx:id="trainingTimeMenuItem"/>
+                <MenuItem text="Выполнить тренировку" fx:id="trainingMenuItem"/>
+                <MenuItem text="Статистика" fx:id="statisticMenuItem"/>
             </Menu>
             <Menu text="Настройки">
                 <MenuItem fx:id="settingsMenuItem" text="Настройки приложения" />

@@ -38,6 +38,7 @@ public class MainController extends Application implements Initializable {
     private SettingController settingController=new SettingController(this);
     private AddEditController addEditController=new AddEditController(this);
     private GroupManagerController groupManagerController=new GroupManagerController(this);
+    private TrainingController trainingController=new TrainingController(this);
 
     private static Stage stage;
     private String pathToWordFile;
@@ -77,8 +78,6 @@ public class MainController extends Application implements Initializable {
     private MenuItem findWordMenuItem;
     @FXML
     private MenuItem trainingMenuItem;
-    @FXML
-    private MenuItem trainingTimeMenuItem;
     @FXML
     private TableView<Word> wordTable;
     @FXML
@@ -354,10 +353,11 @@ public class MainController extends Application implements Initializable {
 
         });
         trainingMenuItem.setOnAction(event -> {
-            //TODO доделать тренировку
-        });
-        trainingTimeMenuItem.setOnAction(event -> {
-            //TODO доделать тренировку на время
+            if (pathOpenWordFile != null && !pathOpenWordFile.equals("") && new File(pathOpenWordFile).exists()) {
+                trainingController.createWindow();
+            }else{
+                callWaitAlert(Alert.AlertType.WARNING, "Тренировка", null, "Тренировка невозможна, поскольку словарь не выбран");
+            }
         });
         exitMenuItem.setOnAction(event -> {
             stage.close();

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" prefHeight="150.0" prefWidth="480.0" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.putnik.wordnote.controller.TrainingController" spacing="10">
+    <padding>
+        <Insets bottom="5" left="10" right="10" top="5"/>
+    </padding>
+    <Label text="Словарная тренировка"/>
+    <GridPane hgap="5" vgap="5">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="264.0" minWidth="152.0" prefWidth="152.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="191.0" minWidth="104.0" prefWidth="118.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="171.0" minWidth="106.0" prefWidth="142.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="148.0" minWidth="113.0" prefWidth="115.0"/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints vgrow="SOMETIMES"/>
+            <RowConstraints vgrow="SOMETIMES"/>
+            <RowConstraints vgrow="SOMETIMES"/>
+        </rowConstraints>
+        <Label text="Тип тренировки" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <RadioButton mnemonicParsing="false" text="Стандартная" GridPane.columnIndex="1" GridPane.rowIndex="0"
+                     fx:id="standardTypeRadioButton"/>
+        <RadioButton mnemonicParsing="false" text="На время" GridPane.columnIndex="2" GridPane.rowIndex="0"
+                     fx:id="timeTypeRadioButton"/>
+        <TextField GridPane.columnIndex="3" GridPane.rowIndex="0" fx:id="countTimeTextField"/>
+        <Label text="Охват слов (От:До:Кроме)" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="fromTextField"/>
+        <TextField GridPane.columnIndex="2" GridPane.rowIndex="1" fx:id="untilTextField"/>
+        <TextField GridPane.columnIndex="3" GridPane.rowIndex="1" fx:id="ignoreTextField"/>
+        <Label text="Порядок слов" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <RadioButton mnemonicParsing="false" text="Сверху вниз" GridPane.columnIndex="1" GridPane.rowIndex="2"
+                     fx:id="topBottomRadioButton"/>
+        <RadioButton mnemonicParsing="false" text="Снизу вверх" GridPane.columnIndex="2" GridPane.rowIndex="2"
+                     fx:id="bottomTopRadioButton"/>
+        <RadioButton mnemonicParsing="false" text="Случайный" GridPane.columnIndex="3" GridPane.rowIndex="2"
+                     fx:id="randomRadioButton"/>
+    </GridPane>
+    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10">
+        <Button mnemonicParsing="false" text="Начать" fx:id="startButton"/>
+        <Button mnemonicParsing="false" text="Выход" fx:id="exitButton"/>
+    </HBox>
+</VBox>
