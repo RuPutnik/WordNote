@@ -28,6 +28,7 @@ public class TrainingController implements Initializable {
     private static MainController mainController;
     private ToggleGroup typeGroup=new ToggleGroup();
     private ToggleGroup queueGroup=new ToggleGroup();
+    private ToggleGroup directionGroup=new ToggleGroup();
 
     @FXML
     private RadioButton standardTypeRadioButton;
@@ -47,6 +48,10 @@ public class TrainingController implements Initializable {
     private RadioButton bottomTopRadioButton;
     @FXML
     private RadioButton randomRadioButton;
+    @FXML
+    private RadioButton wordTranslationRadioButton;
+    @FXML
+    private RadioButton translationWordRadioButton;
     @FXML
     private Button startButton;
     @FXML
@@ -74,8 +79,8 @@ public class TrainingController implements Initializable {
         stage.setScene(new Scene(parent));
         stage.setResizable(false);
         stage.setTitle("Word Note");
-        stage.setWidth(510);
-        stage.setHeight(180);
+        stage.setWidth(560);
+        stage.setHeight(210);
         stage.initOwner(mainController.getStage());
         stage.initModality(Modality.WINDOW_MODAL);
         stage.show();
@@ -85,9 +90,12 @@ public class TrainingController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         typeGroup.getToggles().addAll(standardTypeRadioButton,timeTypeRadioButton);
         queueGroup.getToggles().addAll(topBottomRadioButton,bottomTopRadioButton,randomRadioButton);
+        directionGroup.getToggles().addAll(wordTranslationRadioButton,translationWordRadioButton);
         standardTypeRadioButton.setSelected(true);
         topBottomRadioButton.setSelected(true);
+        translationWordRadioButton.setSelected(true);
         fromTextField.setText("1");
+        countTimeTextField.setText("0");
         untilTextField.setText(String.valueOf(mainController.getMainModel().getWordList().size()));
 
         startButton.setOnAction(event -> {
@@ -104,11 +112,12 @@ public class TrainingController implements Initializable {
                     indexes[2] = Integer.parseInt(ignoreTextField.getText());
                 }
                 data.setFromUntilIgnore(indexes);
-                data.setTypeQueue(queueGroup.getSelectedToggle().toString());
-
-                trainingModel.runTraining(data);
+                data.setTypeQueue(((RadioButton)queueGroup.getSelectedToggle()).getText());
+                data.setDirection(((RadioButton)directionGroup.getSelectedToggle()).getText());
+                trainingModel.runTraining(mainController.getMainModel().getWordList(),data);
             }catch (Exception ex){
                 callAlert(Alert.AlertType.ERROR,"Ошибка запуска тренировки",null,"Параметры тренировки введены с ошибкой");
+                ex.printStackTrace();
             }
         });
         exitButton.setOnAction(event -> {

@@ -34,11 +34,13 @@ import static ru.putnik.wordnote.AlertCall.callWaitAlert;
  * Создано 01.08.2019 в 16:43
  */
 public class MainController extends Application implements Initializable {
+
     private MainModel mainModel=new MainModel();
     private SettingController settingController=new SettingController(this);
     private AddEditController addEditController=new AddEditController(this);
     private GroupManagerController groupManagerController=new GroupManagerController(this);
     private TrainingController trainingController=new TrainingController(this);
+    private StatisticController statisticController=new StatisticController(this);
 
     private static Stage stage;
     private String pathToWordFile;
@@ -78,6 +80,8 @@ public class MainController extends Application implements Initializable {
     private MenuItem findWordMenuItem;
     @FXML
     private MenuItem trainingMenuItem;
+    @FXML
+    private MenuItem statisticMenuItem;
     @FXML
     private TableView<Word> wordTable;
     @FXML
@@ -358,6 +362,9 @@ public class MainController extends Application implements Initializable {
             }else{
                 callWaitAlert(Alert.AlertType.WARNING, "Тренировка", null, "Тренировка невозможна, поскольку словарь не выбран");
             }
+        });
+        statisticMenuItem.setOnAction(event -> {
+            statisticController.createWindow();
         });
         exitMenuItem.setOnAction(event -> {
             stage.close();

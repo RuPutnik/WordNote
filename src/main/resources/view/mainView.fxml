@@ -44,8 +44,8 @@
             </placeholder>
             <columns>
                 <TableColumn fx:id="indexColumn" text="Номер" />
-                <TableColumn fx:id="wordColumn" text="Слово" /><!--Добавить далее формат "Язык 1: " далее название языка, который будет указываться при создании словаря-->
-                <TableColumn fx:id="translateColumn" text="Перевод" /><!--Добавить далее формат "Язык 2: " далее название языка, который будет указываться при создании словаря-->
+                <TableColumn fx:id="wordColumn" text="Слово" />
+                <TableColumn fx:id="translateColumn" text="Перевод" />
                 <TableColumn fx:id="groupColumn" text="Группа" />
             </columns>
             <contextMenu>

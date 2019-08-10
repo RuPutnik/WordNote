@@ -11,44 +11,42 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" prefHeight="150.0" prefWidth="480.0" xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.putnik.wordnote.controller.TrainingController" spacing="10">
+<VBox alignment="CENTER" prefHeight="180.0" prefWidth="530.0" spacing="10" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.putnik.wordnote.controller.TrainingController">
     <padding>
-        <Insets bottom="5" left="10" right="10" top="5"/>
+        <Insets bottom="5" left="10" right="10" top="5" />
     </padding>
-    <Label text="Словарная тренировка"/>
+    <Label text="Словарная тренировка" />
     <GridPane hgap="5" vgap="5">
         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="264.0" minWidth="152.0" prefWidth="152.0"/>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="191.0" minWidth="104.0" prefWidth="118.0"/>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="171.0" minWidth="106.0" prefWidth="142.0"/>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="148.0" minWidth="113.0" prefWidth="115.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="264.0" minWidth="152.0" prefWidth="152.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="191.0" minWidth="104.0" prefWidth="122.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="171.0" minWidth="97.0" prefWidth="116.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="148.0" minWidth="97.0" prefWidth="109.0" />
         </columnConstraints>
         <rowConstraints>
-            <RowConstraints vgrow="SOMETIMES"/>
-            <RowConstraints vgrow="SOMETIMES"/>
-            <RowConstraints vgrow="SOMETIMES"/>
+            <RowConstraints vgrow="SOMETIMES" />
+            <RowConstraints vgrow="SOMETIMES" />
+            <RowConstraints vgrow="SOMETIMES" />
+            <RowConstraints vgrow="SOMETIMES" />
         </rowConstraints>
-        <Label text="Тип тренировки" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-        <RadioButton mnemonicParsing="false" text="Стандартная" GridPane.columnIndex="1" GridPane.rowIndex="0"
-                     fx:id="standardTypeRadioButton"/>
-        <RadioButton mnemonicParsing="false" text="На время" GridPane.columnIndex="2" GridPane.rowIndex="0"
-                     fx:id="timeTypeRadioButton"/>
-        <TextField GridPane.columnIndex="3" GridPane.rowIndex="0" fx:id="countTimeTextField"/>
-        <Label text="Охват слов (От:До:Кроме)" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-        <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="fromTextField"/>
-        <TextField GridPane.columnIndex="2" GridPane.rowIndex="1" fx:id="untilTextField"/>
-        <TextField GridPane.columnIndex="3" GridPane.rowIndex="1" fx:id="ignoreTextField"/>
-        <Label text="Порядок слов" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-        <RadioButton mnemonicParsing="false" text="Сверху вниз" GridPane.columnIndex="1" GridPane.rowIndex="2"
-                     fx:id="topBottomRadioButton"/>
-        <RadioButton mnemonicParsing="false" text="Снизу вверх" GridPane.columnIndex="2" GridPane.rowIndex="2"
-                     fx:id="bottomTopRadioButton"/>
-        <RadioButton mnemonicParsing="false" text="Случайный" GridPane.columnIndex="3" GridPane.rowIndex="2"
-                     fx:id="randomRadioButton"/>
+        <Label text="Тип тренировки" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+        <RadioButton fx:id="standardTypeRadioButton" mnemonicParsing="false" text="Стандартная" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+        <RadioButton fx:id="timeTypeRadioButton" mnemonicParsing="false" text="На время" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+        <TextField fx:id="countTimeTextField" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+        <Label text="Охват слов (От:До:Кроме)" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+        <TextField fx:id="fromTextField" prefHeight="25.0" prefWidth="114.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+        <TextField fx:id="untilTextField" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+        <TextField fx:id="ignoreTextField" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+        <Label text="Порядок слов" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+        <RadioButton fx:id="topBottomRadioButton" mnemonicParsing="false" text="Сверху вниз" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+        <RadioButton fx:id="bottomTopRadioButton" mnemonicParsing="false" text="Снизу вверх" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+        <RadioButton fx:id="randomRadioButton" mnemonicParsing="false" text="Случайный" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+        <Label text="Направление" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+        <RadioButton fx:id="wordTranslationRadioButton" mnemonicParsing="false" text="Слово-Перевод" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+        <RadioButton fx:id="translationWordRadioButton" mnemonicParsing="false" text="Перевод-Слово" GridPane.columnIndex="2" GridPane.rowIndex="3" />
     </GridPane>
     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10">
-        <Button mnemonicParsing="false" text="Начать" fx:id="startButton"/>
-        <Button mnemonicParsing="false" text="Выход" fx:id="exitButton"/>
+        <Button fx:id="startButton" mnemonicParsing="false" text="Начать" />
+        <Button fx:id="exitButton" mnemonicParsing="false" text="Выход" />
     </HBox>
 </VBox>
