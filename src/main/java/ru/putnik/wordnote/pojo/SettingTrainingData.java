@@ -6,11 +6,11 @@ package ru.putnik.wordnote.pojo;
 public class SettingTrainingData {
     private String typeTraining;
     private int countTimeTraining;
-    private int[] fromUntilIgnore;
+    private String[] fromUntilIgnore;
     private String typeQueue;
     private String direction;
 
-    public SettingTrainingData(String typeTraining, int countTimeTraining, int[] fromUntilIgnore, String typeQueue,String direction) {
+    public SettingTrainingData(String typeTraining, int countTimeTraining, String[] fromUntilIgnore, String typeQueue,String direction) {
         this.typeTraining = typeTraining;
         this.countTimeTraining = countTimeTraining;
         this.fromUntilIgnore = fromUntilIgnore;
@@ -35,11 +35,11 @@ public class SettingTrainingData {
         this.countTimeTraining = countTimeTraining;
     }
 
-    public int[] getFromUntilIgnore() {
+    public String[] getFromUntilIgnore() {
         return fromUntilIgnore;
     }
 
-    public void setFromUntilIgnore(int[] fromUntilIgnore) {
+    public void setFromUntilIgnore(String[] fromUntilIgnore) {
         this.fromUntilIgnore = fromUntilIgnore;
     }
 

@@ -7,12 +7,15 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import ru.putnik.wordnote.Timer;
 import ru.putnik.wordnote.controller.ResultTrainingController;
 import ru.putnik.wordnote.pojo.ResultTrainingData;
 import ru.putnik.wordnote.pojo.SettingTrainingData;
 import ru.putnik.wordnote.pojo.Word;
 
+import java.util.ArrayList;
 import java.util.Optional;
+import java.util.Random;
 
 import static ru.putnik.wordnote.AlertCall.callWaitAlert;
 
@@ -24,59 +27,181 @@ public class TrainingModel {
     private int resultsAnswers[];
     private int countAllAnswers;
     private String questionWords[];
+    private double positionAlertX=-1;
+    private double positionAlertY=-1;
+    private static Alert questionAlert;
+    private static boolean timeTraining=false;
     public void runTraining(ObservableList<Word> listWord, SettingTrainingData trainingData){
         int indexQuestion;
+        ArrayList<Integer> listIndexes = new ArrayList<>();
+        if(!trainingData.getFromUntilIgnore()[2].equals("-1")) {
+            String[] ignoredQuestions = trainingData.getFromUntilIgnore()[2].split(";");
 
-        countAllAnswers=trainingData.getFromUntilIgnore()[1]-(trainingData.getFromUntilIgnore()[0]-1);
-        resultsAnswers=new int[countAllAnswers];
-        questionWords=new String[countAllAnswers];
-        for(indexQuestion=trainingData.getFromUntilIgnore()[0]-1;indexQuestion<trainingData.getFromUntilIgnore()[1];) {
-            //добавить проверку игнорируемых вопросов
-            ResultAnswer resultAnswer=null;
-            if(trainingData.getDirection().equals("Слово-Перевод")) {
-                resultAnswer = giveQuestion(listWord.get(indexQuestion).getWord(), listWord.get(indexQuestion).getTranslate());
-                questionWords[indexQuestion]=listWord.get(indexQuestion).getWord();
-            }else if(trainingData.getDirection().equals("Перевод-Слово")) {
-                resultAnswer = giveQuestion(listWord.get(indexQuestion).getTranslate(), listWord.get(indexQuestion).getWord());
-                questionWords[indexQuestion]=listWord.get(indexQuestion).getTranslate();
-            }
-            switch (resultAnswer) {
-                case TRUE: {
-                    callWaitAlert(Alert.AlertType.INFORMATION, "Вопрос", null, "Ответ правильный!");
-                    if(resultsAnswers[indexQuestion]!=-1) {
-                        resultsAnswers[indexQuestion] = 1;
-                    }
-                    indexQuestion++;
-                    break;
-                }
-                case WRONG: {
-                    callWaitAlert(Alert.AlertType.WARNING, "Вопрос", null, "Ответ неправильный!");
-                    resultsAnswers[indexQuestion]=-1;
-                    break;
-                }
-                case IGNORE: {
-                    indexQuestion++;
-                    break;
-                }
-                case CLOSE: {
-                    callWaitAlert(Alert.AlertType.INFORMATION, "Тренировка", null, "Тренировка прекращена");
-                    ResultTrainingData resultTrainingData=new ResultTrainingData(resultsAnswers,questionWords);
-                    resultTrainingController.createWindow(resultTrainingData);
-                    return;
-                }
-                case NULL: {
-                    callWaitAlert(Alert.AlertType.INFORMATION, "Вопрос", null, "Неизвестная ошибка");
-                    indexQuestion++;
-                    break;
+            for (int a = 0; a < ignoredQuestions.length; a++) {
+                if(Integer.parseInt(ignoredQuestions[a])>=Integer.parseInt(trainingData.getFromUntilIgnore()[0])&&
+                        Integer.parseInt(ignoredQuestions[a])<=Integer.parseInt(trainingData.getFromUntilIgnore()[1])) {
+                    listIndexes.add(Integer.parseInt(ignoredQuestions[a])-1);
                 }
             }
         }
+        if(trainingData.getTypeTraining().contains("На время")){
+            timeTraining=true;
+            Timer timer=new Timer(this,trainingData.getCountTimeTraining());
+
+            Thread timeThread=new Thread(timer);
+            timeThread.start();
+        }
+
+        countAllAnswers=Integer.parseInt(trainingData.getFromUntilIgnore()[1])-(Integer.parseInt(trainingData.getFromUntilIgnore()[0])-1);
+        resultsAnswers=new int[countAllAnswers];
+        questionWords=new String[countAllAnswers];
+        if(trainingData.getTypeQueue().equals("Сверху вниз")) {
+            for (indexQuestion = Integer.parseInt(trainingData.getFromUntilIgnore()[0]) - 1; indexQuestion < Integer.parseInt(trainingData.getFromUntilIgnore()[1]); ) {
+                if(!listIndexes.contains(indexQuestion)) {
+                    ResultAnswer resultAnswer = null;
+                    if (trainingData.getDirection().equals("Слово-Перевод")) {
+                        resultAnswer = giveQuestion(listWord.get(indexQuestion).getWord(), listWord.get(indexQuestion).getTranslate());
+                        questionWords[indexQuestion] = listWord.get(indexQuestion).getWord();
+                    } else if (trainingData.getDirection().equals("Перевод-Слово")) {
+                        resultAnswer = giveQuestion(listWord.get(indexQuestion).getTranslate(), listWord.get(indexQuestion).getWord());
+                        questionWords[indexQuestion] = listWord.get(indexQuestion).getTranslate();
+                    }
+
+                    switch (resultAnswer) {
+                        case TRUE: {
+                            callWaitAlert(Alert.AlertType.INFORMATION, "Вопрос", null, "Ответ правильный!");
+                            if (resultsAnswers[indexQuestion] != -1) {
+                                resultsAnswers[indexQuestion] = 1;
+                            }
+                            indexQuestion++;
+                            break;
+                        }
+                        case WRONG: {
+                            callWaitAlert(Alert.AlertType.WARNING, "Вопрос", null, "Ответ неправильный!");
+                            resultsAnswers[indexQuestion] = -1;
+                            break;
+                        }
+                        case IGNORE: {
+                            indexQuestion++;
+                            break;
+                        }
+                        case CLOSE: {
+                            callWaitAlert(Alert.AlertType.INFORMATION, "Тренировка", null, "Тренировка прекращена");
+                            timeTraining=false;
+                            return;
+                        }
+                    }
+                }else{
+                    resultsAnswers[indexQuestion] = 2;
+                    indexQuestion++;
+                }
+            }
+        }else if(trainingData.getTypeQueue().equals("Снизу вверх")){
+            int indexQuestion1= Integer.parseInt(trainingData.getFromUntilIgnore()[1])-1;
+            for (indexQuestion = Integer.parseInt(trainingData.getFromUntilIgnore()[1])-1; indexQuestion > Integer.parseInt(trainingData.getFromUntilIgnore()[0])-2; ) {
+                if(!listIndexes.contains(indexQuestion)) {
+                    ResultAnswer resultAnswer = null;
+
+                    if (trainingData.getDirection().equals("Слово-Перевод")) {
+                        resultAnswer = giveQuestion(listWord.get(indexQuestion).getWord(), listWord.get(indexQuestion).getTranslate());
+                        questionWords[indexQuestion1-indexQuestion] = listWord.get(indexQuestion).getWord();
+                    } else if (trainingData.getDirection().equals("Перевод-Слово")) {
+                        resultAnswer = giveQuestion(listWord.get(indexQuestion).getTranslate(), listWord.get(indexQuestion).getWord());
+                        questionWords[indexQuestion1-indexQuestion] = listWord.get(indexQuestion).getTranslate();
+                    }
+
+                    switch (resultAnswer) {
+                        case TRUE: {
+                            callWaitAlert(Alert.AlertType.INFORMATION, "Вопрос", null, "Ответ правильный!");
+                            if (resultsAnswers[indexQuestion1-indexQuestion] != -1) {
+                                resultsAnswers[indexQuestion1-indexQuestion] = 1;
+                            }
+                            indexQuestion--;
+                            break;
+                        }
+                        case WRONG: {
+                            callWaitAlert(Alert.AlertType.WARNING, "Вопрос", null, "Ответ неправильный!");
+                            resultsAnswers[indexQuestion1-indexQuestion] = -1;
+                            break;
+                        }
+                        case IGNORE: {
+                            indexQuestion--;
+                            break;
+                        }
+                        case CLOSE: {
+                            callWaitAlert(Alert.AlertType.INFORMATION, "Тренировка", null, "Тренировка прекращена");
+                            timeTraining=false;
+                            return;
+                        }
+                    }
+                }else{
+                    resultsAnswers[indexQuestion1-indexQuestion] = 2;
+                    indexQuestion--;
+                }
+            }
+        }else if(trainingData.getTypeQueue().equals("Случайный")){
+            boolean nextQuestion=true;
+            ArrayList<Integer> memory=new ArrayList<>();
+            indexQuestion=0;
+            int count=0;
+            for (;;) {
+                if(nextQuestion) {
+                    indexQuestion = new Random().nextInt(Integer.parseInt(trainingData.getFromUntilIgnore()[1]));
+                }
+                if(!memory.contains(indexQuestion)) {
+                    if (!listIndexes.contains(indexQuestion)) {
+                        ResultAnswer resultAnswer = null;
+                        memory.add(indexQuestion);
+
+                        if (trainingData.getDirection().equals("Слово-Перевод")) {
+                            resultAnswer = giveQuestion(listWord.get(indexQuestion).getWord(), listWord.get(indexQuestion).getTranslate());
+                            questionWords[indexQuestion] = listWord.get(indexQuestion).getWord();
+                        } else if (trainingData.getDirection().equals("Перевод-Слово")) {
+                            resultAnswer = giveQuestion(listWord.get(indexQuestion).getTranslate(), listWord.get(indexQuestion).getWord());
+                            questionWords[indexQuestion] = listWord.get(indexQuestion).getTranslate();
+                        }
+
+                        switch (resultAnswer) {
+                            case TRUE: {
+                                callWaitAlert(Alert.AlertType.INFORMATION, "Вопрос", null, "Ответ правильный!");
+                                if (resultsAnswers[indexQuestion] != -1) {
+                                    resultsAnswers[indexQuestion] = 1;
+                                }
+                                nextQuestion = true;
+                                count++;
+                                break;
+                            }
+                            case WRONG: {
+                                callWaitAlert(Alert.AlertType.WARNING, "Вопрос", null, "Ответ неправильный!");
+                                resultsAnswers[indexQuestion] = -1;
+                                nextQuestion = false;
+                                break;
+                            }
+                            case IGNORE: {
+                                nextQuestion = true;
+                                count++;
+                                break;
+                            }
+                            case CLOSE: {
+                                callWaitAlert(Alert.AlertType.INFORMATION, "Тренировка", null, "Тренировка прекращена");
+                                timeTraining=false;
+                                return;
+                            }
+                        }
+                    } else {
+                        resultsAnswers[indexQuestion] = 2;
+                    }
+                }
+                if(count==(countAllAnswers-listIndexes.size())) break;
+            }
+        }
+        timeTraining=false;
         callWaitAlert(Alert.AlertType.INFORMATION, "Тренировка", null, "Тренировка завершена");
         ResultTrainingData resultTrainingData=new ResultTrainingData(resultsAnswers,questionWords);
         resultTrainingController.createWindow(resultTrainingData);
     }
     public ResultAnswer giveQuestion(String word,String translate){
-        Alert questionAlert=new Alert(Alert.AlertType.CONFIRMATION);
+        questionAlert=new Alert(Alert.AlertType.CONFIRMATION);
 
         ((Stage) questionAlert.getDialogPane().getScene().getWindow()).getIcons().add(new Image("icon/mainIcon.png"));
         ((Stage) questionAlert.getDialogPane().getScene().getWindow()).setAlwaysOnTop(true);
@@ -88,7 +213,12 @@ public class TrainingModel {
         box.getChildren().addAll(wordLabel,answerTranslateTextField);
         box.setSpacing(10);
         box.setAlignment(Pos.CENTER);
-
+        if(positionAlertX!=-1){
+            questionAlert.setX(positionAlertX);
+        }
+        if(positionAlertY!=-1){
+            questionAlert.setY(positionAlertY);
+        }
         questionAlert.getDialogPane().setContent(box);
         questionAlert.setTitle("Вопрос");
         questionAlert.setHeaderText("Введите перевод слова:");
@@ -98,7 +228,8 @@ public class TrainingModel {
         questionAlert.getButtonTypes().addAll(new ButtonType("Проверить"),new ButtonType("Пропустить"), new ButtonType("Выход",ButtonBar.ButtonData.CANCEL_CLOSE));
 
         Optional<ButtonType> optional=questionAlert.showAndWait();
-
+        positionAlertX=questionAlert.getX();
+        positionAlertY=questionAlert.getY();
         if(optional.get().getText().equals("Проверить")){
             if(translate.toLowerCase().equals(answerTranslateTextField.getText().toLowerCase())){
                 return ResultAnswer.TRUE;
@@ -114,7 +245,29 @@ public class TrainingModel {
         }
 
     }
+    public void timeStopTraining(){
+        callWaitAlert(Alert.AlertType.INFORMATION, "Тренировка", null, "Время вышло. Тренировка завершена");
+        for(int a=0;a<questionWords.length;a++){
+            if(questionWords[a]==null||questionWords[a].equals("null")){
+                resultsAnswers[a]=2;
+            }
+        }
+        ResultTrainingData resultTrainingData=new ResultTrainingData(resultsAnswers,questionWords);
+        resultTrainingController.createWindow(resultTrainingData);
+    }
     private enum ResultAnswer{
         TRUE,IGNORE,WRONG,CLOSE,NULL;
+    }
+
+    public Alert getQuestionAlert() {
+        return questionAlert;
+    }
+
+    public boolean isTimeTraining() {
+        return timeTraining;
+    }
+
+    public void setTimeTraining(boolean timeTraining) {
+        TrainingModel.timeTraining = timeTraining;
     }
 }

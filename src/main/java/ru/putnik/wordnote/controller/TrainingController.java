@@ -99,24 +99,31 @@ public class TrainingController implements Initializable {
         untilTextField.setText(String.valueOf(mainController.getMainModel().getWordList().size()));
 
         startButton.setOnAction(event -> {
+            SettingTrainingData data;
             try {
-                SettingTrainingData data = new SettingTrainingData();
+                data= new SettingTrainingData();
                 data.setCountTimeTraining(Integer.parseInt(countTimeTextField.getText()));
                 data.setTypeTraining(typeGroup.getSelectedToggle().toString());
-                int[] indexes=new int[3];
-                indexes[0]=Integer.parseInt(fromTextField.getText());
-                indexes[1]=Integer.parseInt(untilTextField.getText());
+                String[] indexes=new String[3];
+                indexes[0]=fromTextField.getText();
+                indexes[1]=untilTextField.getText();
                 if(ignoreTextField.getText()==null||ignoreTextField.getText().trim().equals("")){
-                    indexes[2]=-1;
+                    indexes[2]="-1";
                 }else {
-                    indexes[2] = Integer.parseInt(ignoreTextField.getText());
+                    indexes[2] = ignoreTextField.getText();
                 }
                 data.setFromUntilIgnore(indexes);
                 data.setTypeQueue(((RadioButton)queueGroup.getSelectedToggle()).getText());
                 data.setDirection(((RadioButton)directionGroup.getSelectedToggle()).getText());
-                trainingModel.runTraining(mainController.getMainModel().getWordList(),data);
             }catch (Exception ex){
                 callAlert(Alert.AlertType.ERROR,"Ошибка запуска тренировки",null,"Параметры тренировки введены с ошибкой");
+                ex.printStackTrace();
+                return;
+            }
+            try{
+                trainingModel.runTraining(mainController.getMainModel().getWordList(),data);
+            }catch (Exception ex){
+                callAlert(Alert.AlertType.ERROR,"Ошибка тренировки",null,"Во время тренировки произошла ошибка");
                 ex.printStackTrace();
             }
         });

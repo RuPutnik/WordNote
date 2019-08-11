@@ -64,6 +64,7 @@ public class ResultTrainingController implements Initializable {
         int countTrue=0;
         int countWrong=0;
         int countIgnore=0;
+        int countStartIgnored=0;
         double percentTrue;
         for(int a=0;a<trainingData.getQuestionWords().length;a++){
             if(trainingData.getResultsAnswers()[a]==0){
@@ -73,7 +74,11 @@ public class ResultTrainingController implements Initializable {
             }else if(trainingData.getResultsAnswers()[a]==1){
                 countTrue++;
             }
+            else if(trainingData.getResultsAnswers()[a]==2){
+                countStartIgnored++;
+            }
         }
+        countAll=countAll-countStartIgnored;
         percentTrue=((countTrue*1.0)/countAll)*100;
         listResults.getItems().add("Всего вопросов: "+countAll);
         listResults.getItems().add("Всего правильных ответов: "+countTrue);
@@ -91,6 +96,8 @@ public class ResultTrainingController implements Initializable {
                 result="Неправильно";
             }else if(trainingData.getResultsAnswers()[a]==1){
                 result="Правильно";
+            }else if(trainingData.getResultsAnswers()[a]==2){
+                continue;
             }
             listResults.getItems().add(trainingData.getQuestionWords()[a]+" : "+result);
         }
