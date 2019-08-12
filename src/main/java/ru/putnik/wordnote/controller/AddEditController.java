@@ -116,13 +116,13 @@ public class AddEditController implements Initializable {
 
             if(typeOperation.equals("Добавить новое слово")){
                 if(!(word.equals("-")&&translate.equals("-"))){
-                    mainController.getMainModel().addWord(new Word(word,translate,nameGroup));
+                    mainController.getMainModel().addWord(new Word(word,translate,nameGroup,mainController.getMainModel().getWordList().size()+1));
                 }else{
                     callAlert(Alert.AlertType.WARNING,"Невозможно добавить слово",null,"Слово и его перевод не определены");
                 }
             }else if(typeOperation.equals("Редактировать слово")){
                 if(!(word.equals("-")&&translate.equals("-"))) {
-                    mainController.getMainModel().editWord(indexWord, new Word(word, translate, nameGroup));
+                    mainController.getMainModel().editWord(indexWord, new Word(word, translate, nameGroup,indexWord+1));
                 }else {
                     callAlert(Alert.AlertType.WARNING,"Невозможно отредактировать слово",null,"Слово и его перевод не могут быть неопределены одновременно");
                 }

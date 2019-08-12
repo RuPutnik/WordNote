@@ -41,7 +41,7 @@ public class MainModel {
             writer.write("");
             writer.append("-----Хранилище слов [WordNote] "+new GregorianCalendar().getTime()+"-----"+"\n");
             for(Word word1:wordList){
-                writer.append(word1.getWord()+":"+word1.getTranslate()+":"+word1.getGroup()+"\n");
+                writer.append(word1.getNumber()+":"+word1.getWord()+":"+word1.getTranslate()+":"+word1.getGroup()+"\n");
             }
             writer.flush();
             this.path=path;//ВОЗМОЖНО вызовет ошибки
@@ -69,13 +69,14 @@ public class MainModel {
 
                     String partsLine[]=line.split(":");
 
-                    if(partsLine.length<3){
+                    if(partsLine.length<4){
                         callAlert(Alert.AlertType.ERROR,"Ошибка загрузки",null,"Файл со словарем по адресу "+pathFile+" поврежден и не может быть использован");
                         return false;
                     }
-                    word.setWord(partsLine[0]);
-                    word.setTranslate(partsLine[1]);
-                    word.setGroup(partsLine[2]);
+                    word.setNumber(Integer.parseInt(partsLine[0]));
+                    word.setWord(partsLine[1]);
+                    word.setTranslate(partsLine[2]);
+                    word.setGroup(partsLine[3]);
 
                     wordList.add(word);
                 }
@@ -118,6 +119,11 @@ public class MainModel {
 
     public void deleteWord(int index){
         wordList.remove(index);
+        for (Word w:wordList){
+            if(w.getNumber()>index+1){
+                w.setNumber(w.getNumber()-1);
+            }
+        }
         rewriteFile();
     }
     public void editWord(int index,Word newWord){

@@ -2,8 +2,7 @@
 The program is helper for learning languages. Allows you to save words and translates. 
 
 Roadmap:
-bugs:
-1. Возможно сделать номер слова частью записи, это позволит избежать проблем с сортировкой по алфавиту и номеру
+
 new features:
 1. Количество слов в словаре, вывод в программе
 2. Количество слов в каждой группе, вывод в окне менеджмента групп

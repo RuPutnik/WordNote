@@ -144,7 +144,7 @@ public class MainController extends Application implements Initializable {
             deleteWordMenuItem.fire();
         });
 
-        indexColumn.setCellValueFactory(value-> new SimpleObjectProperty<>(wordTable.getItems().indexOf(value.getValue())+1));
+        indexColumn.setCellValueFactory(value-> new SimpleObjectProperty<>(value.getValue().getNumber()));
         wordColumn.setCellValueFactory(value-> new SimpleObjectProperty<>(value.getValue().getWord()));
         translateColumn.setCellValueFactory(value-> new SimpleObjectProperty<>(value.getValue().getTranslate()));
         groupColumn.setCellValueFactory(value-> new SimpleObjectProperty<>(value.getValue().getGroup()));
