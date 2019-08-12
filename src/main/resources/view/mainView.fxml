@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
 <VBox prefHeight="600.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.putnik.wordnote.controller.MainController">
         <MenuBar>
             <Menu text="Словарь">
@@ -61,6 +62,11 @@
                 <Insets bottom="5" left="10" right="10" top="5" />
             </VBox.margin>
         </TableView>
-
-
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Всего слов:"/>
+            <Label fx:id="countWordsLabel" text="0"/>
+            <VBox.margin>
+                <Insets bottom="5" left="10" right="10" top="5" />
+            </VBox.margin>
+        </HBox>
 </VBox>

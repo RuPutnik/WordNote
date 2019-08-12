@@ -66,7 +66,7 @@ public class AddEditController implements Initializable {
         stage.setHeight(230);
         stage.initOwner(mainController.getStage());
         stage.initModality(Modality.WINDOW_MODAL);
-        stage.show();
+        stage.showAndWait();
     }
     public void addWord(){
         typeOperation="Добавить новое слово";

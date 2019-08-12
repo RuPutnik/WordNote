@@ -34,7 +34,6 @@ import static ru.putnik.wordnote.AlertCall.callWaitAlert;
  * Создано 01.08.2019 в 16:43
  */
 public class MainController extends Application implements Initializable {
-
     private MainModel mainModel=new MainModel();
     private SettingController settingController=new SettingController(this);
     private AddEditController addEditController=new AddEditController(this);
@@ -92,6 +91,9 @@ public class MainController extends Application implements Initializable {
     private TableColumn<Word,String> translateColumn;
     @FXML
     private TableColumn<Word,String> groupColumn;
+    @FXML
+    private Label countWordsLabel;
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         stage=primaryStage;
@@ -119,6 +121,7 @@ public class MainController extends Application implements Initializable {
         addWordMenuItem.setOnAction(event -> {
             addEditController.addWord();
             if(mainModel.getWordList().size()>0){
+                countWordsLabel.setText(String.valueOf(mainModel.getWordList().size()));
                 deleteWord.setDisable(false);
                 editWord.setDisable(false);
             }
@@ -128,6 +131,7 @@ public class MainController extends Application implements Initializable {
             int index=wordTable.getSelectionModel().getSelectedIndex();
             if(index!=-1) {
                 mainModel.deleteWord(index);
+                countWordsLabel.setText(String.valueOf(mainModel.getWordList().size()));
             }else{
                 callAlert(Alert.AlertType.WARNING,"Невозможно удалить слово",null,"Слово не выбрано");
             }
@@ -151,6 +155,7 @@ public class MainController extends Application implements Initializable {
         if(pathToWordFile!=null) {
             if(mainModel.openWordBook(pathToWordFile)){
                 stage.setTitle(stage.getTitle() + " [" + pathToWordFile + "]");
+                countWordsLabel.setText(String.valueOf(mainModel.getWordList().size()));
                 pathOpenWordFile=pathToWordFile;
             }
         }
@@ -182,6 +187,7 @@ public class MainController extends Application implements Initializable {
                 path = file.getPath();
                     if (mainModel.openWordBook(path)) {
                         stage.setTitle("Word Note" + " [" + path + "]");
+                        countWordsLabel.setText(String.valueOf(mainModel.getWordList().size()));
                         addWord.setDisable(false);
                         if (mainModel.getWordList().size() > 0) {
                             deleteWord.setDisable(false);
@@ -208,12 +214,14 @@ public class MainController extends Application implements Initializable {
         deleteAllWordMenuItem.setOnAction(event -> {
             if(mainModel.getWordList().size()>0){
                 mainModel.getWordList().clear();
+                countWordsLabel.setText(String.valueOf(mainModel.getWordList().size()));
                 deleteWord.setDisable(true);
                 editWord.setDisable(true);
             }
         });
         saveWordbook.setOnAction(event -> {
                 if (pathOpenWordFile != null && !pathOpenWordFile.equals("") && new File(pathOpenWordFile).exists()) {
+                    new File(pathOpenWordFile).delete();
                     String path=createNewWordbook();
                     if(path!=null) {
                         mainModel.rewriteFile(path);
