@@ -110,9 +110,9 @@ public class AddEditController implements Initializable {
             String word="-";
             String translate="-";
             String nameGroup="-";
-            if(wordTextField.getText()!=null&&(!wordTextField.getText().equals(""))) word=wordTextField.getText();
-            if(translateTextField.getText()!=null&&(!translateTextField.getText().equals(""))) translate=translateTextField.getText();
-            if(groupComboBox.getValue()!=null&&!groupComboBox.getValue().equals("")&&!groupComboBox.getValue().equals("Не выбрано")) nameGroup=groupComboBox.getValue();
+            if(wordTextField.getText()!=null&&(!wordTextField.getText().equals(""))) word=wordTextField.getText().trim();
+            if(translateTextField.getText()!=null&&(!translateTextField.getText().equals(""))) translate=translateTextField.getText().trim();
+            if(groupComboBox.getValue()!=null&&!groupComboBox.getValue().equals("")&&!groupComboBox.getValue().equals("Не выбрано")) nameGroup=groupComboBox.getValue().trim();
 
             if(typeOperation.equals("Добавить новое слово")){
                 if(!(word.equals("-")&&translate.equals("-"))){
