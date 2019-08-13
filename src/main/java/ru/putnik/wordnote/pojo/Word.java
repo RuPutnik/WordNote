@@ -8,12 +8,14 @@ public class Word {
     private String word="";
     private String translate="";
     private String group="";
+    private String comment="";
 
-    public Word(String word, String translate, String group,int number) {
+    public Word(String word, String translate, String group, int number, String comment) {
         this.word = word;
         this.translate = translate;
         this.group = group;
         this.number=number;
+        this.comment=comment;
     }
     public Word(){}
 
@@ -47,6 +49,14 @@ public class Word {
 
     public void setGroup(String group) {
         this.group = group;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     @Override

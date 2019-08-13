@@ -14,7 +14,7 @@ import ru.putnik.wordnote.pojo.SettingTrainingData;
 import ru.putnik.wordnote.pojo.Word;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
 
@@ -26,14 +26,13 @@ import static ru.putnik.wordnote.AlertCall.callWaitAlert;
 public class TrainingModel {
     private ResultTrainingController resultTrainingController=new ResultTrainingController();
     private int resultsAnswers[];
-    private int countAllAnswers;
     private String questionWords[];
     private double positionAlertX=-1;
     private double positionAlertY=-1;
     private static Alert questionAlert;
     private static boolean timeTraining=false;
     private ArrayList<String> tempMemoryAnswers=new ArrayList<>();
-    private ArrayList<String> tempCountDiplicatedAnswers=new ArrayList<>();
+    private ArrayList<String> tempCountDuplicatedAnswers=new ArrayList<>();
     private static ObservableList<Word> list;
     public void runTraining(ObservableList<Word> listWord, SettingTrainingData trainingData){
         int indexQuestion;
@@ -42,10 +41,10 @@ public class TrainingModel {
         if(!trainingData.getFromUntilIgnore()[2].equals("-1")) {
             String[] ignoredQuestions = trainingData.getFromUntilIgnore()[2].split(";");
 
-            for (int a = 0; a < ignoredQuestions.length; a++) {
-                if(Integer.parseInt(ignoredQuestions[a])>=Integer.parseInt(trainingData.getFromUntilIgnore()[0])&&
-                        Integer.parseInt(ignoredQuestions[a])<=Integer.parseInt(trainingData.getFromUntilIgnore()[1])) {
-                    listIndexes.add(Integer.parseInt(ignoredQuestions[a])-1);
+            for (String ignoredQuestion : ignoredQuestions) {
+                if (Integer.parseInt(ignoredQuestion) >= Integer.parseInt(trainingData.getFromUntilIgnore()[0]) &&
+                        Integer.parseInt(ignoredQuestion) <= Integer.parseInt(trainingData.getFromUntilIgnore()[1])) {
+                    listIndexes.add(Integer.parseInt(ignoredQuestion) - 1);
                 }
             }
         }
@@ -57,7 +56,7 @@ public class TrainingModel {
             timeThread.start();
         }
 
-        countAllAnswers=Integer.parseInt(trainingData.getFromUntilIgnore()[1])-(Integer.parseInt(trainingData.getFromUntilIgnore()[0])-1);
+        int countAllAnswers = Integer.parseInt(trainingData.getFromUntilIgnore()[1]) - (Integer.parseInt(trainingData.getFromUntilIgnore()[0]) - 1);
         resultsAnswers=new int[countAllAnswers];
         questionWords=new String[countAllAnswers];
         if(trainingData.getTypeQueue().equals("Сверху вниз")) {
@@ -70,9 +69,18 @@ public class TrainingModel {
                     } else if (trainingData.getDirection().equals("Перевод-Слово")) {
                         resultAnswer = giveQuestion(listWord.get(indexQuestion).getTranslate(), findAllAnswersForQuestion(listWord,indexQuestion,-1));
                         questionWords[indexQuestion] = listWord.get(indexQuestion).getTranslate();
+                    }else if(trainingData.getDirection().equals("Случайный")){
+                        int rndDir=new Random().nextInt(2);
+                        if(rndDir==0){
+                            resultAnswer = giveQuestion(listWord.get(indexQuestion).getWord(), findAllAnswersForQuestion(listWord,indexQuestion,1));
+                            questionWords[indexQuestion] = listWord.get(indexQuestion).getWord();
+                        }else {
+                            resultAnswer = giveQuestion(listWord.get(indexQuestion).getTranslate(), findAllAnswersForQuestion(listWord,indexQuestion,-1));
+                            questionWords[indexQuestion] = listWord.get(indexQuestion).getTranslate();
+                        }
                     }
 
-                    switch (resultAnswer) {
+                    switch (Objects.requireNonNull(resultAnswer)) {
                         case TRUE: {
                             callWaitAlert(Alert.AlertType.INFORMATION, "Вопрос", null, "Ответ правильный!");
                             if (resultsAnswers[indexQuestion] != -1) {
@@ -113,9 +121,18 @@ public class TrainingModel {
                     } else if (trainingData.getDirection().equals("Перевод-Слово")) {
                         resultAnswer = giveQuestion(listWord.get(indexQuestion).getTranslate(), findAllAnswersForQuestion(listWord,indexQuestion,-1));
                         questionWords[indexQuestion1-indexQuestion] = listWord.get(indexQuestion).getTranslate();
+                    }else if(trainingData.getDirection().equals("Случайный")){
+                        int rndDir=new Random().nextInt(2);
+                        if(rndDir==0){
+                            resultAnswer = giveQuestion(listWord.get(indexQuestion).getWord(), findAllAnswersForQuestion(listWord,indexQuestion,1));
+                            questionWords[indexQuestion1-indexQuestion] = listWord.get(indexQuestion).getWord();
+                        }else {
+                            resultAnswer = giveQuestion(listWord.get(indexQuestion).getTranslate(), findAllAnswersForQuestion(listWord,indexQuestion,-1));
+                            questionWords[indexQuestion1-indexQuestion] = listWord.get(indexQuestion).getTranslate();
+                        }
                     }
 
-                    switch (resultAnswer) {
+                    switch (Objects.requireNonNull(resultAnswer)) {
                         case TRUE: {
                             callWaitAlert(Alert.AlertType.INFORMATION, "Вопрос", null, "Ответ правильный!");
                             if (resultsAnswers[indexQuestion1-indexQuestion] != -1) {
@@ -149,7 +166,7 @@ public class TrainingModel {
             ArrayList<Integer> memory=new ArrayList<>();
             indexQuestion=0;
             int count=0;
-            for (;;) {
+            while (true) {
                 if(nextQuestion) {
                     indexQuestion = new Random().nextInt(Integer.parseInt(trainingData.getFromUntilIgnore()[1]));
                 }
@@ -164,9 +181,19 @@ public class TrainingModel {
                         } else if (trainingData.getDirection().equals("Перевод-Слово")) {
                             resultAnswer = giveQuestion(listWord.get(indexQuestion).getTranslate(), findAllAnswersForQuestion(listWord,indexQuestion,-1));
                             questionWords[indexQuestion] = listWord.get(indexQuestion).getTranslate();
+                        }else if(trainingData.getDirection().equals("Случайный")){
+                            int rndDir=new Random().nextInt(2);
+                            if(rndDir==1){
+                                resultAnswer = giveQuestion(listWord.get(indexQuestion).getTranslate(), findAllAnswersForQuestion(listWord,indexQuestion,-1));
+                                questionWords[indexQuestion] = listWord.get(indexQuestion).getTranslate();
+                            }else {
+                                resultAnswer = giveQuestion(listWord.get(indexQuestion).getWord(), findAllAnswersForQuestion(listWord,indexQuestion,1));
+                                questionWords[indexQuestion] = listWord.get(indexQuestion).getWord();
+
+                            }
                         }
 
-                        switch (resultAnswer) {
+                        switch (Objects.requireNonNull(resultAnswer)) {
                             case TRUE: {
                                 callWaitAlert(Alert.AlertType.INFORMATION, "Вопрос", null, "Ответ правильный!");
                                 if (resultsAnswers[indexQuestion] != -1) {
@@ -197,12 +224,12 @@ public class TrainingModel {
                         resultsAnswers[indexQuestion] = 2;
                     }
                 }
-                if(count==(countAllAnswers-listIndexes.size())) break;
+                if(count==(countAllAnswers -listIndexes.size())) break;
             }
         }
         timeTraining=false;
         tempMemoryAnswers.clear();
-        tempCountDiplicatedAnswers.clear();
+        tempCountDuplicatedAnswers.clear();
         callWaitAlert(Alert.AlertType.INFORMATION, "Тренировка", null, "Тренировка завершена");
         ResultTrainingData resultTrainingData=new ResultTrainingData(resultsAnswers,questionWords);
         resultTrainingController.createWindow(resultTrainingData);
@@ -231,7 +258,7 @@ public class TrainingModel {
         allAnswersList.toArray(allAnswers);
         return allAnswers;
     }
-    public ResultAnswer giveQuestion(String word,String[] translates){
+    private ResultAnswer giveQuestion(String word, String[] translates){
         questionAlert=new Alert(Alert.AlertType.CONFIRMATION);
 
         ((Stage) questionAlert.getDialogPane().getScene().getWindow()).getIcons().add(new Image("icon/mainIcon.png"));
@@ -267,7 +294,7 @@ public class TrainingModel {
                 String line2=answerTranslateTextField.getText().replaceAll("\\s+"," ").toLowerCase().trim();
                 if (line1.equals(line2)&&(!tempMemoryAnswers.contains(line2)||duplicationTranslate(line2))) {
                     tempMemoryAnswers.add(line2);
-                    tempCountDiplicatedAnswers.add(line2);
+                    tempCountDuplicatedAnswers.add(line2);
                     return ResultAnswer.TRUE;
                 }
             }
@@ -294,11 +321,7 @@ public class TrainingModel {
                 countAnswersInMemoryList++;
             }
         }
-        if(countAnswersInList>countAnswersInMemoryList){
-            return true;
-        }else{
-            return false;
-        }
+        return countAnswersInList > countAnswersInMemoryList;
     }
     public void timeStopTraining(){
         callWaitAlert(Alert.AlertType.INFORMATION, "Тренировка", null, "Время вышло. Тренировка завершена");
@@ -311,7 +334,7 @@ public class TrainingModel {
         resultTrainingController.createWindow(resultTrainingData);
     }
     private enum ResultAnswer{
-        TRUE,IGNORE,WRONG,CLOSE,NULL;
+        TRUE,IGNORE,WRONG,CLOSE,NULL
     }
 
     public Alert getQuestionAlert() {

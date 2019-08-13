@@ -27,6 +27,7 @@ public class AddEditController implements Initializable {
     private static int indexWord=-1;
     private static MainController mainController;
 
+
     @FXML
     private Label typeOperationLabel;
     @FXML
@@ -37,6 +38,8 @@ public class AddEditController implements Initializable {
     private TextField wordTextField;
     @FXML
     private TextField translateTextField;
+    @FXML
+    private TextArea commentTextArea;
     @FXML
     private ComboBox<String> groupComboBox;
 
@@ -63,7 +66,7 @@ public class AddEditController implements Initializable {
         stage.setResizable(false);
         stage.setTitle("Word Note");
         stage.setWidth(330);
-        stage.setHeight(230);
+        stage.setHeight(270);
         stage.initOwner(mainController.getStage());
         stage.initModality(Modality.WINDOW_MODAL);
         stage.showAndWait();
@@ -110,19 +113,21 @@ public class AddEditController implements Initializable {
             String word="-";
             String translate="-";
             String nameGroup="-";
-            if(wordTextField.getText()!=null&&(!wordTextField.getText().equals(""))) word=wordTextField.getText().trim();
-            if(translateTextField.getText()!=null&&(!translateTextField.getText().equals(""))) translate=translateTextField.getText().trim();
+            String comment="-";
+            if(wordTextField.getText()!=null&&!wordTextField.getText().equals("")) word=wordTextField.getText().trim();
+            if(translateTextField.getText()!=null&&!translateTextField.getText().equals("")) translate=translateTextField.getText().trim();
             if(groupComboBox.getValue()!=null&&!groupComboBox.getValue().equals("")&&!groupComboBox.getValue().equals("Не выбрано")) nameGroup=groupComboBox.getValue().trim();
+            if(commentTextArea.getText()!=null&&!commentTextArea.getText().equals("")) comment=commentTextArea.getText();
 
             if(typeOperation.equals("Добавить новое слово")){
                 if(!(word.equals("-")&&translate.equals("-"))){
-                    mainController.getMainModel().addWord(new Word(word,translate,nameGroup,mainController.getMainModel().getWordList().size()+1));
+                    mainController.getMainModel().addWord(new Word(word,translate,nameGroup,mainController.getMainModel().getWordList().size()+1,comment));
                 }else{
                     callAlert(Alert.AlertType.WARNING,"Невозможно добавить слово",null,"Слово и его перевод не определены");
                 }
             }else if(typeOperation.equals("Редактировать слово")){
                 if(!(word.equals("-")&&translate.equals("-"))) {
-                    mainController.getMainModel().editWord(indexWord, new Word(word, translate, nameGroup,indexWord+1));
+                    mainController.getMainModel().editWord(indexWord, new Word(word, translate, nameGroup,indexWord+1, comment));
                 }else {
                     callAlert(Alert.AlertType.WARNING,"Невозможно отредактировать слово",null,"Слово и его перевод не могут быть неопределены одновременно");
                 }

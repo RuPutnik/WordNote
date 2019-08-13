@@ -44,6 +44,7 @@
         <Label text="Направление" GridPane.columnIndex="0" GridPane.rowIndex="3" />
         <RadioButton fx:id="wordTranslationRadioButton" mnemonicParsing="false" text="Слово-Перевод" GridPane.columnIndex="1" GridPane.rowIndex="3" />
         <RadioButton fx:id="translationWordRadioButton" mnemonicParsing="false" text="Перевод-Слово" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+        <RadioButton fx:id="randomDirectionRadioButton" mnemonicParsing="false" text="Случайный" GridPane.columnIndex="3" GridPane.rowIndex="3" />
     </GridPane>
     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10">
         <Button fx:id="startButton" mnemonicParsing="false" text="Начать" />

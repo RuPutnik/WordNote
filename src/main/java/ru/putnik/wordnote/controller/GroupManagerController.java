@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ru.putnik.wordnote.model.GroupManagerModel;
+import ru.putnik.wordnote.pojo.Word;
 
 import java.io.IOException;
 import java.net.URL;
@@ -80,6 +81,7 @@ public class GroupManagerController implements Initializable {
                 stage.setTitle("Word Note"+" ["+"C:\\WordNote\\groupList.txt"+"]");
                 mainController.setPathToGroupFile("C:\\WordNote\\groupList.txt");
             }else {
+                countWordsInGroup(list,mainController.getMainModel().getWordList());
                 listGroups.setItems(list);
                 list.remove(0);
                 stage.setTitle("Word Note"+" ["+mainController.getPathToGroupFile()+"]");
@@ -103,7 +105,7 @@ public class GroupManagerController implements Initializable {
                 if(!nameField.getText().equals("")) {
                     boolean contain=false;
                     for (String group:listGroups.getItems()){
-                        if(group.toLowerCase().equals(nameField.getText().toLowerCase())){
+                        if(group.toLowerCase().trim().equals(nameField.getText().toLowerCase().trim())){
                             contain=true;
                             break;
                         }
@@ -159,6 +161,17 @@ public class GroupManagerController implements Initializable {
         exitButton.setOnAction(event -> {
             stage.close();
         });
+    }
+    private void countWordsInGroup(ObservableList<String> groupList, ObservableList<Word> wordList){
+        for (int a=0;a<groupList.size();a++){
+            int count=0;
+            for (Word word:wordList){
+                if(word.getGroup().toLowerCase().trim().equals(groupList.get(a).toLowerCase().trim())){
+                    count++;
+                }
+            }
+            groupList.set(a,groupList.get(a)+": "+count);
+        }
     }
 
     public GroupManagerModel getManagerModel() {

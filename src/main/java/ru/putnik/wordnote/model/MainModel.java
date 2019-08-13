@@ -41,10 +41,10 @@ public class MainModel {
             writer.write("");
             writer.append("-----Хранилище слов [WordNote] "+new GregorianCalendar().getTime()+"-----"+"\n");
             for(Word word1:wordList){
-                writer.append(word1.getNumber()+":"+word1.getWord()+":"+word1.getTranslate()+":"+word1.getGroup()+"\n");
+                writer.append(word1.getNumber()+":"+word1.getWord()+":"+word1.getTranslate()+":"+word1.getGroup()+":"+word1.getComment()+"\n");
             }
             writer.flush();
-            this.path=path;//ВОЗМОЖНО вызовет ошибки
+            this.path=path;
             return true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -69,7 +69,7 @@ public class MainModel {
 
                     String partsLine[]=line.split(":");
 
-                    if(partsLine.length<4){
+                    if(partsLine.length<5){
                         callAlert(Alert.AlertType.ERROR,"Ошибка загрузки",null,"Файл со словарем по адресу "+pathFile+" поврежден и не может быть использован");
                         return false;
                     }
@@ -77,6 +77,7 @@ public class MainModel {
                     word.setWord(partsLine[1]);
                     word.setTranslate(partsLine[2]);
                     word.setGroup(partsLine[3]);
+                    word.setComment(partsLine[4]);
 
                     wordList.add(word);
                 }
@@ -95,6 +96,7 @@ public class MainModel {
         if(nameFile!=null) {
             File bookFile = new File(nameFile);
             if (!folderProgram.exists()) {
+                //noinspection ResultOfMethodCallIgnored
                 folderProgram.mkdir();
             }
 

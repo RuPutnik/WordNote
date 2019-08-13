@@ -23,6 +23,7 @@ import static ru.putnik.wordnote.AlertCall.callAlert;
  * Создано 06.08.2019 в 18:25
  */
 public class TrainingController implements Initializable {
+
     private TrainingModel trainingModel=new TrainingModel();
     private static Stage stage;
     private static MainController mainController;
@@ -52,6 +53,8 @@ public class TrainingController implements Initializable {
     private RadioButton wordTranslationRadioButton;
     @FXML
     private RadioButton translationWordRadioButton;
+    @FXML
+    private RadioButton randomDirectionRadioButton;
     @FXML
     private Button startButton;
     @FXML
@@ -90,7 +93,7 @@ public class TrainingController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         typeGroup.getToggles().addAll(standardTypeRadioButton,timeTypeRadioButton);
         queueGroup.getToggles().addAll(topBottomRadioButton,bottomTopRadioButton,randomRadioButton);
-        directionGroup.getToggles().addAll(wordTranslationRadioButton,translationWordRadioButton);
+        directionGroup.getToggles().addAll(wordTranslationRadioButton,translationWordRadioButton,randomDirectionRadioButton);
         standardTypeRadioButton.setSelected(true);
         topBottomRadioButton.setSelected(true);
         translationWordRadioButton.setSelected(true);

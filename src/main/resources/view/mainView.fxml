@@ -48,6 +48,7 @@
                 <TableColumn fx:id="wordColumn" text="Слово" />
                 <TableColumn fx:id="translateColumn" text="Перевод" />
                 <TableColumn fx:id="groupColumn" text="Группа" />
+                <TableColumn fx:id="commentColumn" text="Комментарий"/>
             </columns>
             <contextMenu>
                 <ContextMenu>

@@ -92,6 +92,8 @@ public class MainController extends Application implements Initializable {
     @FXML
     private TableColumn<Word,String> groupColumn;
     @FXML
+    private TableColumn<Word,String> commentColumn;
+    @FXML
     private Label countWordsLabel;
 
     @Override
@@ -152,6 +154,7 @@ public class MainController extends Application implements Initializable {
         wordColumn.setCellValueFactory(value-> new SimpleObjectProperty<>(value.getValue().getWord()));
         translateColumn.setCellValueFactory(value-> new SimpleObjectProperty<>(value.getValue().getTranslate()));
         groupColumn.setCellValueFactory(value-> new SimpleObjectProperty<>(value.getValue().getGroup()));
+        commentColumn.setCellValueFactory(value->new SimpleObjectProperty<>(value.getValue().getComment()));
         if(pathToWordFile!=null) {
             if(mainModel.openWordBook(pathToWordFile)){
                 stage.setTitle(stage.getTitle() + " [" + pathToWordFile + "]");
