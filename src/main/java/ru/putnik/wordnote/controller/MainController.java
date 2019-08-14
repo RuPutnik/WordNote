@@ -21,9 +21,7 @@ import ru.putnik.wordnote.pojo.Word;
 
 import java.io.File;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static ru.putnik.wordnote.AlertCall.callAlert;

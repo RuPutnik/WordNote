@@ -16,15 +16,7 @@ public class ResultTrainingData {
         return resultsAnswers;
     }
 
-    public void setResultsAnswers(int[] resultsAnswers) {
-        this.resultsAnswers = resultsAnswers;
-    }
-
     public String[] getQuestionWords() {
         return questionWords;
-    }
-
-    public void setQuestionWords(String[] questionWords) {
-        this.questionWords = questionWords;
     }
 }

@@ -10,13 +10,6 @@ public class SettingTrainingData {
     private String typeQueue;
     private String direction;
 
-    public SettingTrainingData(String typeTraining, int countTimeTraining, String[] fromUntilIgnore, String typeQueue,String direction) {
-        this.typeTraining = typeTraining;
-        this.countTimeTraining = countTimeTraining;
-        this.fromUntilIgnore = fromUntilIgnore;
-        this.typeQueue = typeQueue;
-        this.direction=direction;
-    }
     public SettingTrainingData(){}
 
     public String getTypeTraining() {

@@ -1,7 +1,5 @@
 package ru.putnik.wordnote.model;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import ru.putnik.wordnote.pojo.SettingData;
 

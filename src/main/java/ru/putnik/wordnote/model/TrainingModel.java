@@ -31,10 +31,12 @@ public class TrainingModel {
     private double positionAlertY=-1;
     private static Alert questionAlert;
     private static boolean timeTraining=false;
-    private ArrayList<String> tempMemoryAnswers=new ArrayList<>();
-    private ArrayList<String> tempCountDuplicatedAnswers=new ArrayList<>();
+    private ArrayList<String> tempMemoryAnswers;
+    private ArrayList<String> tempCountDuplicatedAnswers;
     private static ObservableList<Word> list;
     public void runTraining(ObservableList<Word> listWord, SettingTrainingData trainingData){
+        tempMemoryAnswers=new ArrayList<>();
+        tempCountDuplicatedAnswers=new ArrayList<>();
         int indexQuestion;
         list=listWord;
         ArrayList<Integer> listIndexes = new ArrayList<>();

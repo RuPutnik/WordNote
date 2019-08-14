@@ -23,7 +23,6 @@ import static ru.putnik.wordnote.AlertCall.callAlert;
  * Создано 06.08.2019 в 18:25
  */
 public class TrainingController implements Initializable {
-
     private TrainingModel trainingModel=new TrainingModel();
     private static Stage stage;
     private static MainController mainController;
@@ -130,8 +129,6 @@ public class TrainingController implements Initializable {
                 ex.printStackTrace();
             }
         });
-        exitButton.setOnAction(event -> {
-            stage.close();
-        });
+        exitButton.setOnAction(event -> stage.close());
     }
 }
