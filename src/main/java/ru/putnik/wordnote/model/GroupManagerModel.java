@@ -65,7 +65,7 @@ public class GroupManagerModel {
             writer.write("");
             writer.append("-----Список групп слов [WordNote] "+new GregorianCalendar().getTime()+"-----"+"\n");
             for(String nameGroup:list){
-                writer.append(nameGroup+"\n");
+                writer.append(nameGroup.split(":")[0]+"\n");
             }
             writer.flush();
         } catch (IOException e) {
