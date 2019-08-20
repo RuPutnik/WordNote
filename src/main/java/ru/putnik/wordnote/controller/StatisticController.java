@@ -23,7 +23,6 @@ import java.util.ResourceBundle;
 public class StatisticController implements Initializable {
     private StatisticModel statisticModel=new StatisticModel();
     private static Stage stage;
-    private static MainController mainController;
 
     @FXML
     private ListView<String> listStatistics;
@@ -32,10 +31,6 @@ public class StatisticController implements Initializable {
     @FXML
     private Button exitButton;
 
-    public StatisticController(MainController controller){
-        mainController=controller;
-    }
-    public StatisticController(){}
 
     public void createWindow(){
         stage=new Stage();

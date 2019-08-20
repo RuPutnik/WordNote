@@ -1,6 +1,7 @@
 package ru.putnik.wordnote.controller;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -33,11 +34,11 @@ import static ru.putnik.wordnote.AlertCall.callWaitAlert;
  */
 public class MainController extends Application implements Initializable {
     private MainModel mainModel=new MainModel();
-    private SettingController settingController=new SettingController(this);
+    private SettingController settingController=new SettingController();
     private AddEditController addEditController=new AddEditController(this);
     private GroupManagerController groupManagerController=new GroupManagerController(this);
     private TrainingController trainingController=new TrainingController(this);
-    private StatisticController statisticController=new StatisticController(this);
+    private StatisticController statisticController=new StatisticController();
 
     private static Stage stage;
     private String pathToWordFile;
@@ -117,6 +118,11 @@ public class MainController extends Application implements Initializable {
         pathToWordFile=settingController.getPathToWordBook();
         pathToGroupFile=settingController.getPathToGroupFile();
         stage.setTitle("Word Note");
+
+        stage.setOnCloseRequest(event -> {
+            Platform.exit();
+            System.exit(0);
+        });
 
         addWordMenuItem.setOnAction(event -> {
             addEditController.addWord();
@@ -376,7 +382,8 @@ public class MainController extends Application implements Initializable {
             statisticController.createWindow();
         });
         exitMenuItem.setOnAction(event -> {
-            stage.close();
+            Platform.exit();
+            System.exit(0);
         });
     }
     private String createNewWordbook(){

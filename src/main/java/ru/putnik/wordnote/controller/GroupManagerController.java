@@ -64,8 +64,6 @@ public class GroupManagerController implements Initializable {
         stage.setResizable(false);
         stage.setWidth(430);
         stage.setHeight(330);
-        stage.initOwner(mainController.getStage());
-        stage.initModality(Modality.WINDOW_MODAL);
         stage.show();
     }
     @Override

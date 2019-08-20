@@ -26,7 +26,6 @@ import java.util.ResourceBundle;
 public class SettingController implements Initializable {
     private SettingModel settingModel=new SettingModel();
     private static Stage stage;
-    private static MainController mainController;
 
     private String pathToWordBook;
     private String pathToGroupFile="C:\\WordNote\\groupList.txt";
@@ -44,16 +43,13 @@ public class SettingController implements Initializable {
     @FXML
     private Button cancelButton;
 
-    public SettingController(MainController controller){
-        mainController=controller;
+    public SettingController(){
         SettingData data=settingModel.loadSettings();
         if(data!=null) {
             pathToWordBook = data.getPathToWordbook();
             pathToGroupFile = data.getPathToGroupFile();
         }
     }
-    public SettingController(){}
-
 
     public void createWindow(){
         stage=new Stage();
@@ -74,8 +70,6 @@ public class SettingController implements Initializable {
         stage.setTitle("Word Note");
         stage.setWidth(430);
         stage.setHeight(180);
-        stage.initOwner(mainController.getStage());
-        stage.initModality(Modality.WINDOW_MODAL);
         stage.show();
     }
     @Override
