@@ -101,7 +101,7 @@ public class AddEditController implements Initializable {
             if(!word.getTranslate().equals("-")) {
                 translateTextField.setText(word.getTranslate());
             }
-            if(!(word.getGroup().equals("-")||groupComboBox.getValue().equals("Не выбрано"))) {
+            if(groupComboBox.getValue()==null||!(word.getGroup().equals("-")||groupComboBox.getValue().equals("Не выбрано"))) {
                 groupComboBox.setPromptText(word.getGroup());
             }
         }
