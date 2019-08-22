@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ru.putnik.wordnote.model.GroupManagerModel;
+import ru.putnik.wordnote.model.MainModel;
 import ru.putnik.wordnote.pojo.Word;
 
 import java.io.IOException;
@@ -70,14 +71,14 @@ public class GroupManagerController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         if(mainController.getPathToGroupFile()==null){
             managerModel.createGroupFile();
-            stage.setTitle("Word Note"+" ["+"C:\\WordNote\\groupList.txt"+"]");
-            mainController.setPathToGroupFile("C:\\WordNote\\groupList.txt");
+            stage.setTitle("Word Note"+" ["+MainModel.PATH_PROGRAM_FOLDER+"\\groupList.txt"+"]");
+            mainController.setPathToGroupFile(MainModel.PATH_PROGRAM_FOLDER+"\\groupList.txt");
         }else{
             ObservableList<String> list=managerModel.openGroupFile(mainController.getPathToGroupFile());
             if(list==null){
                 managerModel.createGroupFile();
-                stage.setTitle("Word Note"+" ["+"C:\\WordNote\\groupList.txt"+"]");
-                mainController.setPathToGroupFile("C:\\WordNote\\groupList.txt");
+                stage.setTitle("Word Note"+" ["+MainModel.PATH_PROGRAM_FOLDER+"\\groupList.txt"+"]");
+                mainController.setPathToGroupFile(MainModel.PATH_PROGRAM_FOLDER+"\\groupList.txt");
             }else {
                 countWordsInGroup(list,mainController.getMainModel().getWordList());
                 listGroups.setItems(list);

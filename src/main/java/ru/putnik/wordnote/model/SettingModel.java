@@ -11,7 +11,7 @@ import static ru.putnik.wordnote.AlertCall.*;
  * Создано 03.08.2019 в 19:56
  */
 public class SettingModel {
-    public static String PATH_SETTINGS="C:\\WordNote\\settings.dat";
+    public static String PATH_SETTINGS=MainModel.PATH_PROGRAM_FOLDER+"\\settings.dat";
     public void saveSettings(SettingData data){
         try (FileWriter writer=new FileWriter(PATH_SETTINGS)){
             writer.write("");

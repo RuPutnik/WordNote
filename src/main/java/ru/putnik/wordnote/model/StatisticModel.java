@@ -12,7 +12,7 @@ import static ru.putnik.wordnote.AlertCall.callAlert;
  * Создано 10.08.2019 в 18:58
  */
 public class StatisticModel {
-    private static String PATH_STATISTIC_FILE="C:\\WordNote\\statistic.log";
+    private static String PATH_STATISTIC_FILE=MainModel.PATH_PROGRAM_FOLDER+"\\statistic.log";
     private File statisticFile=new File(PATH_STATISTIC_FILE);
     public void clearStatistic(){
         if(statisticFile.exists()){

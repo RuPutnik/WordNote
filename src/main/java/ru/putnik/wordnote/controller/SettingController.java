@@ -11,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import ru.putnik.wordnote.model.MainModel;
 import ru.putnik.wordnote.model.SettingModel;
 import ru.putnik.wordnote.pojo.SettingData;
 
@@ -28,7 +29,7 @@ public class SettingController implements Initializable {
     private static Stage stage;
 
     private String pathToWordBook;
-    private String pathToGroupFile="C:\\WordNote\\groupList.txt";
+    private String pathToGroupFile=MainModel.PATH_PROGRAM_FOLDER+"\\groupList.txt";
 
     @FXML
     private TextField pathToWordbookTextField;
@@ -94,6 +95,17 @@ public class SettingController implements Initializable {
             File pickedFile=chooser.showOpenDialog(new Stage());
             if(pickedFile!=null){
             pathToWordbookTextField.setText(pickedFile.getPath());
+            }
+        });
+        pickGroupFileButton.setOnAction(event -> {
+            FileChooser chooser=new FileChooser();
+
+            chooser.setTitle("Выберите файл с группами");
+            chooser.setInitialDirectory(new File((System.getenv("USERPROFILE") + "\\Desktop\\")));
+            chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("txt","*.txt"));
+            File pickedFile=chooser.showOpenDialog(new Stage());
+            if(pickedFile!=null){
+                pathToGroupFileTextField.setText(pickedFile.getPath());
             }
         });
         cancelButton.setOnAction(event -> {

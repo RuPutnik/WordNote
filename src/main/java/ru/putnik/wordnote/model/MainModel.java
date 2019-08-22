@@ -13,6 +13,7 @@ import static ru.putnik.wordnote.AlertCall.*;
  * Создано 02.08.2019 в 11:02
  */
 public class MainModel {
+    public static String PATH_PROGRAM_FOLDER="C:\\Program Files (x86)\\WordNote";
     private static ObservableList<Word> wordList=FXCollections.observableArrayList();
     private static ObservableList<String> groupList=FXCollections.observableArrayList();
     private String path;
@@ -92,7 +93,7 @@ public class MainModel {
         }
     }
     public String createWordBook(String nameFile){
-        File folderProgram=new File("C:\\WordNote");
+        File folderProgram=new File(PATH_PROGRAM_FOLDER);
         if(nameFile!=null) {
             File bookFile = new File(nameFile);
             if (!folderProgram.exists()) {

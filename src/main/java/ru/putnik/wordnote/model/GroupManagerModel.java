@@ -14,7 +14,7 @@ import static ru.putnik.wordnote.AlertCall.callAlert;
  */
 public class GroupManagerModel {
     public String createGroupFile(){
-        File folderProgram=new File("C:\\WordNote");
+        File folderProgram=new File(MainModel.PATH_PROGRAM_FOLDER);
         File groupFile=new File(folderProgram.getPath()+"\\groupList.txt");
         if(!folderProgram.exists()){
             folderProgram.mkdir();
