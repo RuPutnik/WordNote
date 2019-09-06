@@ -27,6 +27,7 @@ import java.util.ResourceBundle;
 public class SettingController implements Initializable {
     private SettingModel settingModel=new SettingModel();
     private static Stage stage;
+    private static boolean firstStart=true;
 
     private String pathToWordBook;
     private String pathToGroupFile=MainModel.PATH_PROGRAM_FOLDER+"\\groupList.txt";
@@ -45,10 +46,13 @@ public class SettingController implements Initializable {
     private Button cancelButton;
 
     public SettingController(){
-        SettingData data=settingModel.loadSettings();
-        if(data!=null) {
-            pathToWordBook = data.getPathToWordbook();
-            pathToGroupFile = data.getPathToGroupFile();
+        if(firstStart) {
+            SettingData data = settingModel.loadSettings();
+            if (data != null) {
+                pathToWordBook = data.getPathToWordbook();
+                pathToGroupFile = data.getPathToGroupFile();
+            }
+            firstStart=false;
         }
     }
 
