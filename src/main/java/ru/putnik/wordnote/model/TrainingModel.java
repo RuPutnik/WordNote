@@ -4,6 +4,7 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -263,14 +264,34 @@ public class TrainingModel {
     private ResultAnswer giveQuestion(String word, String[] translates){
         questionAlert=new Alert(Alert.AlertType.CONFIRMATION);
 
-        ((Stage) questionAlert.getDialogPane().getScene().getWindow()).getIcons().add(new Image("icon/mainIcon.png"));
+        try {
+            ((Stage) questionAlert.getDialogPane().getScene().getWindow()).getIcons().add(new Image("icon/mainIcon.png"));
+        }catch (Exception ex){
+            System.out.println("Ошибка загрузки иконки");
+        }
         ((Stage) questionAlert.getDialogPane().getScene().getWindow()).setAlwaysOnTop(true);
 
         VBox box=new VBox();
+        HBox hBox=new HBox();
         Label wordLabel=new Label(word);
         wordLabel.setFont(new Font(16));
         TextField answerTranslateTextField=new TextField();
+        Label excludeLabel=new Label("Кроме: ");
+        Label excludeAnswers=new Label();
+        hBox.getChildren().addAll(excludeLabel,excludeAnswers);
+        hBox.setSpacing(5);
+        hBox.setAlignment(Pos.CENTER);
         box.getChildren().addAll(wordLabel,answerTranslateTextField);
+        box.getChildren().add(hBox);
+        for(String transl:translates){
+            if(tempMemoryAnswers.contains(transl)&&!duplicationTranslate(transl)){
+                if(excludeAnswers.getText().equals("")){
+                    excludeAnswers.setText(transl);
+                }else {
+                    excludeAnswers.setText(excludeAnswers.getText() + "," + transl);
+                }
+            }
+        }
         box.setSpacing(10);
         box.setAlignment(Pos.CENTER);
         if(positionAlertX!=-1){

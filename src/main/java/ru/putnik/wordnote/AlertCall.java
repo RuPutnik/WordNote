@@ -16,8 +16,11 @@ public class AlertCall {
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.setContentText(content);
-
-        ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(new Image("icon/mainIcon.png"));
+        try {
+            ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(new Image("icon/mainIcon.png"));
+        }catch (Exception ex){
+            System.out.println("Ошибка загрузки иконки");
+        }
         ((Stage)alert.getDialogPane().getScene().getWindow()).setAlwaysOnTop(true);
 
         alert.show();
@@ -29,7 +32,11 @@ public class AlertCall {
         alert.setHeaderText(header);
         alert.setContentText(content);
 
+        try {
         ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(new Image("icon/mainIcon.png"));
+        }catch (Exception ex){
+            System.out.println("Ошибка загрузки иконки");
+        }
         ((Stage)alert.getDialogPane().getScene().getWindow()).setAlwaysOnTop(true);
 
         return alert.showAndWait();
@@ -39,8 +46,11 @@ public class AlertCall {
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.setContentText(content);
-
-        ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(new Image("icon/mainIcon.png"));
+        try {
+            ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(new Image("icon/mainIcon.png"));
+        }catch (Exception ex){
+            System.out.println("Ошибка загрузки иконки");
+        }
         ((Stage) alert.getDialogPane().getScene().getWindow()).setAlwaysOnTop(true);
 
         return alert.showAndWait();

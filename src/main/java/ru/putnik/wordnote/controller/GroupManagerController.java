@@ -89,7 +89,11 @@ public class GroupManagerController implements Initializable {
 
         createGroupButton.setOnAction(event -> {
             Alert newGroup=new Alert(Alert.AlertType.CONFIRMATION);
-            ((Stage)newGroup.getDialogPane().getScene().getWindow()).getIcons().add(new Image("icon/mainIcon.png"));
+            try {
+                ((Stage) newGroup.getDialogPane().getScene().getWindow()).getIcons().add(new Image("icon/mainIcon.png"));
+            }catch (Exception ex){
+                System.out.println("Ошибка загрузки иконки");
+            }
             newGroup.setTitle("Создание новое группы");
             newGroup.setHeaderText(null);
             VBox box=new VBox();
@@ -121,7 +125,11 @@ public class GroupManagerController implements Initializable {
         });
         editGroupButton.setOnAction(event -> {
             Alert newGroup=new Alert(Alert.AlertType.CONFIRMATION);
-            ((Stage)newGroup.getDialogPane().getScene().getWindow()).getIcons().add(new Image("icon/mainIcon.png"));
+            try {
+                ((Stage) newGroup.getDialogPane().getScene().getWindow()).getIcons().add(new Image("icon/mainIcon.png"));
+            }catch (Exception ex){
+                System.out.println("Ошибка загрузки иконки");
+            }
             newGroup.setTitle("Редактирование группы");
             newGroup.setHeaderText(null);
             VBox box=new VBox();

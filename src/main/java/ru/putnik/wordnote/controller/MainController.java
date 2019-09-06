@@ -264,7 +264,11 @@ public class MainController extends Application implements Initializable {
                     if(positionAlertY!=-1){
                         findAlert.setY(positionAlertY);
                     }
-                    ((Stage) findAlert.getDialogPane().getScene().getWindow()).getIcons().add(new Image("icon/mainIcon.png"));
+                    try {
+                        ((Stage) findAlert.getDialogPane().getScene().getWindow()).getIcons().add(new Image("icon/mainIcon.png"));
+                    }catch (Exception ex){
+                        System.out.println("Ошибка загрузки иконки");
+                    }
                     ((Stage) findAlert.getDialogPane().getScene().getWindow()).setAlwaysOnTop(true);
                     HBox box = new HBox();
                     box.setSpacing(5);
@@ -388,7 +392,11 @@ public class MainController extends Application implements Initializable {
     }
     private String createNewWordbook(){
         Alert newWordbook=new Alert(Alert.AlertType.CONFIRMATION);
-        ((Stage)newWordbook.getDialogPane().getScene().getWindow()).getIcons().add(new Image("icon/mainIcon.png"));
+        try {
+            ((Stage) newWordbook.getDialogPane().getScene().getWindow()).getIcons().add(new Image("icon/mainIcon.png"));
+        }catch (Exception ex){
+            System.out.println("Ошибка загрузки иконки");
+        }
         newWordbook.setTitle("Создание словаря");
         newWordbook.setHeaderText(null);
         VBox box=new VBox();
