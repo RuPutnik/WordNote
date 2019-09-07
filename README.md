@@ -3,6 +3,6 @@ The program is helper for learning languages. Allows you to save words and trans
 
 Version: 1.1
 
-Date lastest update: 06.09.2019
+Date latest update: 06.09.2019
 
 Date creation: 01.08.2019
