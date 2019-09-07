@@ -8,13 +8,14 @@ import java.io.*;
 import java.util.GregorianCalendar;
 
 import static ru.putnik.wordnote.AlertCall.callAlert;
+import static ru.putnik.wordnote.Constants.PROGRAM_SETTINGS_PATH;
 
 /**
  * Создано 03.08.2019 в 16:59
  */
 public class GroupManagerModel {
     public String createGroupFile(){
-        File folderProgram=new File(MainModel.PATH_PROGRAM_FOLDER);
+        File folderProgram=new File(PROGRAM_SETTINGS_PATH);
         File groupFile=new File(folderProgram.getPath()+"\\groupList.txt");
         if(!folderProgram.exists()){
             folderProgram.mkdir();

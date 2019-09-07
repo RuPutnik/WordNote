@@ -11,7 +11,8 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" prefHeight="180.0" prefWidth="530.0" spacing="10" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.putnik.wordnote.controller.TrainingController">
+<?import javafx.scene.control.CheckBox?>
+<VBox alignment="CENTER" prefHeight="210.0" prefWidth="530.0" spacing="10" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.putnik.wordnote.controller.TrainingController">
     <padding>
         <Insets bottom="5" left="10" right="10" top="5" />
     </padding>
@@ -24,6 +25,7 @@
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="148.0" minWidth="97.0" prefWidth="109.0" />
         </columnConstraints>
         <rowConstraints>
+            <RowConstraints vgrow="SOMETIMES" />
             <RowConstraints vgrow="SOMETIMES" />
             <RowConstraints vgrow="SOMETIMES" />
             <RowConstraints vgrow="SOMETIMES" />
@@ -45,6 +47,8 @@
         <RadioButton fx:id="wordTranslationRadioButton" mnemonicParsing="false" text="Слово-Перевод" GridPane.columnIndex="1" GridPane.rowIndex="3" />
         <RadioButton fx:id="translationWordRadioButton" mnemonicParsing="false" text="Перевод-Слово" GridPane.columnIndex="2" GridPane.rowIndex="3" />
         <RadioButton fx:id="randomDirectionRadioButton" mnemonicParsing="false" text="Случайный" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+        <Label text="Комментарий" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+        <CheckBox fx:id="showCommentCheckBox" text="Отображать" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
     </GridPane>
     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10">
         <Button fx:id="startButton" mnemonicParsing="false" text="Начать" />

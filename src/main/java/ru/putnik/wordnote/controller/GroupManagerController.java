@@ -11,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import ru.putnik.wordnote.Constants;
 import ru.putnik.wordnote.model.GroupManagerModel;
 import ru.putnik.wordnote.model.MainModel;
 import ru.putnik.wordnote.pojo.Word;
@@ -21,6 +22,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 import static ru.putnik.wordnote.AlertCall.callAlert;
+import static ru.putnik.wordnote.Constants.*;
 
 /**
  * Создано 01.08.2019 в 22:03
@@ -57,7 +59,7 @@ public class GroupManagerController implements Initializable {
             return;
         }
         try {
-            stage.getIcons().add(new Image("icon/mainIcon.png"));
+            stage.getIcons().add(new Image(PROGRAM_ICON_PATH));
         }catch (Exception ex){
             System.out.println("Нет иконки окна");
         }
@@ -71,26 +73,26 @@ public class GroupManagerController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         if(mainController.getPathToGroupFile()==null){
             managerModel.createGroupFile();
-            stage.setTitle("Word Note"+" ["+MainModel.PATH_PROGRAM_FOLDER+"\\groupList.txt"+"]");
-            mainController.setPathToGroupFile(MainModel.PATH_PROGRAM_FOLDER+"\\groupList.txt");
+            stage.setTitle(PROGRAM_FULL_NAME+" ["+PROGRAM_SETTINGS_PATH+"\\groupList.txt"+"]");
+            mainController.setPathToGroupFile(PROGRAM_SETTINGS_PATH+"\\groupList.txt");
         }else{
             ObservableList<String> list=managerModel.openGroupFile(mainController.getPathToGroupFile());
             if(list==null){
                 managerModel.createGroupFile();
-                stage.setTitle("Word Note"+" ["+MainModel.PATH_PROGRAM_FOLDER+"\\groupList.txt"+"]");
-                mainController.setPathToGroupFile(MainModel.PATH_PROGRAM_FOLDER+"\\groupList.txt");
+                stage.setTitle(PROGRAM_FULL_NAME+" ["+PROGRAM_SETTINGS_PATH+"\\groupList.txt"+"]");
+                mainController.setPathToGroupFile(PROGRAM_SETTINGS_PATH+"\\groupList.txt");
             }else {
                 countWordsInGroup(list,mainController.getMainModel().getWordList());
                 listGroups.setItems(list);
                 list.remove(0);
-                stage.setTitle("Word Note"+" ["+mainController.getPathToGroupFile()+"]");
+                stage.setTitle(PROGRAM_FULL_NAME+" ["+mainController.getPathToGroupFile()+"]");
             }
         }
 
         createGroupButton.setOnAction(event -> {
             Alert newGroup=new Alert(Alert.AlertType.CONFIRMATION);
             try {
-                ((Stage) newGroup.getDialogPane().getScene().getWindow()).getIcons().add(new Image("icon/mainIcon.png"));
+                ((Stage) newGroup.getDialogPane().getScene().getWindow()).getIcons().add(new Image(PROGRAM_ICON_PATH));
             }catch (Exception ex){
                 System.out.println("Ошибка загрузки иконки");
             }

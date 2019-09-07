@@ -11,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import ru.putnik.wordnote.Constants;
 import ru.putnik.wordnote.model.MainModel;
 import ru.putnik.wordnote.model.SettingModel;
 import ru.putnik.wordnote.pojo.SettingData;
@@ -21,6 +22,8 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+import static ru.putnik.wordnote.Constants.*;
+
 /**
  * Создано 01.08.2019 в 22:04
  */
@@ -30,7 +33,7 @@ public class SettingController implements Initializable {
     private static boolean firstStart=true;
 
     private String pathToWordBook;
-    private String pathToGroupFile=MainModel.PATH_PROGRAM_FOLDER+"\\groupList.txt";
+    private String pathToGroupFile=PROGRAM_SETTINGS_PATH+"\\groupList.txt";
 
     @FXML
     private TextField pathToWordbookTextField;
@@ -66,13 +69,13 @@ public class SettingController implements Initializable {
             return;
         }
         try {
-            stage.getIcons().add(new Image("icon/mainIcon.png"));
+            stage.getIcons().add(new Image(PROGRAM_ICON_PATH));
         }catch (Exception ex){
             System.out.println("Нет иконки окна");
         }
         stage.setScene(new Scene(parent));
         stage.setResizable(true);
-        stage.setTitle("Word Note");
+        stage.setTitle(PROGRAM_FULL_NAME);
         stage.setWidth(430);
         stage.setHeight(180);
         stage.show();

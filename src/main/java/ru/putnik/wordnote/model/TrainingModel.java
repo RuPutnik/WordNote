@@ -20,6 +20,7 @@ import java.util.Optional;
 import java.util.Random;
 
 import static ru.putnik.wordnote.AlertCall.callWaitAlert;
+import static ru.putnik.wordnote.Constants.*;
 
 /**
  * Создано 06.08.2019 в 20:46
@@ -32,6 +33,7 @@ public class TrainingModel {
     private double positionAlertY=-1;
     private static Alert questionAlert;
     private static boolean timeTraining=false;
+    private boolean showCommentInTraining;
     private ArrayList<String> tempMemoryAnswers;
     private ArrayList<String> tempCountDuplicatedAnswers;
     private static ObservableList<Word> list;
@@ -40,6 +42,7 @@ public class TrainingModel {
         tempCountDuplicatedAnswers=new ArrayList<>();
         int indexQuestion;
         list=listWord;
+        showCommentInTraining=trainingData.isShowComment();
         ArrayList<Integer> listIndexes = new ArrayList<>();
         if(!trainingData.getFromUntilIgnore()[2].equals("-1")) {
             String[] ignoredQuestions = trainingData.getFromUntilIgnore()[2].split(";");
@@ -67,18 +70,18 @@ public class TrainingModel {
                 if(!listIndexes.contains(indexQuestion)) {
                     ResultAnswer resultAnswer = null;
                     if (trainingData.getDirection().equals("Слово-Перевод")) {
-                        resultAnswer = giveQuestion(listWord.get(indexQuestion).getWord(), findAllAnswersForQuestion(listWord,indexQuestion,1));
+                        resultAnswer = giveQuestion(listWord.get(indexQuestion).getWord(), findAllAnswersForQuestion(listWord,indexQuestion,1),listWord.get(indexQuestion).getComment());
                         questionWords[indexQuestion] = listWord.get(indexQuestion).getWord();
                     } else if (trainingData.getDirection().equals("Перевод-Слово")) {
-                        resultAnswer = giveQuestion(listWord.get(indexQuestion).getTranslate(), findAllAnswersForQuestion(listWord,indexQuestion,-1));
+                        resultAnswer = giveQuestion(listWord.get(indexQuestion).getTranslate(), findAllAnswersForQuestion(listWord,indexQuestion,-1),listWord.get(indexQuestion).getComment());
                         questionWords[indexQuestion] = listWord.get(indexQuestion).getTranslate();
                     }else if(trainingData.getDirection().equals("Случайный")){
                         int rndDir=new Random().nextInt(2);
                         if(rndDir==0){
-                            resultAnswer = giveQuestion(listWord.get(indexQuestion).getWord(), findAllAnswersForQuestion(listWord,indexQuestion,1));
+                            resultAnswer = giveQuestion(listWord.get(indexQuestion).getWord(), findAllAnswersForQuestion(listWord,indexQuestion,1),listWord.get(indexQuestion).getComment());
                             questionWords[indexQuestion] = listWord.get(indexQuestion).getWord();
                         }else {
-                            resultAnswer = giveQuestion(listWord.get(indexQuestion).getTranslate(), findAllAnswersForQuestion(listWord,indexQuestion,-1));
+                            resultAnswer = giveQuestion(listWord.get(indexQuestion).getTranslate(), findAllAnswersForQuestion(listWord,indexQuestion,-1),listWord.get(indexQuestion).getComment());
                             questionWords[indexQuestion] = listWord.get(indexQuestion).getTranslate();
                         }
                     }
@@ -119,18 +122,18 @@ public class TrainingModel {
                     ResultAnswer resultAnswer = null;
 
                     if (trainingData.getDirection().equals("Слово-Перевод")) {
-                        resultAnswer = giveQuestion(listWord.get(indexQuestion).getWord(), findAllAnswersForQuestion(listWord,indexQuestion,1));
+                        resultAnswer = giveQuestion(listWord.get(indexQuestion).getWord(), findAllAnswersForQuestion(listWord,indexQuestion,1),listWord.get(indexQuestion).getComment());
                         questionWords[indexQuestion1-indexQuestion] = listWord.get(indexQuestion).getWord();
                     } else if (trainingData.getDirection().equals("Перевод-Слово")) {
-                        resultAnswer = giveQuestion(listWord.get(indexQuestion).getTranslate(), findAllAnswersForQuestion(listWord,indexQuestion,-1));
+                        resultAnswer = giveQuestion(listWord.get(indexQuestion).getTranslate(), findAllAnswersForQuestion(listWord,indexQuestion,-1),listWord.get(indexQuestion).getComment());
                         questionWords[indexQuestion1-indexQuestion] = listWord.get(indexQuestion).getTranslate();
                     }else if(trainingData.getDirection().equals("Случайный")){
                         int rndDir=new Random().nextInt(2);
                         if(rndDir==0){
-                            resultAnswer = giveQuestion(listWord.get(indexQuestion).getWord(), findAllAnswersForQuestion(listWord,indexQuestion,1));
+                            resultAnswer = giveQuestion(listWord.get(indexQuestion).getWord(), findAllAnswersForQuestion(listWord,indexQuestion,1),listWord.get(indexQuestion).getComment());
                             questionWords[indexQuestion1-indexQuestion] = listWord.get(indexQuestion).getWord();
                         }else {
-                            resultAnswer = giveQuestion(listWord.get(indexQuestion).getTranslate(), findAllAnswersForQuestion(listWord,indexQuestion,-1));
+                            resultAnswer = giveQuestion(listWord.get(indexQuestion).getTranslate(), findAllAnswersForQuestion(listWord,indexQuestion,-1),listWord.get(indexQuestion).getComment());
                             questionWords[indexQuestion1-indexQuestion] = listWord.get(indexQuestion).getTranslate();
                         }
                     }
@@ -179,18 +182,18 @@ public class TrainingModel {
                         memory.add(indexQuestion);
 
                         if (trainingData.getDirection().equals("Слово-Перевод")) {
-                            resultAnswer = giveQuestion(listWord.get(indexQuestion).getWord(), findAllAnswersForQuestion(listWord,indexQuestion,1));
+                            resultAnswer = giveQuestion(listWord.get(indexQuestion).getWord(), findAllAnswersForQuestion(listWord,indexQuestion,1),listWord.get(indexQuestion).getComment());
                             questionWords[indexQuestion] = listWord.get(indexQuestion).getWord();
                         } else if (trainingData.getDirection().equals("Перевод-Слово")) {
-                            resultAnswer = giveQuestion(listWord.get(indexQuestion).getTranslate(), findAllAnswersForQuestion(listWord,indexQuestion,-1));
+                            resultAnswer = giveQuestion(listWord.get(indexQuestion).getTranslate(), findAllAnswersForQuestion(listWord,indexQuestion,-1),listWord.get(indexQuestion).getComment());
                             questionWords[indexQuestion] = listWord.get(indexQuestion).getTranslate();
                         }else if(trainingData.getDirection().equals("Случайный")){
                             int rndDir=new Random().nextInt(2);
                             if(rndDir==1){
-                                resultAnswer = giveQuestion(listWord.get(indexQuestion).getTranslate(), findAllAnswersForQuestion(listWord,indexQuestion,-1));
+                                resultAnswer = giveQuestion(listWord.get(indexQuestion).getTranslate(), findAllAnswersForQuestion(listWord,indexQuestion,-1),listWord.get(indexQuestion).getComment());
                                 questionWords[indexQuestion] = listWord.get(indexQuestion).getTranslate();
                             }else {
-                                resultAnswer = giveQuestion(listWord.get(indexQuestion).getWord(), findAllAnswersForQuestion(listWord,indexQuestion,1));
+                                resultAnswer = giveQuestion(listWord.get(indexQuestion).getWord(), findAllAnswersForQuestion(listWord,indexQuestion,1),listWord.get(indexQuestion).getComment());
                                 questionWords[indexQuestion] = listWord.get(indexQuestion).getWord();
 
                             }
@@ -261,11 +264,11 @@ public class TrainingModel {
         allAnswersList.toArray(allAnswers);
         return allAnswers;
     }
-    private ResultAnswer giveQuestion(String word, String[] translates){
+    private ResultAnswer giveQuestion(String word, String[] translates,String comment){
         questionAlert=new Alert(Alert.AlertType.CONFIRMATION);
 
         try {
-            ((Stage) questionAlert.getDialogPane().getScene().getWindow()).getIcons().add(new Image("icon/mainIcon.png"));
+            ((Stage) questionAlert.getDialogPane().getScene().getWindow()).getIcons().add(new Image(PROGRAM_ICON_PATH));
         }catch (Exception ex){
             System.out.println("Ошибка загрузки иконки");
         }
@@ -282,7 +285,8 @@ public class TrainingModel {
         hBox.setSpacing(5);
         hBox.setAlignment(Pos.CENTER);
         box.getChildren().addAll(wordLabel,answerTranslateTextField);
-        box.getChildren().add(hBox);
+
+
         for(String transl:translates){
             if(tempMemoryAnswers.contains(transl)&&!duplicationTranslate(transl)){
                 if(excludeAnswers.getText().equals("")){
@@ -291,6 +295,12 @@ public class TrainingModel {
                     excludeAnswers.setText(excludeAnswers.getText() + "," + transl);
                 }
             }
+        }
+        if(!excludeAnswers.getText().equals("")) {
+            box.getChildren().add(hBox);
+        }
+        if(showCommentInTraining) {
+            //TODO Добавить комментарий к слову
         }
         box.setSpacing(10);
         box.setAlignment(Pos.CENTER);

@@ -28,6 +28,7 @@ import java.util.ResourceBundle;
 import static ru.putnik.wordnote.AlertCall.callAlert;
 import static ru.putnik.wordnote.AlertCall.callConfirmationAlert;
 import static ru.putnik.wordnote.AlertCall.callWaitAlert;
+import static ru.putnik.wordnote.Constants.*;
 
 /**
  * Создано 01.08.2019 в 16:43
@@ -102,7 +103,7 @@ public class MainController extends Application implements Initializable {
 
         primaryStage.setScene(new Scene(parent));
         try {
-            primaryStage.getIcons().add(new Image("icon/mainIcon.png"));
+            primaryStage.getIcons().add(new Image(PROGRAM_ICON_PATH));
         }catch (Exception ex){
             System.out.println("Нет иконки главного окна");
         }
@@ -117,7 +118,7 @@ public class MainController extends Application implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         pathToWordFile=settingController.getPathToWordBook();
         pathToGroupFile=settingController.getPathToGroupFile();
-        stage.setTitle("Word Note");
+        stage.setTitle(PROGRAM_FULL_NAME);
 
         stage.setOnCloseRequest(event -> {
             Platform.exit();
@@ -193,7 +194,7 @@ public class MainController extends Application implements Initializable {
             if(file!=null) {
                 path = file.getPath();
                     if (mainModel.openWordBook(path)) {
-                        stage.setTitle("Word Note" + " [" + path + "]");
+                        stage.setTitle(PROGRAM_FULL_NAME + " [" + path + "]");
                         countWordsLabel.setText(String.valueOf(mainModel.getWordList().size()));
                         addWord.setDisable(false);
                         if (mainModel.getWordList().size() > 0) {
@@ -211,7 +212,7 @@ public class MainController extends Application implements Initializable {
             if(pathOpenWordFile!=null&&!pathOpenWordFile.equals("")&&new File(pathOpenWordFile).exists()){
                 if(callConfirmationAlert("Удаление словаря",null,"Вы действительно хотите удалить файл словаря?").get()==ButtonType.OK) {
                     new File(pathOpenWordFile).delete();
-                    stage.setTitle("Word Note");
+                    stage.setTitle(PROGRAM_FULL_NAME);
                     pathOpenWordFile=null;
                 }
             }else{
@@ -237,7 +238,7 @@ public class MainController extends Application implements Initializable {
                     String path=createNewWordbook();
                     if(path!=null) {
                         if(mainModel.rewriteFile(path)){
-                            stage.setTitle("Word Note" + " [" + path + "]");
+                            stage.setTitle(PROGRAM_FULL_NAME + " [" + path + "]");
                             pathOpenWordFile=path;
                         }
                     }
@@ -265,7 +266,7 @@ public class MainController extends Application implements Initializable {
                         findAlert.setY(positionAlertY);
                     }
                     try {
-                        ((Stage) findAlert.getDialogPane().getScene().getWindow()).getIcons().add(new Image("icon/mainIcon.png"));
+                        ((Stage) findAlert.getDialogPane().getScene().getWindow()).getIcons().add(new Image(PROGRAM_ICON_PATH));
                     }catch (Exception ex){
                         System.out.println("Ошибка загрузки иконки");
                     }

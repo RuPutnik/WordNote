@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import ru.putnik.wordnote.Constants;
 import ru.putnik.wordnote.model.StatisticModel;
 import ru.putnik.wordnote.pojo.ResultTrainingData;
 import ru.putnik.wordnote.pojo.StatisticPacketData;
@@ -17,6 +18,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
+
+import static ru.putnik.wordnote.Constants.*;
 
 /**
  * Создано 09.08.2019 в 17:40
@@ -42,13 +45,13 @@ public class ResultTrainingController implements Initializable {
             return;
         }
         try {
-            stage.getIcons().add(new Image("icon/mainIcon.png"));
+            stage.getIcons().add(new Image(PROGRAM_ICON_PATH));
         }catch (Exception ex){
             System.out.println("Нет иконки окна");
         }
         stage.setScene(new Scene(parent));
         stage.setResizable(false);
-        stage.setTitle("Word Note");
+        stage.setTitle(PROGRAM_FULL_NAME);
         stage.setWidth(250);
         stage.setHeight(300);
         stage.show();

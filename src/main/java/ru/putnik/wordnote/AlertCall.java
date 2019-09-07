@@ -7,6 +7,8 @@ import javafx.stage.Stage;
 
 import java.util.Optional;
 
+import static ru.putnik.wordnote.Constants.PROGRAM_ICON_PATH;
+
 /**
  * Создано 04.08.2019 в 20:50
  */
@@ -17,7 +19,7 @@ public class AlertCall {
         alert.setHeaderText(header);
         alert.setContentText(content);
         try {
-            ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(new Image("icon/mainIcon.png"));
+            ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(new Image(PROGRAM_ICON_PATH));
         }catch (Exception ex){
             System.out.println("Ошибка загрузки иконки");
         }
@@ -33,7 +35,7 @@ public class AlertCall {
         alert.setContentText(content);
 
         try {
-        ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(new Image("icon/mainIcon.png"));
+        ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(new Image(PROGRAM_ICON_PATH));
         }catch (Exception ex){
             System.out.println("Ошибка загрузки иконки");
         }
@@ -47,7 +49,7 @@ public class AlertCall {
         alert.setHeaderText(header);
         alert.setContentText(content);
         try {
-            ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(new Image("icon/mainIcon.png"));
+            ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(new Image(PROGRAM_ICON_PATH));
         }catch (Exception ex){
             System.out.println("Ошибка загрузки иконки");
         }

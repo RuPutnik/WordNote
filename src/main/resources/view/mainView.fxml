@@ -2,21 +2,21 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.HBox?>
 <VBox prefHeight="600.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.putnik.wordnote.controller.MainController">
         <MenuBar>
             <Menu text="Словарь">
                 <MenuItem fx:id="createWordbook" text="Создать словарь" />
                 <MenuItem fx:id="openWordbook" text="Открыть словарь" />
-                <MenuItem fx:id="saveWordbook" text="Сохранить словарь"/>
+                <MenuItem fx:id="saveWordbook" text="Сохранить словарь" />
                 <MenuItem fx:id="deleteWordbook" text="Удалить словарь" />
                 <MenuItem fx:id="manageGroupsMenuItem" text="Управление группами" />
             </Menu>
@@ -28,27 +28,27 @@
                 <MenuItem fx:id="findWordMenuItem" text="Найти" />
             </Menu>
             <Menu text="Тренировка">
-                <MenuItem text="Выполнить тренировку" fx:id="trainingMenuItem"/>
-                <MenuItem text="Статистика" fx:id="statisticMenuItem"/>
+                <MenuItem fx:id="trainingMenuItem" text="Выполнить тренировку" />
+                <MenuItem fx:id="statisticMenuItem" text="Статистика" />
             </Menu>
             <Menu text="Настройки">
                 <MenuItem fx:id="settingsMenuItem" text="Настройки приложения" />
             </Menu>
             <Menu text="Выход">
-                <MenuItem text="Выйти" fx:id="exitMenuItem"/>
+                <MenuItem fx:id="exitMenuItem" text="Выйти" />
             </Menu>
         </MenuBar>
 
         <TableView fx:id="wordTable" prefHeight="5000.0">
             <placeholder>
-                <Label text="Словарь не выбран или слова отсутствуют"/>
+                <Label text="Словарь не выбран или слова отсутствуют" />
             </placeholder>
             <columns>
                 <TableColumn fx:id="indexColumn" text="Номер" />
                 <TableColumn fx:id="wordColumn" text="Слово" />
                 <TableColumn fx:id="translateColumn" text="Перевод" />
                 <TableColumn fx:id="groupColumn" text="Группа" />
-                <TableColumn fx:id="commentColumn" text="Комментарий"/>
+                <TableColumn fx:id="commentColumn" text="Комментарий" />
             </columns>
             <contextMenu>
                 <ContextMenu>
@@ -63,9 +63,9 @@
                 <Insets bottom="5" left="10" right="10" top="5" />
             </VBox.margin>
         </TableView>
-        <HBox spacing="10" alignment="CENTER_LEFT">
-            <Label text="Всего слов:"/>
-            <Label fx:id="countWordsLabel" text="0"/>
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <Label text="Всего слов:" />
+            <Label fx:id="countWordsLabel" text="0" />
             <VBox.margin>
                 <Insets bottom="5" left="10" right="10" top="5" />
             </VBox.margin>

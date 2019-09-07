@@ -18,6 +18,8 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 import static ru.putnik.wordnote.AlertCall.*;
+import static ru.putnik.wordnote.Constants.*;
+
 /**
  * Создано 01.08.2019 в 18:01
  */
@@ -58,13 +60,13 @@ public class AddEditController implements Initializable {
             return;
         }
         try {
-            stage.getIcons().add(new Image("icon/mainIcon.png"));
+            stage.getIcons().add(new Image(PROGRAM_ICON_PATH));
         }catch (Exception ex){
             System.out.println("Нет иконки окна");
         }
         stage.setScene(new Scene(parent));
         stage.setResizable(false);
-        stage.setTitle("Word Note");
+        stage.setTitle(PROGRAM_FULL_NAME);
         stage.setWidth(330);
         stage.setHeight(270);
         stage.initOwner(mainController.getStage());

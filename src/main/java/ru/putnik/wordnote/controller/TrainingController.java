@@ -18,11 +18,14 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 import static ru.putnik.wordnote.AlertCall.callAlert;
+import static ru.putnik.wordnote.Constants.PROGRAM_FULL_NAME;
+import static ru.putnik.wordnote.Constants.PROGRAM_ICON_PATH;
 
 /**
  * Создано 06.08.2019 в 18:25
  */
 public class TrainingController implements Initializable {
+
     private TrainingModel trainingModel=new TrainingModel();
     private static Stage stage;
     private static MainController mainController;
@@ -58,6 +61,8 @@ public class TrainingController implements Initializable {
     private Button startButton;
     @FXML
     private Button exitButton;
+    @FXML
+    private CheckBox showCommentCheckBox;
 
     public TrainingController(MainController controller){
         mainController=controller;
@@ -74,15 +79,15 @@ public class TrainingController implements Initializable {
             return;
         }
         try {
-            stage.getIcons().add(new Image("icon/mainIcon.png"));
+            stage.getIcons().add(new Image(PROGRAM_ICON_PATH));
         }catch (Exception ex){
             System.out.println("Нет иконки окна");
         }
         stage.setScene(new Scene(parent));
         stage.setResizable(false);
-        stage.setTitle("Word Note");
+        stage.setTitle(PROGRAM_FULL_NAME);
         stage.setWidth(560);
-        stage.setHeight(210);
+        stage.setHeight(240);
         stage.initOwner(mainController.getStage());
         stage.initModality(Modality.WINDOW_MODAL);
         stage.show();
@@ -117,6 +122,7 @@ public class TrainingController implements Initializable {
                 data.setFromUntilIgnore(indexes);
                 data.setTypeQueue(((RadioButton)queueGroup.getSelectedToggle()).getText());
                 data.setDirection(((RadioButton)directionGroup.getSelectedToggle()).getText());
+                data.setShowComment(showCommentCheckBox.isSelected());
             }catch (Exception ex){
                 callAlert(Alert.AlertType.ERROR,"Ошибка запуска тренировки",null,"Параметры тренировки введены с ошибкой");
                 ex.printStackTrace();

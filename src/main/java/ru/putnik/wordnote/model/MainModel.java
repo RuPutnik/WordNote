@@ -3,6 +3,7 @@ package ru.putnik.wordnote.model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
+import ru.putnik.wordnote.Constants;
 import ru.putnik.wordnote.pojo.Word;
 
 import java.io.*;
@@ -13,7 +14,6 @@ import static ru.putnik.wordnote.AlertCall.*;
  * Создано 02.08.2019 в 11:02
  */
 public class MainModel {
-    public static String PATH_PROGRAM_FOLDER="C:\\Program Files (x86)\\WordNote";
     private static ObservableList<Word> wordList=FXCollections.observableArrayList();
     private static ObservableList<String> groupList=FXCollections.observableArrayList();
     private String path;
@@ -93,7 +93,7 @@ public class MainModel {
         }
     }
     public String createWordBook(String nameFile){
-        File folderProgram=new File(PATH_PROGRAM_FOLDER);
+        File folderProgram=new File(Constants.PROGRAM_SETTINGS_PATH);
         if(nameFile!=null) {
             File bookFile = new File(nameFile);
             if (!folderProgram.exists()) {

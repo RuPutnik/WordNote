@@ -9,6 +9,7 @@ public class SettingTrainingData {
     private String[] fromUntilIgnore;
     private String typeQueue;
     private String direction;
+    private boolean showComment;
 
     public SettingTrainingData(){}
 
@@ -50,5 +51,13 @@ public class SettingTrainingData {
 
     public void setDirection(String direction) {
         this.direction = direction;
+    }
+
+    public boolean isShowComment() {
+        return showComment;
+    }
+
+    public void setShowComment(boolean showComment) {
+        this.showComment = showComment;
     }
 }

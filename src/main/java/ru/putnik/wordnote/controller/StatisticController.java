@@ -17,6 +17,9 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+import static ru.putnik.wordnote.Constants.PROGRAM_FULL_NAME;
+import static ru.putnik.wordnote.Constants.PROGRAM_ICON_PATH;
+
 /**
  * Создано 10.08.2019 в 18:21
  */
@@ -42,13 +45,13 @@ public class StatisticController implements Initializable {
             return;
         }
         try {
-            stage.getIcons().add(new Image("icon/mainIcon.png"));
+            stage.getIcons().add(new Image(PROGRAM_ICON_PATH));
         }catch (Exception ex){
             System.out.println("Нет иконки окна");
         }
         stage.setScene(new Scene(parent));
         stage.setResizable(false);
-        stage.setTitle("Word Note");
+        stage.setTitle(PROGRAM_FULL_NAME);
         stage.setWidth(330);
         stage.setHeight(330);
         stage.show();
