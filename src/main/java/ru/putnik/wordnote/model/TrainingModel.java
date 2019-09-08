@@ -299,8 +299,13 @@ public class TrainingModel {
         if(!excludeAnswers.getText().equals("")) {
             box.getChildren().add(hBox);
         }
-        if(showCommentInTraining) {
-            //TODO Добавить комментарий к слову
+        if(showCommentInTraining&&!comment.equals("-")) {
+            TextArea commentArea=new TextArea();
+            commentArea.setText("Комментарий: "+comment);
+            commentArea.setEditable(false);
+            commentArea.setMaxWidth(300);
+            commentArea.setMaxHeight(50);
+            box.getChildren().add(commentArea);
         }
         box.setSpacing(10);
         box.setAlignment(Pos.CENTER);
