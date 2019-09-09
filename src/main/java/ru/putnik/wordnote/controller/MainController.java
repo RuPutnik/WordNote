@@ -161,6 +161,7 @@ public class MainController extends Application implements Initializable {
         groupColumn.setCellValueFactory(value-> new SimpleObjectProperty<>(value.getValue().getGroup()));
         commentColumn.setCellValueFactory(value->new SimpleObjectProperty<>(value.getValue().getComment()));
         if(pathToWordFile!=null) {
+
             if(mainModel.openWordBook(pathToWordFile)){
                 stage.setTitle(stage.getTitle() + " [" + pathToWordFile + "]");
                 countWordsLabel.setText(String.valueOf(mainModel.getWordList().size()));

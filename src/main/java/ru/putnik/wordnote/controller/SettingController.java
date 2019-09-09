@@ -32,7 +32,7 @@ public class SettingController implements Initializable {
     private static Stage stage;
     private static boolean firstStart=true;
 
-    private String pathToWordBook;
+    private static String pathToWordBook;
     private String pathToGroupFile=PROGRAM_SETTINGS_PATH+"\\groupList.txt";
 
     @FXML
